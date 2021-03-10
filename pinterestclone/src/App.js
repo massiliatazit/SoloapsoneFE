@@ -49,6 +49,9 @@ function App() {
     
   }
  
+  useEffect(()=>{
+    getNewPins()
+  },[])
   return (
    <div><Header onSubmit={onSearchSubmit} />
    <Home pins={pins}/>

@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Pin from "./Pin";
+import "./home.css";
 function Home(props) {
   let { pins } = props;
   return (
     <Wrapper>
-      <Container>
+      <Container className="home-container">
         {pins.map((pin, index) => {
           const { urls } = pin;
           return <Pin key={index} urls={urls} />;
@@ -24,7 +25,8 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 const Container = styled.div`
-  display: flex;
-  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+
   background-color: white;
 `;

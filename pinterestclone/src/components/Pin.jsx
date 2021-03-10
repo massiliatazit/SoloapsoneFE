@@ -1,14 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-function Pin() {
+function Pin(props) {
+  const { urls } = props;
   return (
     <Wrapper>
       <Container>
-        <img
-          src="https://i.pinimg.com/564x/20/4d/64/204d64cd0b7f5b465e50aaab4f50c81b.jpg"
-          alt=""
-        />
+        <img src={urls.regular} alt="pin" />
       </Container>
     </Wrapper>
   );

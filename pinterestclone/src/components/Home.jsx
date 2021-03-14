@@ -1,15 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import Pin from "./Pin";
+
 import "./home.css";
 function Home(props) {
   let { pins } = props;
+  console.log(pins);
   return (
     <Wrapper>
       <Container className="home-container">
         {pins.map((pin, index) => {
           const { urls } = pin;
-          return <Pin key={index} urls={urls} />;
+          return <Pin key={index} urls={urls} pins={pins} />;
         })}
       </Container>
     </Wrapper>

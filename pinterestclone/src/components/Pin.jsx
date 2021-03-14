@@ -7,21 +7,13 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 function Pin(props) {
   const { urls } = props;
   const { pins } = props;
-  console.log(pins);
-
-  const { show, setShow } = useState(false);
-  // const toggleImages = () => {
-  //   if (pins.height <= 5000) {
-  //     setShow(true);
-  //   }
-  // };
 
   return (
     <Wrapper>
       <Container>
         <img src={urls.regular} alt="pin" />
         <button className="btn mt-4">Save</button>
-        {/* {show ? ( */}
+
         <ModelFoot>
           <Destination>
             <IconButton>
@@ -48,7 +40,6 @@ function Pin(props) {
             />
           </IconButton>
         </ModelFoot>
-        {/* ) : null} */}
       </Container>
     </Wrapper>
   );
@@ -119,6 +110,7 @@ const ModelFoot = styled.div`
   height: 15%;
   position: absolute;
   bottom: 0;
+  margin-bottom: 5%;
   left: 3%;
   opacity: 0;
 

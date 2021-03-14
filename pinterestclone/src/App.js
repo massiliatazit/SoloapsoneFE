@@ -21,7 +21,7 @@ function App() {
       let newPins = [
 
         ...results,
-        ...pins,
+       // ...pins,
     ]
     newPins.sort(function(a,b){
       return 0.5-Math.random()
@@ -36,6 +36,7 @@ function App() {
     pins.forEach((pinTerm)=>{
       promises.push(getImages(pinTerm).then((res)=>{
         let results= res.data.results;
+       // pinData.splice(0,pinData.length,...results)
         pinData= pinData.concat(results)
         pinData.sort(function(a, b){
           return 0.5 - Math.random()

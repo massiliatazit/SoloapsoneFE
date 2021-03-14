@@ -3,17 +3,17 @@
   "name": "Create React App Sample",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "https://store-images.s-microsoft.com/image/apps.18065.14204669951057618.66f35ee3-03b9-46a6-b185-b9ce0ffda2f4.26f7fd7e-cc17-4cbf-a876-454f0e5211e0",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "https://store-images.s-microsoft.com/image/apps.18065.14204669951057618.66f35ee3-03b9-46a6-b185-b9ce0ffda2f4.26f7fd7e-cc17-4cbf-a876-454f0e5211e0",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "https://store-images.s-microsoft.com/image/apps.18065.14204669951057618.66f35ee3-03b9-46a6-b185-b9ce0ffda2f4.26f7fd7e-cc17-4cbf-a876-454f0e5211e0",
       "type": "image/png",
       "sizes": "512x512"
     }

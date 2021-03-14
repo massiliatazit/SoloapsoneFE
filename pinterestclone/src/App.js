@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header"
 import Home from "./components/Home"
 import unsplash from"./api/unsplash"
+import PostPostModal from "./components/PostPostModal"
 function App() {
   const [pins,setNewPins]= useState([])
   const getImages = (term)=>{
@@ -57,6 +58,7 @@ function App() {
   return (
    <div><Header onSubmit={onSearchSubmit} />
    <Home pins={pins}/>
+   <PostPostModal/>
    </div>
   );
 }

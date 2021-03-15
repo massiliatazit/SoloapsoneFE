@@ -3,7 +3,15 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header"
 import Home from "./components/Home"
+import Signup from "./components/Signup"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import unsplash from"./api/unsplash"
+
 import PostPostModal from "./components/PostPostModal"
 function App() {
   const [pins,setNewPins]= useState([])
@@ -56,10 +64,27 @@ function App() {
     getNewPins()
   },[])
   return (
-   <div><Header onSubmit={onSearchSubmit} />
-   <Home pins={pins}/>
-   {/* <PostPostModal/> */}
-   </div>
+    
+   
+    <Router>
+      <Switch>
+        <Route path='/homefeed'>
+      <Header onSubmit={onSearchSubmit} />
+      <Home pins={pins}/>
+      </Route>
+      {/* <Route path='/homefeed' exact render={()=> }> */}
+  
+   {/* </Route> */}
+   <Route path='/pinBuilder' render={()=> <PostPostModal/>}>
+  
+   </Route>
+    <Route path='/' exact render={()=> <Signup pins={pins}/>}>
+  
+  </Route>
+  
+   </Switch>
+   </Router>
+   
   );
 }
 

@@ -39,7 +39,7 @@ const CreatePin = styled.div`
     width: 50%;
     cursor: zoom-in;
     border-radius: 50%;
-    margin-bottom: 5px;
+    margin: 5px;
   }
   h3 {
     font-size: 16px;
@@ -50,6 +50,11 @@ const CreatePin = styled.div`
     font-size: 14px;
     space-letter: 10px;
     margin-bottom: 0;
+  }
+
+  :hover {
+    box-shadow: 0 0 15px rgba(33, 33, 33, 0.2);
+    transition: box-shadow 0.3s ease-in-out;
   }
 `;
 
@@ -62,13 +67,20 @@ const HomeButtons = styled.div`
   border-radius: 24px;
   cursor: pointer;
   overflow: hidden;
+  font-weight: 700;
   margin-top: 10px;
 `;
 const SponsorButton = styled(HomeButtons)`
   background-color: #e60023;
   color: white;
+  :hover {
+    background-color: #a3182e;
+  }
 `;
 const CreatePinButton = styled(HomeButtons)`
   background-color: #efefef;
   color: black;
+  :hover {
+    background-color: #c9c3c3;
+  }
 `;

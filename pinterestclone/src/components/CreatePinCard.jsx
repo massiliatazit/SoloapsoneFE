@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 function CreatePinCard() {
+  let history = useHistory();
+  function handleClick() {
+    history.push("/PinBuilder");
+  }
   return (
     <Wrapper>
       <CreatePin>
@@ -14,7 +19,9 @@ function CreatePinCard() {
           <span>0</span> Monthly views
         </p>
         <SponsorButton>Sponsor</SponsorButton>
-        <CreatePinButton>Create a pin</CreatePinButton>
+        <CreatePinButton type="button" onClick={handleClick}>
+          Create a pin
+        </CreatePinButton>
       </CreatePin>
     </Wrapper>
   );
@@ -24,6 +31,7 @@ export default CreatePinCard;
 const Wrapper = styled.div`
   display: block;
   padding: 8px;
+  background-clor: #efefef;
 `;
 const CreatePin = styled.div`
   display: flex;

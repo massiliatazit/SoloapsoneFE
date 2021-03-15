@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Pin from "./Pin";
 import CreatePinCard from "./CreatePinCard";
@@ -9,7 +9,7 @@ function Home(props) {
   return (
     <Wrapper>
       <Container className="home-container">
-        <CreatePinCard></CreatePinCard>
+        <CreatePinCard />
         {pins.map((pin, index) => {
           const { urls } = pin;
           return <Pin key={index} urls={urls} pins={pins} />;

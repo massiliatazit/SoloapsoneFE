@@ -75,7 +75,7 @@ function App() {
       {/* <Route path='/homefeed' exact render={()=> }> */}
   
    {/* </Route> */}
-   <Route path='/pinBuilder' render={()=> <PostPostModal/>}>
+   <Route path='/PinBuilder' render={()=> <PostPostModal/>}>
   
    </Route>
     <Route path='/' exact render={()=> <Signup pins={pins}/>}>

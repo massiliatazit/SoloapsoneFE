@@ -58,7 +58,7 @@ function App() {
   return (
    <div><Header onSubmit={onSearchSubmit} />
    <Home pins={pins}/>
-   <PostPostModal/>
+   {/* <PostPostModal/> */}
    </div>
   );
 }

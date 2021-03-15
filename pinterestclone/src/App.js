@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header"
 import Home from "./components/Home"
 import unsplash from"./api/unsplash"
+import PostPostModal from "./components/PostPostModal"
 function App() {
   const [pins,setNewPins]= useState([])
   const getImages = (term)=>{
@@ -21,7 +22,7 @@ function App() {
       let newPins = [
 
         ...results,
-        ...pins,
+       // ...pins,
     ]
     newPins.sort(function(a,b){
       return 0.5-Math.random()
@@ -36,6 +37,7 @@ function App() {
     pins.forEach((pinTerm)=>{
       promises.push(getImages(pinTerm).then((res)=>{
         let results= res.data.results;
+       // pinData.splice(0,pinData.length,...results)
         pinData= pinData.concat(results)
         pinData.sort(function(a, b){
           return 0.5 - Math.random()
@@ -56,6 +58,7 @@ function App() {
   return (
    <div><Header onSubmit={onSearchSubmit} />
    <Home pins={pins}/>
+   {/* <PostPostModal/> */}
    </div>
   );
 }

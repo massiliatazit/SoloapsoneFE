@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import styled from "styled-components";
 import PostPostModal from "./PostPostModal";
+import { Row, Col, Container } from "react-bootstrap";
 function PinBuilder() {
   const [pins, setPins] = useState([<PostPostModal />]);
   const addPin = () => {
@@ -13,10 +14,15 @@ function PinBuilder() {
       <ButtonADD type="button" onClick={addPin}>
         <AddIcon />
       </ButtonADD>
-
-      {pins.map((pin, index) => (
-        <PostPostModal key={index} />
-      ))}
+      <div style={{ paddingLeft: "5em" }}>
+        <Row>
+          {pins.map((pin, index) => (
+            <Col xs={12}>
+              <PostPostModal key={index} />
+            </Col>
+          ))}
+        </Row>
+      </div>
     </Wrapper>
   );
 }
@@ -25,6 +31,7 @@ export default PinBuilder;
 const Wrapper = styled.div`
   display: inline-flex;
   padding: 8px;
+  background-color: #efefef;
 `;
 const ButtonADD = styled.div`
   display: flex;

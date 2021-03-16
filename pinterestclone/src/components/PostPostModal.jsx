@@ -1,5 +1,6 @@
 import React from "react";
-import AddIcon from "@material-ui/icons/Add";
+
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import IconButton from "@material-ui/core/IconButton";
 import styled from "styled-components";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
@@ -11,7 +12,7 @@ function PostPostModal() {
           <Section1>
             <Iconsection1Container>
               <IconButton>
-                <AddIcon />
+                <MoreHorizIcon />
               </IconButton>
             </Iconsection1Container>
           </Section1>
@@ -95,11 +96,8 @@ export default PostPostModal;
 const AddPinModal = styled.div`
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+  padding: 8px;
+  margin-left: 15%;
   background-color: #efefef;
 `;
 const AddPinContainer = styled.div`
@@ -107,11 +105,6 @@ const AddPinContainer = styled.div`
   width: 880px;
   height: 674px;
   border-radius: 16px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  overflow: hidden;
 
   display: flex;
 

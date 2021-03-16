@@ -6,14 +6,34 @@ import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import FaceIcon from "@material-ui/icons/Face";
+import { useLocation } from "react-router-dom";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 function Header(props) {
+  let location = useLocation();
   const [input, setInput] = useState("");
+  const [showDropdown, setDropdown] = useState(false);
+  const [animatePanel, setAnimatePanel] = useState(false);
+  const [currentPage, setCurrentPage] = useState(location.pathname);
   const onSearchSubmit = (e) => {
     e.preventDefault();
     props.onSubmit(input);
     console.log(input);
   };
+
+  const toggleProfileDropdownHandler = () => {
+    if (showDropdown) {
+      setAnimatePanel(true);
+      setTimeout(() => {
+        setCurrentPage(location.pathname);
+        setDropdown(false);
+        setAnimatePanel(false);
+      }, 200);
+    } else {
+      setCurrentPage(undefined);
+      setDropdown(true);
+    }
+  };
+
   return (
     <Wrapper>
       <LogoWrapper>
@@ -66,9 +86,11 @@ function Header(props) {
             }}
           />
         </IconButton>
-        <IconButton>
+        {/* {showDropdown && ( */}
+        <IconButton onClick={toggleProfileDropdownHandler}>
           <KeyboardArrowDownIcon />
         </IconButton>
+        {/* )} */}
       </IconsWrapper>
     </Wrapper>
   );

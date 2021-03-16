@@ -99,9 +99,8 @@ const AddPinModal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 99999;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #efefef;
 `;
 const AddPinContainer = styled.div`
   padding: 35px;

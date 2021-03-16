@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import unsplash from"./api/unsplash"
 
-import PostPostModal from "./components/PostPostModal"
+import PinBuilder from "./components/PinBuilder"
 function App() {
   const [pins,setNewPins]= useState([])
   const getImages = (term)=>{
@@ -75,7 +75,7 @@ function App() {
       {/* <Route path='/homefeed' exact render={()=> }> */}
   
    {/* </Route> */}
-   <Route path='/PinBuilder' render={()=> <PostPostModal/>}>
+   <Route path='/PinBuilder' render={()=> <PinBuilder/>}>
   
    </Route>
     <Route path='/' exact render={()=> <Signup pins={pins}/>}>

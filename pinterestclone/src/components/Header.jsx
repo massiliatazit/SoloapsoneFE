@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 function Header(props) {
   let location = useLocation();
+  console.log(location.pathname);
   const [input, setInput] = useState("");
   const [showDropdown, setDropdown] = useState(false);
   const [animatePanel, setAnimatePanel] = useState(false);

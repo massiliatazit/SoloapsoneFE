@@ -5,7 +5,7 @@ import CreatePinCard from "./CreatePinCard";
 import "./home.css";
 function Home(props) {
   let { pins } = props;
-  console.log(pins);
+  console.log("home", pins);
   return (
     <Wrapper>
       <Container className="home-container">

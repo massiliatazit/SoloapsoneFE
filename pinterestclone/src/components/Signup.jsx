@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Pin from "./Pin";
 import styled from "styled-components";
 import "../styles/signup.css";
@@ -11,9 +11,60 @@ import "../styles/_reset.scss";
 import "../styles/_grid.scss";
 import "../styles/_animations.scss";
 
+import { postFunction } from "../api";
+import unsplash from "../api/unsplash";
 function Signup(props) {
-  let { pins } = props;
+  const [email, setEmail] = useState("");
 
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [disabled, setDisabled] = useState(true);
+  const [error, setError] = useState("");
+  const [pins, setPins] = useState([]);
+  const getPins = async () => {
+    unsplash.get("https://api.unsplash.com/photos").then((res) => {
+      let results = res.data;
+      console.log(results);
+      setPins(results);
+    });
+  };
+  useEffect(() => {
+    getPins();
+  }, []);
+  useEffect(() => {
+    if (email && username && password) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [email && username && password]);
+
+  const signUp = async (e) => {
+    e.preventDefault();
+    const register = await postFunction("users/register", {
+      email: email,
+      username: username,
+      password: password,
+    });
+    if (register._id) {
+      const response = await postFunction("users/login", {
+        email: email,
+        username: username,
+        password: password,
+      });
+      if (response.ok) {
+        localStorage.setItem("token", response.tokens.token);
+        localStorage.setItem("refreshToken", response.tokens.refreshToken);
+        window.location.replace("/homefeed");
+      }
+    } else {
+      setError(
+        register.includes("duplicate")
+          ? "Username or Email already in use"
+          : "Please provide correct information"
+      );
+    }
+  };
   window.onload = () => {
     let scrollY = Math.round(window.scrollY);
     const grids = document.querySelectorAll(".grid");
@@ -80,7 +131,7 @@ function Signup(props) {
 
     window.addEventListener("scroll", () => {
       let scrollY = Math.round(window.scrollY);
-      console.log(scrollY);
+      //console.log(scrollY);
 
       if (scrollY === 100) {
         setTimeout(function name() {
@@ -218,766 +269,102 @@ function Signup(props) {
       <div className="grid-container">
         <div className="grid">
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
         </div>
         <div className="grid">
           <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-        </div>
-        <div className="grid">
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-        </div>
-        <div className="grid">
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-          </div>
-          <div className="column animate-before">
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
-            <img
-              src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-              className="item"
-              alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
-            />
+            {pins
+              .filter((pin, index) => index < 6)
+              .map((pin, index) => {
+                <img
+                  key={pin.id}
+                  src={pin.urls.regular}
+                  className="item"
+                  alt="img-register"
+                />;
+              })}
           </div>
         </div>
       </div>
@@ -1091,7 +478,26 @@ function Signup(props) {
                         data-test-id="registerForm"
                         method="POST"
                         noValidate
+                        onSubmit={signUp}
                       >
+                        <div
+                          data-test-id="ageInputField"
+                          className="zI7 iyn Hsu"
+                        >
+                          <span>
+                            <input
+                              aria-invalid="false"
+                              autoComplete="off"
+                              className="input-signup"
+                              id="Username"
+                              name="Username"
+                              placeholder="Username"
+                              type="text"
+                              onChange={(e) => setUserName(e.target.value)}
+                              required
+                            />
+                          </span>
+                        </div>
                         <div
                           data-test-id="emailInputField"
                           className="zI7 iyn Hsu"
@@ -1105,6 +511,8 @@ function Signup(props) {
                               name="id"
                               placeholder="Email"
                               type="email"
+                              onChange={(e) => setEmail(e.target.value)}
+                              required
                             />
                           </span>
                         </div>
@@ -1121,6 +529,8 @@ function Signup(props) {
                               name="password"
                               placeholder="Create a password"
                               type="password"
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
                             />
                           </span>
                         </div>
@@ -1128,23 +538,8 @@ function Signup(props) {
                           data-test-id="password-reset-button"
                           className="zI7 iyn Hsu"
                         />
-                        <div
-                          data-test-id="ageInputField"
-                          className="zI7 iyn Hsu"
-                        >
-                          <span>
-                            <input
-                              aria-invalid="false"
-                              autoComplete="off"
-                              className="input-signup"
-                              id="age"
-                              name="age"
-                              placeholder="Age"
-                              type="text"
-                            />
-                          </span>
-                        </div>
-                        <div className="button-red">
+
+                        <div className="button-red" type="submit">
                           <span>Continue</span>
                         </div>
                       </form>

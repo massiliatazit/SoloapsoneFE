@@ -13,17 +13,21 @@ import {
 import unsplash from"./api/unsplash"
 
 import PinBuilder from "./components/PinBuilder"
+
 function App() {
   const [pins,setNewPins]= useState([])
-  const getImages = (term)=>{
+  const getImageOnSearch = (term)=>{
     return unsplash.get("https://api.unsplash.com/search/photos",{
       params:{query:term}
 
 
     })
   }
+ 
+ 
+ 
   const onSearchSubmit = (term)=>{
-    getImages(term).then((res)=>{
+    getImageOnSearch(term).then((res)=>{
 
       let results = res.data.results;
 
@@ -43,7 +47,7 @@ function App() {
     let pinData =[];
     let pins=['nails','hair','bali','beauty','cats','heals','nature']
     pins.forEach((pinTerm)=>{
-      promises.push(getImages(pinTerm).then((res)=>{
+      promises.push(getImageOnSearch(pinTerm).then((res)=>{
         let results= res.data.results;
        // pinData.splice(0,pinData.length,...results)
         pinData= pinData.concat(results)
@@ -59,9 +63,10 @@ function App() {
 
     
   }
- 
+
   useEffect(()=>{
     getNewPins()
+   
   },[])
   return (
     
@@ -78,7 +83,7 @@ function App() {
    <Route path='/PinBuilder' render={()=> <PinBuilder/>}>
   
    </Route>
-    <Route path='/' exact render={()=> <Signup pins={pins}/>}>
+    <Route path='/' exact render={()=> <Signup/>}>
   
   </Route>
   

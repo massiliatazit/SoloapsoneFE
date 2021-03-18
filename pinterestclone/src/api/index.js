@@ -36,7 +36,8 @@ export const getFunction = async (endp) => {
 
 export const postFunction = async (endp, data) => {
   try {
-    const response = await fetch(url + endp, {
+    console.log("requesting",url + endp)
+    const response = await fetch(process.env.REACT_APP_URL + endp, {
       method: "POST",
       body: JSON.stringify(data),
       headers: new Headers({

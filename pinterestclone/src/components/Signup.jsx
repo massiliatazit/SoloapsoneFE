@@ -22,11 +22,15 @@ function Signup(props) {
   const [error, setError] = useState("");
   const [pins, setPins] = useState([]);
   const getPins = async () => {
-    unsplash.get("https://api.unsplash.com/photos").then((res) => {
-      let results = res.data;
-      console.log(results);
-      setPins(results);
-    });
+    unsplash
+      .get(`https://api.unsplash.com/topics/houseplants`, {
+        params: { quantity: 30 },
+      })
+      .then((res) => {
+        let results = res.data.preview_photos;
+        console.log(results);
+        setPins(results);
+      });
   };
   useEffect(() => {
     getPins();
@@ -40,29 +44,18 @@ function Signup(props) {
   }, [email && username && password]);
 
   const signUp = async (e) => {
-    e.preventDefault();
-    const register = await postFunction("users/register", {
-      email: email,
-      username: username,
-      password: password,
-    });
-    if (register._id) {
-      const response = await postFunction("users/login", {
+    try {
+      e.preventDefault();
+      const register = await postFunction("/users/register", {
         email: email,
         username: username,
         password: password,
       });
-      if (response.ok) {
-        localStorage.setItem("token", response.tokens.token);
-        localStorage.setItem("refreshToken", response.tokens.refreshToken);
-        window.location.replace("/homefeed");
-      }
-    } else {
-      setError(
-        register.includes("duplicate")
-          ? "Username or Email already in use"
-          : "Please provide correct information"
-      );
+      localStorage.setItem("token", register.tokens.token);
+      localStorage.setItem("refreshToken", register.tokens.refreshToken);
+      window.location.replace("/homefeed");
+    } catch (error) {
+      console.log(error);
     }
   };
   window.onload = () => {
@@ -266,55 +259,66 @@ function Signup(props) {
           </li>
         </ul>
       </div>
+
       <div className="grid-container">
         <div className="grid">
+          {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+            <div className="column animate-before">
+              {pins
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 5)
+                .map((pin) => (
+                  <img
+                    src={pin.urls.regular}
+                    className="item"
+                    alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
+                  />
+                ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      {/*<div className="grid-container">
+        <div className="grid">
           <div className="column animate-before">
-            {pins
-              .filter((pin, index) => index < 6)
-              .map((pin, index) => {
-                <img
-                  key={pin.id}
-                  src={pin.urls.regular}
-                  className="item"
-                  alt="img-register"
-                />;
-              })}
+            {pins.slice(0, 6).map((pin, index) => {
+              <img
+                key={pin.id}
+                src={pin.urls.regular}
+                className="item"
+                alt="img-register"
+              />;
+            })}
           </div>
           <div className="column animate-before">
-            {pins
-              .filter((pin, index) => index < 6)
-              .map((pin, index) => {
-                <img
-                  key={pin.id}
-                  src={pin.urls.regular}
-                  className="item"
-                  alt="img-register"
-                />;
-              })}
+            {pins.slice(0, 6).map((pin, index) => {
+              <img
+                key={pin.id}
+                src={pin.urls.regular}
+                className="item"
+                alt="img-register"
+              />;
+            })}
           </div>
           <div className="column animate-before">
-            {pins
-              .filter((pin, index) => index < 6)
-              .map((pin, index) => {
-                <img
-                  key={pin.id}
-                  src={pin.urls.regular}
-                  className="item"
-                  alt="img-register"
-                />;
-              })}
+            {pins.slice(0, 6).map((pin, index) => {
+              <img
+                key={pin.id}
+                src={pin.urls.regular}
+                className="item"
+                alt="img-register"
+              />;
+            })}
           </div>
           <div className="column animate-before">
-            {pins
-              .filter((pin, index) => index < 6)
-              .map((pin, index) => {
-                <img
-                  key={pin.id}
-                  src={pin.urls.regular}
-                  className="item"
-                  alt="img-register"
-                />;
-              })}
+            {pins.slice(0, 6).map((pin, index) => {
+              <img
+                key={pin.id}
+                src={pin.urls.regular}
+                className="item"
+                alt="img-register"
+              />;
+            })}
           </div>
           <div className="column animate-before">
             {pins
@@ -367,7 +371,7 @@ function Signup(props) {
               })}
           </div>
         </div>
-      </div>
+      </div> */}
       <div
         style={{
           zIndex: "100",
@@ -539,9 +543,9 @@ function Signup(props) {
                           className="zI7 iyn Hsu"
                         />
 
-                        <div className="button-red" type="submit">
+                        <button className="button-red" type="submit">
                           <span>Continue</span>
-                        </div>
+                        </button>
                       </form>
                       <p
                         className
@@ -559,11 +563,18 @@ function Signup(props) {
                       </p>
                       <div style={{ marginTop: "10px" }}>
                         <div className="button-blue">
-                          <span>
-                            {" "}
-                            <FaFacebook className="facebook" />
-                            Continue with Facebook
-                          </span>
+                          <a
+                            href={
+                              process.env.REACT_APP_URL + "users/facebookLogin"
+                            }
+                            className="text-white"
+                          >
+                            <span>
+                              {" "}
+                              <FaFacebook className="facebook" />
+                              Continue with Facebook
+                            </span>
+                          </a>
                         </div>
                         <div style={{ height: "10px" }} />
                       </div>

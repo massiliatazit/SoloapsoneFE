@@ -6,7 +6,6 @@ import ShareIcon from "@material-ui/icons/Share";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 function Pin(props) {
   const { urls } = props;
-  const { pins } = props;
 
   return (
     <Wrapper>

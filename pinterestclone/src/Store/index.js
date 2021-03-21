@@ -5,6 +5,7 @@ import user from "../Reducers/user";
 import errorsReducer from "../Reducers/errors";
 import thunk from "redux-thunk";
 import loading from "../Reducers/loading";
+import boardReducer from "../Reducers/boardReducer";
 
 const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   errors: errorsReducer,
   search: searchReducer,
   loading: loading,
+  boards: boardReducer
 });
 export default function configureStore() {
   return createStore(rootReducer, initialState, composedEnhancer(applyMiddleware(thunk)));

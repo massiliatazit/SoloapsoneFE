@@ -12,9 +12,7 @@ const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const initialState = {
   user: {},
   status: {
-    notifications: {},
-  
-    loading: true,
+    notifications: {},loading: true,
   },
   errors: {
     status: "",
@@ -26,7 +24,7 @@ const rootReducer = combineReducers({
   user: user,
   errors: errorsReducer,
   search: searchReducer,
-  loading: loading,
+  status: status,
   boards: boardReducer
 });
 export default function configureStore() {

@@ -1,17 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import LaunchIcon from "@material-ui/icons/Launch";
 import IconButton from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { postFunction, getFunction } from "../api/index";
+const mapStateToProps = (state) => state;
+
+const mapDispatchToProps = (dispatch) => ({
+  setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
+  showErrors: (boolean) =>
+    dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
+
+  Setuser: (user) => dispatch({ type: "SET_USER", payload: user }),
+});
 function Pin(props) {
-  const { urls } = props;
+  console.log(props);
+  // const [user, Setuser] = useState();
+  const [logged, setLogged] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
+
+  const getUser = async (username) => {
+    const response = await getFunction("/users");
+    console.log("getuser", response);
+    if (response) {
+      props.Setuser(response);
+    } else {
+      console.log("HERE", response);
+    }
+    setLoading(false);
+  };
+  console.log("userstore", props.user);
+  useEffect(() => {
+    getUser();
+
+    // setSaved(
+    //   props.pins.findIndex((pin) => pin.id === props.Setuser.saved._id) !== -1
+    // );
+    // setLogged(true);
+    setLoading(false);
+  }, []);
+  const savePin = async () => {
+    // const response = await postFunction("/users/saved/" + props.user.saved._id);
+    // console.log(response);
+    // if (response && response._id) {
+    //   setSaved(!saved);
+    // }
+  };
 
   return (
     <Wrapper>
       <Container>
-        <img src={urls.regular} alt="pin" />
-        <button className="btn mt-4">Save</button>
+        <img src={props.urls.regular} alt="pin" />
+        <button className="btn mt-4" onClick={savePin}>
+          Save
+        </button>
 
         <ModelFoot>
           <Destination>
@@ -44,7 +89,7 @@ function Pin(props) {
   );
 }
 
-export default Pin;
+export default connect(mapStateToProps, mapDispatchToProps)(Pin);
 const Wrapper = styled.div`
   display: inline-flex;
   padding: 8px;

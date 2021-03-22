@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Bigshot+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Tinos&display=swap");
+
+.full-page {
+  background: #fefefe;
+  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  min-width: 100%;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.loader-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+.error-code {
+  font-size: 150px;
+  font-family: "Bigshot One", cursive;
+}
+.error-text {
+  font-family: "Tinos";
+  font-weight: 800;
+}

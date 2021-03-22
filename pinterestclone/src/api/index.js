@@ -1,10 +1,11 @@
 
 const url = process.env.REACT_APP_URL;
-let token = localStorage.getItem("token");
+let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDU0ZDJlNWQ1MGQzYzUzNDA1MTQ4MDkiLCJpYXQiOjE2MTYzNjk1MDQsImV4cCI6MTYxNjM3MDQwNH0.wC2p-Eb_z6oOvgAeJghsNWLxwleVoibWCnCJoHNMZLs"
+// let token = localStorage.getItem("token");
 let refreshToken = localStorage.getItem("refreshToken");
 
 export const tokenRefresh = async (func, endp, data) => {
-  const response = await postFunction("users/refreshToken", { refreshToken });
+  const response = await postFunction("/users/refreshToken", { refreshToken });
   console.log(response);
   if (response.ok) {
     localStorage.setItem("token", response.tokens.token);

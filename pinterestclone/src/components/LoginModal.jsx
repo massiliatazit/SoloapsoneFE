@@ -37,21 +37,25 @@ function LoginModal(props) {
     <>
       <Container fluid>
         <Row>
-          {props.pins.map((i) => (
-            <Col xs={3} lg={2} className="pr-1">
-              {props.pins
-                .sort(() => 0.5 - Math.random())
+          {Array.from(
+            new Set(
+              props.pins.map((i) => (
+                <Col xs={3} lg={2} className="pr-1">
+                  {props.pins
+                    .sort(() => 0.5 - Math.random())
 
-                .map((pin) => (
-                  <img
-                    src={pin.urls.regular}
-                    className="item img-fluid"
-                    style={{ objectFit: "cover" }}
-                    alt="signupPins"
-                  />
-                ))}
-            </Col>
-          ))}
+                    .map((pin) => (
+                      <img
+                        src={pin.urls.regular}
+                        className="item img-fluid"
+                        style={{ objectFit: "cover" }}
+                        alt="signupPins"
+                      />
+                    ))}
+                </Col>
+              ))
+            )
+          )}
         </Row>
       </Container>
       <Overlay></Overlay>

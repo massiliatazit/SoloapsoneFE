@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-function CreatePinCard() {
+function CreatePinCard(props) {
   let history = useHistory();
   function handleClick() {
     history.push("/PinBuilder");

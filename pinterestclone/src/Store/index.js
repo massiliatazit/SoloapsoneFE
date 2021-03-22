@@ -4,7 +4,7 @@ import searchReducer from "../Reducers/search";
 import user from "../Reducers/user";
 import errorsReducer from "../Reducers/errors";
 import thunk from "redux-thunk";
-import loading from "../Reducers/loading";
+import status from "../Reducers/loading";
 import boardReducer from "../Reducers/boardReducer";
 
 const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

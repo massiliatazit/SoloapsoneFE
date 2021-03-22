@@ -19,19 +19,20 @@ const mapDispatchToProps = (dispatch) => ({
   showErrors: (boolean) => dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
   setLoading: (boolean) => dispatch({ type: "SET_LOADING", payload: boolean }),
 })
-function App({ setUser, setLoading, user, status, errors, setError }) {
+function App(props) {
   const [pins, setNewPins] = useState([]);
-  const {loading}=status
+  const {loading}=props.status
   const getImageOnSearch = (term) => {
     return unsplash.get("https://api.unsplash.com/search/photos", {
       params: { query: term },
     });
   };
-
+  
   const onSearchSubmit = (term) => {
     getImageOnSearch(term).then((res) => {
       let results = res.data.results;
-
+      console.log(results)
+      
       let newPins = [
         ...results,
         // ...pins,
@@ -60,19 +61,20 @@ function App({ setUser, setLoading, user, status, errors, setError }) {
 
       Promise.all(promises).then(() => {
         setNewPins(pinData);
+        console.log(pinData)
       });
     });
   };
 
   useEffect(() => {
-    setLoading(true);
+     props.setLoading(true);
     getNewPins();
   }, []);
 
   return (
     
     <Router>
-      {!(loading || errors.show) ? (
+      {/* {!(loading || props.errors.show) ? ( */}
       <Switch>
         <Route path="/homefeed">
           <Header onSubmit={onSearchSubmit} />
@@ -83,9 +85,9 @@ function App({ setUser, setLoading, user, status, errors, setError }) {
         <Route path="/" exact render={() => <Signup />}></Route>
         <Route path="/username/created" exact render={() => <SavedPinsPage pins={pins}/>}></Route>
       </Switch>
-       ):
-       <Loaders show={loading} error={errors.status} />
-       }
+       {/* ): */}
+       {/* <Loaders show={loading} error={props.errors.status} /> */}
+       {/* } */}
     </Router>
      
   );

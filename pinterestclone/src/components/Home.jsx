@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 function Home(props) {
   let { pins } = props;
-  console.log("home", pins);
+  console.log("home", props);
   return (
     <Wrapper>
       <Container className="home-container">

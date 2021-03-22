@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import Login from "./Login";
 import styled from "styled-components";
 import "../styles/signup.css";
 import "../styles/styles.scss";
@@ -22,11 +21,6 @@ function Signup(props) {
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState("");
   const [pins, setPins] = useState([]);
-  const [showLogin, setShowLogin] = useState(false);
-
-  const handleLogin = () => {
-    !setShowLogin();
-  };
 
   const getPins = async () => {
     unsplash
@@ -157,8 +151,7 @@ function Signup(props) {
           <a href="/">Sign up</a>
         </SignUp>
         <Login className="mx-4">
-          {" "}
-          <a href="/">Login</a>
+          <a href="/Login">Login</a>
         </Login>
       </Wrapper>
       <div className="scroll">

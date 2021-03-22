@@ -11,6 +11,7 @@ import Loaders from "./components/Loaders/Loaders";
 import SavedPinsPage from "./components/SavedPinsPage";
 
 import PinBuilder from "./components/PinBuilder";
+import LoginModal from "./components/LoginModal";
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
@@ -83,6 +84,7 @@ function App(props) {
        
         <Route path="/PinBuilder" render={() => <PinBuilder />}></Route>
         <Route path="/" exact render={() => <Signup />}></Route>
+        <Route path="/Login" exact render={() => <LoginModal />}></Route>
         <Route path="/username/created" exact render={() => <SavedPinsPage pins={pins}/>}></Route>
       </Switch>
        {/* ): */}

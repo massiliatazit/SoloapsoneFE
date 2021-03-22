@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { postFunction } from "../api/index";
 import { FaFacebook } from "react-icons/fa";
+import styled from "styled-components";
 
-function Login() {
+function LoginModal() {
   const [email, setEmail] = useState("");
 
   const [username, setUserName] = useState("");
@@ -31,7 +32,13 @@ function Login() {
     }
   }, [email && username && password]);
   return (
-    <div className="container">
+    <div
+      className="container"
+      xs={12}
+      d-flex
+      justify-content-center
+      style={{ height: "100%", zIndex: "55555" }}
+    >
       {" "}
       <div
         style={{
@@ -313,4 +320,63 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginModal;
+const Wrapper = styled.div`
+  display: inline-flex;
+  padding: 8px;
+`;
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 236px;
+  position: relative;
+  :before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  :hover::before {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+  }
+  img {
+    display: flex;
+    width: 100%;
+    cursor: zoom-in;
+    border-radius: 16px;
+    object-fit: cover;
+    opacity: 1;
+    transition-duration: 0.3s;
+    display: block;
+  }
+  .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 53px;
+    height: 35px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    background-color: #e60023;
+    cursor: pointer;
+    transform: translate(-30%, -30%);
+    -ms-transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  :hover button {
+    opacity: 1;
+  }
+`;

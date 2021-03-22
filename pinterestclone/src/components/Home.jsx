@@ -38,6 +38,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   margin: 0 auto;
   height: 100%;
+  width: calc(100% - 20vw);
 
   background-color: white;
 `;

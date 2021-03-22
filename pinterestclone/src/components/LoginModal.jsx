@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { postFunction } from "../api/index";
 import { FaFacebook } from "react-icons/fa";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 
 function LoginModal(props) {
@@ -34,63 +34,54 @@ function LoginModal(props) {
     }
   }, [email && username && password]);
   return (
-    <Container style={{ position: "relative" }}>
-      <div
-        className="grid-container"
-        style={{ position: "absolute", zIndex: "-1" }}
-      >
-        <div className="grid">
+    <>
+      <Container fluid>
+        <Row>
           {props.pins.map((i) => (
-            <PinsContainer>
+            <Col xs={3} lg={2} className="pr-1">
               {props.pins
                 .sort(() => 0.5 - Math.random())
-                .slice(0, 5)
+
                 .map((pin) => (
                   <img
                     src={pin.urls.regular}
-                    className="item"
-                    alt="LoginPins"
+                    className="item img-fluid"
+                    style={{ objectFit: "cover" }}
+                    alt="signupPins"
                   />
                 ))}
-            </PinsContainer>
+            </Col>
           ))}
-        </div>
-      </div>
-
+        </Row>
+      </Container>
+      <Overlay></Overlay>
       <div
         className="container"
         xs={12}
-        d-flex
-        justify-content-center
-        style={{ height: "100%", zIndex: "55555" }}
+        style={{
+          maxHeight: "800px",
+          position: "absolute",
+
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%,-50%) ",
+        }}
       >
         {" "}
         <div
           style={{
-            margin: "130px 0px",
+            margin: " 0px",
             position: "relative",
             display: "flex",
             justifyContent: "center",
           }}
         >
-          <p
-            className="unauth-homepage-signup-title"
-            style={{
-              color: "white",
-              alignSelf: "center",
-              marginLeft: "4%",
-              width: "30%",
-              fontSize: "70px",
-              fontWeight: 600,
-            }}
-          >
-            Sign up to get your ideas
-          </p>
           <div
             className="unauth-homepage-conversion-modal"
+            style={{ maxHeight: "650px", borderRadius: "8px" }}
             data-test-id="signup-default-modal"
           >
-            <div style={{ minHeight: "400px", padding: "20px 10px 24px" }}>
+            <div style={{ maxHeight: "650px", padding: "20px 10px 24px" }}>
               <div
                 style={{
                   display: "block",
@@ -219,8 +210,8 @@ function LoginModal(props) {
                     <p
                       className
                       style={{
-                        marginBottom: "16px",
-                        marginTop: "16px",
+                        marginBottom: "10px",
+                        marginTop: "6px",
                         overflow: "hidden",
                         textAlign: "center",
                         fontSize: "14px",
@@ -251,7 +242,7 @@ function LoginModal(props) {
                   <div className="button">
                     <span>Continue with Google</span>
                   </div>
-                  <div style={{ marginTop: "16px" }}>
+                  <div style={{ marginTop: "10px", overflow: "hidden" }}>
                     <span
                       style={{
                         WebkitFontSmoothing: "antialiased",
@@ -264,7 +255,6 @@ function LoginModal(props) {
                       }}
                     >
                       <span>
-                        {" "}
                         By continuing, you agree to Pinterest's{" "}
                         <a
                           rel="noopener noreferrer"
@@ -274,7 +264,7 @@ function LoginModal(props) {
                         >
                           Terms of Service
                         </a>
-                        ,{" "}
+                        ,
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
@@ -303,20 +293,7 @@ function LoginModal(props) {
                         width: "fit-content",
                         alignItems: "baseline",
                       }}
-                    >
-                      <div className="zI7 iyn Hsu">
-                        <a
-                          data-test-id="login-signup-toggle"
-                          style={{
-                            color: "rgb(51, 51, 51)",
-                            cursor: "pointer",
-                            marginLeft: "5px",
-                          }}
-                        >
-                          Already a member? Log in
-                        </a>
-                      </div>
-                    </div>
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -325,7 +302,7 @@ function LoginModal(props) {
               data-test-id="create-business-account-button"
               className="MIw Rym gpV ojN zI7 iyn Hsu"
               style={{
-                height: "62px",
+                minHeight: "90px",
                 width: "100%",
                 borderRadius: "0px 0px 32px 32px",
               }}
@@ -335,52 +312,21 @@ function LoginModal(props) {
                 className="CCY czT eEj XJa FTD L4E DI9 BG7"
                 role="button"
                 tabIndex={0}
-              >
-                <div
-                  className="Jea gjz mQ8 zI7 iyn Hsu"
-                  style={{ height: "100%" }}
-                >
-                  <div className="business-acc">Create a business account</div>
-                </div>
-              </div>
+              ></div>
             </div>
           </div>
         </div>
       </div>
-    </Container>
+    </>
   );
 }
 
 export default LoginModal;
-const PinsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  width: 236px;
-  position: relative;
-  :before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0);
-  }
-  :hover::before {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 16px;
-  }
-  img {
-    display: flex;
-    width: 100%;
-    cursor: zoom-in;
-    border-radius: 16px;
-    object-fit: cover;
-    opacity: 1;
-    transition-duration: 0.3s;
-    display: block;
-  }
+const Overlay = styled.div`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
 `;

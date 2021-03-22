@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
+import Header from "./Header";
 import styled from "styled-components";
 import PostPostModal from "./PostPostModal";
 import { Row, Col, Container } from "react-bootstrap";
@@ -10,26 +11,28 @@ function PinBuilder() {
     console.log(pins);
   };
   return (
-    <Wrapper>
-      <ButtonADD type="button" onClick={addPin}>
-        <AddIcon />
-      </ButtonADD>
-      <div style={{ paddingLeft: "5em" }}>
-        <Row>
-          {pins.map((pin, index) => (
-            <Col xs={12}>
-              <PostPostModal key={index} />
-            </Col>
-          ))}
-        </Row>
-      </div>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Header />
+        <ButtonADD type="button" onClick={addPin}>
+          <AddIcon />
+        </ButtonADD>
+        <div style={{ paddingLeft: "5em" }}>
+          <Row>
+            {pins.map((pin, index) => (
+              <Col xs={12}>
+                <PostPostModal key={index} />
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </Wrapper>
+    </>
   );
 }
 
 export default PinBuilder;
 const Wrapper = styled.div`
-  display: inline-flex;
   padding: 8px;
   background-color: #efefef;
 `;

@@ -39,7 +39,6 @@ const CreatePin = styled.div`
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-  width: 236px;
 
   height: 268px;
 

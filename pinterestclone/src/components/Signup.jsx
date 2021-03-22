@@ -281,7 +281,7 @@ function Signup(props) {
                     <img
                       src={pin.urls.regular}
                       className="item"
-                      alt="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg"
+                      alt="signupPins"
                     />
                   ))}
               </div>

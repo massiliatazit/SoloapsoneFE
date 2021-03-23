@@ -1,10 +1,25 @@
-import React from "react";
-
+import React, { useMemo, useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import styled from "styled-components";
+
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-function PostPostModal() {
+const mapStateToProps = (state) => state;
+
+const mapDispatchToProps = (dispatch) => ({
+  setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
+  showErrors: (boolean) =>
+    dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
+});
+function PostPostModal(props) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [newPostImage, setNewPostImage] = useState();
+  const [isImageSelected, setIsImageSelected] = useState(false);
+
   return (
     <AddPinModal>
       <AddPinContainer>
@@ -92,7 +107,7 @@ function PostPostModal() {
     </AddPinModal>
   );
 }
-export default PostPostModal;
+export default connect(mapStateToProps, mapDispatchToProps)(PostPostModal);
 const AddPinModal = styled.div`
   width: 100%;
   height: 100%;

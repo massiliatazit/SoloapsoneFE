@@ -38,7 +38,7 @@ function Pin(props) {
   return (
     <Wrapper>
       {props.pins.length > 0 && (
-        <Container>
+        <Container onClick={() => handlePinClick(props.id)}>
           <img src={props.urls.regular} alt="pin" />
 
           <button className="btn mt-4" onClick={() => savePin(props.id)}>
@@ -47,7 +47,7 @@ function Pin(props) {
 
           <ModelFoot>
             <Destination className="ml-3 py-0">
-              <IconButton onClick={() => handlePinClick(props.id)}>
+              <IconButton>
                 <LaunchIcon />
                 <span>destination</span>
               </IconButton>
@@ -102,8 +102,9 @@ const Container = styled.div`
     background-color: rgba(0, 0, 0, 0);
   }
   :hover::before {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
     border-radius: 16px;
+    cursor: zoom-in;
   }
   img {
     display: flex;

@@ -5,11 +5,14 @@ export default function (state = {}, action) {
           ...state,
           ...action.payload,
         };
-        case "LOAD_MORE_USERS ":
-            return{
-                ...state,
-                ...action.payload,
-            }
+        case"PINS_SAVED_BY_USER":
+        return{
+          ...state,
+         saved:state.saved.concat(action.payload)
+        }
+       
+
+        
       default:
         return state;
     }

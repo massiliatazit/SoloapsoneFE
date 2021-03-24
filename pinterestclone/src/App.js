@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import unsplash from "./api/unsplash";
 import Loaders from "./components/Loaders/Loaders";
 import SavedPinsPage from "./components/SavedPinsPage";
-
+import ViewPin from "./components/ViewPin";
 import PinBuilder from "./components/PinBuilder";
 import LoginModal from "./components/LoginModal";
 const mapStateToProps = (state) => state;
@@ -32,7 +32,7 @@ function App(props) {
   const onSearchSubmit = (term) => {
     getImageOnSearch(term).then((res) => {
       let results = res.data.results;
-      console.log(results)
+      
       
       let newPins = [
         ...results,
@@ -62,7 +62,7 @@ function App(props) {
 
       Promise.all(promises).then(() => {
         setNewPins(pinData);
-        console.log(pinData)
+        
       });
     });
   };
@@ -86,6 +86,7 @@ function App(props) {
         <Route path="/" exact render={() => <Signup />}></Route>
         <Route path="/Login" exact render={() => <LoginModal pins={pins}/>}></Route>
         <Route path="/username/created" exact render={() => <SavedPinsPage pins={pins}/>}></Route>
+        <Route path="/:id"  render={(props) => <ViewPin {...props} />} />
       </Switch>
        {/* ): */}
        {/* <Loaders show={loading} error={props.errors.status} /> */}

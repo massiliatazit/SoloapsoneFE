@@ -6,85 +6,75 @@ import IconButton from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { postFunction, getFunction } from "../api/index";
+import { useHistory } from "react-router-dom";
+import { pink } from "@material-ui/core/colors";
 const mapStateToProps = (state) => state;
-
 const mapDispatchToProps = (dispatch) => ({
-  setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
-  showErrors: (boolean) =>
-    dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
-
-  Setuser: (user) => dispatch({ type: "SET_USER", payload: user }),
+  SetSavedPins: (pin) => dispatch({ type: "PINS_SAVED_BY_USER", payload: pin }),
 });
+
 function Pin(props) {
-  console.log(props);
-  // const [user, Setuser] = useState();
+  let history = useHistory();
+
+  // const [user, SetUser] = useState();
   const [logged, setLogged] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [saved, setSaved] = useState(false);
-
-  const getUser = async (username) => {
-    const response = await getFunction("/users");
-    console.log("getuser", response);
-    if (response) {
-      props.Setuser(response);
-    } else {
-      console.log("HERE", response);
-    }
-    setLoading(false);
-  };
-  console.log("userstore", props.user);
+  const [pinsaved, setSaved] = useState(false);
   useEffect(() => {
-    getUser();
-
-    // setSaved(
-    //   props.pins.findIndex((pin) => pin.id === props.Setuser.saved._id) !== -1
-    // );
     // setLogged(true);
     setLoading(false);
+    return () => {
+      console.log("clean up");
+    };
   }, []);
-  const savePin = async () => {
-    // const response = await postFunction("/users/saved/" + props.user.saved._id);
-    // console.log(response);
-    // if (response && response._id) {
-    //   setSaved(!saved);
-    // }
+  const savePin = async (id) => {
+    props.SetSavedPins(id);
+    setSaved(true);
+  };
+  const handlePinClick = (id) => {
+    history.push(`/${id}`);
   };
 
   return (
     <Wrapper>
-      <Container>
-        <img src={props.urls.regular} alt="pin" />
-        <button className="btn mt-4" onClick={savePin}>
-          Save
-        </button>
+      {props.pins.length > 0 && (
+        <Container>
+          <img src={props.urls.regular} alt="pin" />
 
-        <ModelFoot>
-          <Destination>
+          <button className="btn mt-4" onClick={() => savePin(props.id)}>
+            Save
+          </button>
+
+          <ModelFoot>
+            <Destination className="ml-3 py-0">
+              <IconButton onClick={() => handlePinClick(props.id)}>
+                <LaunchIcon />
+                <span>destination</span>
+              </IconButton>
+            </Destination>
             <IconButton>
-              <LaunchIcon />
-              <span>destination</span>
+              <ShareIcon
+                style={{
+                  backgroundColor: "#f0f0f0",
+                  borderRadius: "50%",
+                  padding: "4px",
+                }}
+              />
             </IconButton>
-          </Destination>
-          <IconButton>
-            <ShareIcon
-              style={{
-                backgroundColor: "#f0f0f0",
-                borderRadius: "50%",
-                padding: "4px",
-              }}
-            />
-          </IconButton>
-          <IconButton>
-            <MoreHorizIcon
-              style={{
-                backgroundColor: "#f0f0f0",
-                borderRadius: "50%",
-                padding: "4px",
-              }}
-            />
-          </IconButton>
-        </ModelFoot>
-      </Container>
+            <IconButton>
+              <MoreHorizIcon
+                style={{
+                  backgroundColor: "#f0f0f0",
+                  borderRadius: "50%",
+                  padding: "4px",
+                  marginRight: "22px",
+                  padding: "0",
+                }}
+              />
+            </IconButton>
+          </ModelFoot>
+        </Container>
+      )}
     </Wrapper>
   );
 }
@@ -99,7 +89,7 @@ const Container = styled.div`
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-
+  overflow: hidden;
   position: relative;
   :before {
     content: "";
@@ -166,14 +156,14 @@ const ModelFoot = styled.div`
   }
 `;
 const Destination = styled.div`
-  width: 132px;
-  height: 32px;
+  width: 122px;
+  height: 30px;
   border-radius: 18px;
-
+ 
   display: flex;
   align-items: center;
-
-  font-size: 16px;
+ justify-content: center
+  font-size: 14px;
   font-weight: 700;
 
   background-color: #f0f0f0;

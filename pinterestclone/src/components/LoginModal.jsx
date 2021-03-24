@@ -5,7 +5,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 
 function LoginModal(props) {
-  console.log("loginPins", props);
   const [email, setEmail] = useState("");
 
   const [username, setUserName] = useState("");
@@ -32,7 +31,7 @@ function LoginModal(props) {
     } else {
       setDisabled(true);
     }
-  }, [email && username && password]);
+  }, []);
   return (
     <>
       <Container fluid>

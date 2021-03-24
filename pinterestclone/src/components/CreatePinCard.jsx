@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+const mapStateToProps = (state) => state;
 function CreatePinCard(props) {
   let history = useHistory();
   function handleClick() {
@@ -13,7 +15,7 @@ function CreatePinCard(props) {
           src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
           alt=""
         ></img>
-        <h3>Username</h3>
+        <h3>{props.user.username}</h3>
         <p>
           {" "}
           <span>0</span> Monthly views
@@ -27,11 +29,10 @@ function CreatePinCard(props) {
   );
 }
 
-export default CreatePinCard;
+export default connect(mapStateToProps)(CreatePinCard);
 const Wrapper = styled.div`
   display: block;
   padding: 8px;
-  background-clor: #efefef;
 `;
 const CreatePin = styled.div`
   display: flex;
@@ -39,8 +40,6 @@ const CreatePin = styled.div`
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-
-  height: 268px;
 
   img {
     width: 50%;

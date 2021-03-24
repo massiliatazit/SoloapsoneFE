@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import Pin from "./Pin";
+import { postFunction, getFunction } from "../api/index";
 import CreatePinCard from "./CreatePinCard";
 import "./home.css";
 const mapStateToProps = (state) => state;
@@ -10,17 +11,41 @@ const mapDispatchToProps = (dispatch) => ({
   setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
   showErrors: (boolean) =>
     dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
+
+  Setuser: (user) => dispatch({ type: "SET_USER", payload: user }),
 });
 function Home(props) {
   let { pins } = props;
-  console.log("home", props);
+  const [loading, setLoading] = useState(true);
+  const getUser = async (username) => {
+    console.log("here");
+    const response = await getFunction("/users");
+
+    if (response) {
+      props.Setuser(response);
+    } else {
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    console.log("ented useEffect");
+    getUser();
+
+    // setLogged(true);
+    setLoading(false);
+    return () => {
+      console.log("clean up");
+    };
+  }, []);
+
   return (
     <Wrapper>
       <Container className="home-container">
         <CreatePinCard />
         {pins.map((pin, index) => {
-          const { urls } = pin;
-          return <Pin key={index} urls={urls} pins={pins} />;
+          const { urls, id } = pin;
+
+          return <Pin key={index} urls={urls} pins={pins} id={id} />;
         })}
       </Container>
     </Wrapper>

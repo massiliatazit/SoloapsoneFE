@@ -85,7 +85,7 @@ function App(props) {
         <Route path="/PinBuilder" render={() => <PinBuilder />}></Route>
         <Route path="/" exact render={() => <Signup />}></Route>
         <Route path="/Login" exact render={() => <LoginModal pins={pins}/>}></Route>
-        <Route path="/username/created" exact render={() => <SavedPinsPage pins={pins}/>}></Route>
+        <Route path="/:username/created" exact render={(props) => <SavedPinsPage pins={pins} {...props}/>}></Route>
         <Route path="/:id"  render={(props) => <ViewPin {...props} />} />
       </Switch>
        {/* ): */}

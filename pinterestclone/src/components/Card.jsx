@@ -10,13 +10,20 @@ function Card(props) {
     ></div>
   );
 }
-
+const img_url =
+  "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg";
 const styles = {
   card: {
     margin: "15px 10px",
     padding: 0,
     borderRadius: "16px",
-    backgroundColor: "red",
+    backgroundImage: `url(${img_url})`,
+
+    objectFit: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    minWidth: "100%",
+    minHeight: "100%",
   },
   small: {
     gridRowEnd: "span 26",

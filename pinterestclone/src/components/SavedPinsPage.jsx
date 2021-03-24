@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from "react";
 import unsplash from "../api/unsplash";
-
+import { connect } from "react-redux";
 import Card from "./Card";
 import "../styles/index.css";
 import { Row, Col, Container } from "react-bootstrap";
-
-function SavedPinsPage() {
+const mapStateToProps = (state) => state;
+function SavedPinsPage(props) {
   const [pins, setPins] = useState([]);
-  const getPins = async () => {
-    unsplash
-      .get(`https://api.unsplash.com/topics/fashion/photos`, {
-        params: { quantity: 30 },
-      })
-      .then((res) => {
-        let results = res.data;
-        console.log(results);
-        setPins(results);
-      });
-  };
+
+  const { username } = props.match.params;
+
   useEffect(() => {
-    getPins();
+    console.log(props.pins);
+    setPins(props.pins);
   }, []);
   return (
     <>
       <Container className="hero px-4 mb-5" fluid></Container>
       {pins.length > 0 && (
         <div style={styles.pin_container}>
-          <Card
-            size="small"
-            style={{ backgroundImage: `url(${pins[0].urls.small})` }}
-          />
+          <Card size="medium" />
+          <Card size="medium" />
         </div>
       )}
     </>
@@ -52,4 +43,4 @@ const styles = {
   },
 };
 
-export default SavedPinsPage;
+export default connect(mapStateToProps)(SavedPinsPage);

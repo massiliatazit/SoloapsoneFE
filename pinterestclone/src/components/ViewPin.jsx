@@ -108,11 +108,11 @@ function ViewPin(props) {
                     }}
                   >
                     <img
-                      src={pins.user.profile_image.small}
+                      src={pins.user.profile_image.medium}
                       alt=""
                       srcSet=""
                       height="100%"
-                      style={{ borderRadius: "50%" }}
+                      style={{ borderRadius: "50%", objectFit: "cover" }}
                     />
                   </div>
                   <p className="mt-3 ml-4">{pins.user.first_name}</p>

@@ -97,21 +97,7 @@ function SavedPinsPage(props) {
             </div>
           </Col>
         </Row>
-        {/* <div style={{width:"100%", marginTop:"100px", display:"flex", justifyContent:"space-evenly"}}> 
-                    <div>
-                        <div style={{width:"230px", height:"150px", border:"1px solid black", borderRadius:"20px"}}>LOVE</div>
-                        <br/>
-                        <div>All Pins</div>
-                    </div>
-                    {
-                        curruser.saved_pins.map( pin => (
-                            <div  key={pin.id} >
-                                <div style={{width:"230px", height:"150px", border:"1px solid black", borderRadius:"20px"}}>LOVE</div><br/>
-                                <div>{pin.title}</div>
-                            </div>
-                        ))
-                    }
-                </div> */}
+
         <Row>
           <Col>
             <div
@@ -144,12 +130,6 @@ function SavedPinsPage(props) {
           </SavePinsButton>
         </Row>
       </Container>
-      {/* {pins.length > 0 && (
-        <div style={styles.pin_container}>
-          <Card size="medium" />
-          <Card size="medium" />
-        </div>
-      )} */}
     </>
   );
 }

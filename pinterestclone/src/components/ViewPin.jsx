@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import styles from "../styles/ViewPin.module.css";
 import unsplash from "../api/unsplash";
+import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import { Container, Row, Col } from "react-bootstrap";
+const mapStateToProps = (state) => state;
+const mapDispatchToProps = (dispatch) => ({
+  SetSavedPins: (pin) => dispatch({ type: "PINS_SAVED_BY_USER", payload: pin }),
+});
 function ViewPin(props) {
   const [loading, Setloading] = useState(false);
+  const [pinsaved, setSaved] = useState(false);
   const [pins, setPins] = useState([]);
   const { id } = props.match.params;
   const getPinsById = async () => {
@@ -23,6 +29,10 @@ function ViewPin(props) {
   useEffect(() => {
     getPinsById();
   }, []);
+  const savePin = async (id) => {
+    props.SetSavedPins(id);
+    setSaved(true);
+  };
   return (
     <>
       {" "}
@@ -83,7 +93,7 @@ function ViewPin(props) {
                         <PublishTwoToneIcon></PublishTwoToneIcon>
                       </IconButton>
                     </div>
-                    <RedBtn>Save</RedBtn>
+                    <RedBtn onClick={() => savePin(pins.id)}>Save</RedBtn>
                   </div>
                   <div>
                     <h2 style={{ fontWeight: 700, whiteSpace: "nowrap" }}>
@@ -170,21 +180,38 @@ function ViewPin(props) {
                   display: "flex",
                   justifyContent: "center",
                   flexWrap: "wrap",
-                  flexDirection: "row",
+                  flexDirection: "column",
                 }}
               >
-                {pins.related_collections.results.length > 0 &&
-                  pins.related_collections.results.map((pinrelated) => (
-                    <ImagerelatedPins>
-                      <Image
-                        src={pinrelated.cover_photo.urls.regular}
-                        alt="pin"
-                      />
-                      <h3 style={{ margin: "10px" }}>
-                        Photo by {pinrelated.cover_photo.user.username}
-                      </h3>
-                    </ImagerelatedPins>
-                  ))}
+                <div>
+                  {" "}
+                  <h6
+                    style={{
+                      textAlign: "center",
+                      fontSize: 21,
+                      fontWeight: 700,
+                      marginTop: 40,
+                    }}
+                  >
+                    More similar content
+                  </h6>
+                </div>
+                <div className="d-flex justify-content-center mt-1">
+                  {pins.related_collections.results.length > 0 &&
+                    pins.related_collections.results.map((pinrelated) => (
+                      <>
+                        <ImagerelatedPins>
+                          <Image
+                            src={pinrelated.cover_photo.urls.regular}
+                            alt="pin"
+                          />
+                          <h3 style={{ margin: "10px" }}>
+                            Photo by {pinrelated.cover_photo.user.username}
+                          </h3>
+                        </ImagerelatedPins>
+                      </>
+                    ))}
+                </div>
               </div>
             </Col>
           </Row>
@@ -194,7 +221,7 @@ function ViewPin(props) {
   );
 }
 
-export default ViewPin;
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPin);
 const ImagerelatedPins = styled.div`
   width: 18%;
   margin: 10px;
@@ -214,6 +241,10 @@ const GreyBtn = styled.button`
   max-height:53px
   margin-right: 10px;
   border-radius: 30px;
+  font-weight: 700;
+  display:flex;
+  justify-content: center
+  align-items: center
   &:hover {
     background-color: #ddd;
     cursor: pointer;

@@ -50,7 +50,7 @@ function Header(props) {
         </LogoWrapper>
       </LogoWrapper>
       <HomePageButton>
-        <a href="/">Homepage</a>
+        <a href="/homefeed">Homepage</a>
       </HomePageButton>
       <FollowingButton>
         {" "}

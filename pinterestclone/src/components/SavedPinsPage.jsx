@@ -8,6 +8,7 @@ import { Row, Col, Container } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 function SavedPinsPage(props) {
   const [pins, setPins] = useState([]);
+  console.log(props.user.saved);
 
   const { username } = props.match.params;
   const uniqPins = [...new Set(pins)];
@@ -76,7 +77,7 @@ function SavedPinsPage(props) {
         <Row>
           <Col>
             <div
-              style={{ width: "100%", textAlign: "center", marginTop: "205%" }}
+              style={{ width: "100%", textAlign: "center", marginTop: "248%" }}
             >
               <img
                 src="https://i.imgur.com/D5wcicT.jpg"
@@ -93,10 +94,10 @@ function SavedPinsPage(props) {
                 {props.user.following.length} following •{" "}
                 {props.user.followers.length} followers
               </div>
-              <h1 style={{ marginTop: "40px", color: "darkred" }}>
-                Saved Pins
-              </h1>
-              {/* <div style={{width:"100%", marginTop:"100px", display:"flex", justifyContent:"space-evenly"}}> 
+            </div>
+          </Col>
+        </Row>
+        {/* <div style={{width:"100%", marginTop:"100px", display:"flex", justifyContent:"space-evenly"}}> 
                     <div>
                         <div style={{width:"230px", height:"150px", border:"1px solid black", borderRadius:"20px"}}>LOVE</div>
                         <br/>
@@ -111,25 +112,36 @@ function SavedPinsPage(props) {
                         ))
                     }
                 </div> */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  flexWrap: "wrap",
-                  flexDirection: "row",
-                }}
-              >
-                {props.user.saved?.map((pin) => (
+        <Row>
+          <Col>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                flexWrap: "wrap",
+                flexDirection: "row",
+              }}
+            >
+              {props.user.saved.length > 0 &&
+                props.user.saved.map((pin) => (
                   <ImageCard>
                     <Image src={pin.urls.regular} alt="pin" />
                     <h3 style={{ margin: "10px" }}>
-                      Photo by {pins.user.username}
+                      Photo by {pin.user.username}
                     </h3>
                   </ImageCard>
                 ))}
-              </div>
             </div>
           </Col>
+        </Row>
+
+        <Row>
+          <CreatePinsButton>
+            <a href="/:username/created">Created</a>
+          </CreatePinsButton>
+          <SavePinsButton>
+            <a href="/">Saved</a>
+          </SavePinsButton>
         </Row>
       </Container>
       {/* {pins.length > 0 && (
@@ -159,6 +171,37 @@ const styles = {
 };
 
 export default connect(mapStateToProps)(SavedPinsPage);
+const styledButtons = styled.div`
+  display: flex;
+  height: 48px;
+  min-width: 123px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  cursor: pointer;
+  margin-top: 20px;
+`;
+const CreatePinsButton = styled(styledButtons)`
+  background-color: rgba(17, 17, 17);
+
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+  }
+`;
+const SavePinsButton = styled(styledButtons)`
+  background-color: white;
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+  }
+
+  :hover {
+    background-color: #e1e1e1;
+  }
+`;
 const CenteredContainer = styled.div`
   max-width: 656px;
   box-sizing: border-box;

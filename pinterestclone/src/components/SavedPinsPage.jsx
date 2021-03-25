@@ -10,6 +10,7 @@ function SavedPinsPage(props) {
   const [pins, setPins] = useState([]);
 
   const { username } = props.match.params;
+  const uniqPins = [...new Set(pins)];
 
   useEffect(() => {
     console.log(props.pins);
@@ -39,7 +40,7 @@ function SavedPinsPage(props) {
               >
                 {[0, 1, 2, 3].map((i) => (
                   <Row>
-                    {pins
+                    {uniqPins
                       .slice(0, 4)
                       .sort(() => 0.5 - Math.random())
                       .map((pin) => (
@@ -58,6 +59,7 @@ function SavedPinsPage(props) {
                                 objectFit: "cover",
                                 maxWidth: "100%",
                                 maxHeight: "100%",
+                                backgroundPosition: "center",
                               }}
                               alt="signupPins"
                             />

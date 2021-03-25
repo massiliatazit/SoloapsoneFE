@@ -47,7 +47,7 @@ function App(props) {
   const getNewPins = () => {
     let promises = [];
     let pinData = [];
-    let pins = ["fashion", "hair", "bali", "cars", "travel", "heals", "nature","programming","trends"];
+    let pins = ["food", "plants", "sahara", "cars", "travel", "heals", "nature","fantasy","books","flowers"];
     pins.forEach((pinTerm) => {
       promises.push(
         getImageOnSearch(pinTerm).then((res) => {
@@ -76,9 +76,10 @@ function App(props) {
     
     <Router>
       {/* {!(loading || props.errors.show) ? ( */}
+        <Route path="/" ><Header onSubmit={onSearchSubmit} /></Route>
       <Switch>
         <Route path="/homefeed">
-          <Header onSubmit={onSearchSubmit} />
+         
           <Home pins={pins} />
         </Route>
        

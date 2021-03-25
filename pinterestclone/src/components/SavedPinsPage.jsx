@@ -80,7 +80,7 @@ function SavedPinsPage(props) {
               style={{ width: "100%", textAlign: "center", marginTop: "248%" }}
             >
               <img
-                src="https://i.imgur.com/D5wcicT.jpg"
+                src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
                 alt="photo"
                 width="120px"
                 height="120px"
@@ -196,7 +196,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-flow: column wrap;
 `;
-
 const ImageCard = styled.div`
   width: 18%;
   margin: 10px;

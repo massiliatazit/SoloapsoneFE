@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import 'animate.css'
-import Signup from "./components/Signup";
+import Signup from "./components/Signup/Signup"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import unsplash from "./api/unsplash";
 import Loaders from "./components/Loaders/Loaders";

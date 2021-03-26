@@ -136,7 +136,7 @@ header nav .buttons .signup {
   cursor: pointer;
   animation: downup 2s ease;
   position: absolute;
-  top: 20px;
+  top: 50%;
   left: 50%;
   animation-iteration-count: infinite;
 }
@@ -414,7 +414,8 @@ header nav .buttons .signup {
 .grid {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (252px) [7];
+  column-count: 5;
+  min-width: 252px;
   grid-template-columns: repeat(7, 252px);
   max-height: 0px;
   visibility: hidden;
@@ -428,6 +429,7 @@ header nav .buttons .signup {
 }
 
 .column {
+  position: relative;
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -444,9 +446,11 @@ header nav .buttons .signup {
 }
 
 .column:nth-child(1) {
+ 
   margin-top: 0;
   -webkit-transition-delay: 0s;
   transition-delay: 0s;
+ 
 }
 
 .column:nth-child(2) {
@@ -462,7 +466,8 @@ header nav .buttons .signup {
 }
 
 .column:nth-child(4) {
-  margin-top: 480px;
+  margin-top: 50px;
+  
   -webkit-transition-delay: 0.6s;
   transition-delay: 0.6s;
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import styles from "../styles/ViewPin.module.css";
+
 import unsplash from "../api/unsplash";
 import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import { Container, Row, Col } from "react-bootstrap";
 const mapStateToProps = (state) => state;
@@ -16,6 +16,7 @@ function ViewPin(props) {
   const [loading, Setloading] = useState(false);
   const [pinsaved, setSaved] = useState(false);
   const [pins, setPins] = useState([]);
+
   const { id } = props.match.params;
   const getPinsById = async () => {
     console.log("hello");

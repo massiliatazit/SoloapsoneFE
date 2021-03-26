@@ -34,9 +34,6 @@ function Home(props) {
 
     // setLogged(true);
     setLoading(false);
-    return () => {
-      console.log("clean up");
-    };
   }, []);
 
   return (

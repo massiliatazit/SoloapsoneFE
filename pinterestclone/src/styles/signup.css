@@ -411,7 +411,7 @@ header nav .buttons .signup {
   overflow: hidden;
 }
 
-.grid {
+/* .grid {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (252px) [7];
@@ -419,7 +419,7 @@ header nav .buttons .signup {
   max-height: 0px;
   visibility: hidden;
   pointer-events: none;
-}
+} */
 
 .grid.active {
   max-height: unset;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Loaders from "./Loaders/Loaders";
 
 import unsplash from "../api/unsplash";
 import { connect } from "react-redux";
@@ -38,7 +39,7 @@ function ViewPin(props) {
     <>
       {" "}
       {pins.length === 0 ? (
-        <h1 style={{ textAlign: "center" }}>No product found</h1>
+        <Loaders />
       ) : (
         <Container
           fluid

@@ -29,8 +29,8 @@ function ViewPin(props) {
   useEffect(() => {
     getPinsById();
   }, []);
-  const savePin = async (id) => {
-    props.SetSavedPins(id);
+  const savePin = async (pin) => {
+    props.SetSavedPins(pin);
     setSaved(true);
   };
   return (
@@ -93,7 +93,7 @@ function ViewPin(props) {
                         <PublishTwoToneIcon></PublishTwoToneIcon>
                       </IconButton>
                     </div>
-                    <RedBtn onClick={() => savePin(pins.id)}>Save</RedBtn>
+                    <RedBtn onClick={() => savePin(pins)}>Save</RedBtn>
                   </div>
                   <div>
                     <h2 style={{ fontWeight: 700, whiteSpace: "nowrap" }}>

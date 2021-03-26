@@ -8,6 +8,7 @@ import { Row, Col, Container } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 function SavedPinsPage(props) {
   const [pins, setPins] = useState([]);
+  const [savedPins, setSavedPins] = useState([]);
   console.log(props.user.saved);
 
   const { username } = props.match.params;
@@ -16,6 +17,7 @@ function SavedPinsPage(props) {
   useEffect(() => {
     console.log(props.pins);
     setPins(props.pins);
+    setSavedPins(props.user.saved);
   }, []);
   return (
     <>
@@ -77,7 +79,7 @@ function SavedPinsPage(props) {
         <Row>
           <Col>
             <div
-              style={{ width: "100%", textAlign: "center", marginTop: "248%" }}
+              style={{ width: "100%", textAlign: "center", marginTop: "215%" }}
             >
               <img
                 src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
@@ -97,7 +99,14 @@ function SavedPinsPage(props) {
             </div>
           </Col>
         </Row>
-
+        <Row>
+          <CreatePinsButton>
+            <a href="/:username/created">Created</a>
+          </CreatePinsButton>
+          <SavePinsButton>
+            <a href="/">Saved</a>
+          </SavePinsButton>
+        </Row>
         <Row>
           <Col>
             <div
@@ -108,8 +117,8 @@ function SavedPinsPage(props) {
                 flexDirection: "row",
               }}
             >
-              {props.user.saved.length > 0 &&
-                props.user.saved.map((pin) => (
+              {savedPins &&
+                savedPins.map((pin) => (
                   <ImageCard>
                     <Image src={pin.urls.regular} alt="pin" />
                     <h3 style={{ margin: "10px" }}>
@@ -119,15 +128,6 @@ function SavedPinsPage(props) {
                 ))}
             </div>
           </Col>
-        </Row>
-
-        <Row>
-          <CreatePinsButton>
-            <a href="/:username/created">Created</a>
-          </CreatePinsButton>
-          <SavePinsButton>
-            <a href="/">Saved</a>
-          </SavePinsButton>
         </Row>
       </Container>
     </>

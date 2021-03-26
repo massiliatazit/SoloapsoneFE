@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import 'animate.css'
 import Signup from "./components/Signup";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import unsplash from "./api/unsplash";
@@ -11,7 +12,9 @@ import Loaders from "./components/Loaders/Loaders";
 import SavedPinsPage from "./components/SavedPinsPage";
 import ViewPin from "./components/ViewPin";
 import PinBuilder from "./components/PinBuilder";
-import LoginModal from "./components/LoginModal";
+
+import LoginPage from "./components/LoginPage";
+
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
@@ -76,7 +79,8 @@ function App(props) {
     
     <Router>
       {/* {!(loading || props.errors.show) ? ( */}
-        <Route path="/" ><Header onSubmit={onSearchSubmit} /></Route>
+        
+      <Route path="/" ><Header onSubmit={onSearchSubmit} /></Route>
       <Switch>
         <Route path="/homefeed">
          
@@ -85,7 +89,7 @@ function App(props) {
        
         <Route path="/PinBuilder" render={() => <PinBuilder />}></Route>
         <Route path="/" exact render={() => <Signup />}></Route>
-        <Route path="/Login" exact render={() => <LoginModal pins={pins}/>}></Route>
+        <Route path="/Login" exact render={() => <LoginPage pins={pins}/>}></Route>
         <Route path="/:username/created" exact render={(props) => <SavedPinsPage pins={pins} {...props}/>}></Route>
         <Route path="/:id"  render={(props) => <ViewPin {...props} />} />
       </Switch>

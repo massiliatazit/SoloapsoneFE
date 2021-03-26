@@ -13,7 +13,6 @@ function PinBuilder() {
   return (
     <>
       <Wrapper>
-        <Header />
         <ButtonADD type="button" onClick={addPin}>
           <AddIcon />
         </ButtonADD>

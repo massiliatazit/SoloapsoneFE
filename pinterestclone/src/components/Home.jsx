@@ -17,6 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
 function Home(props) {
   let { pins } = props;
   const [loading, setLoading] = useState(true);
+  const [loggedIn, setloggedIn] = useState(true);
   const getUser = async (username) => {
     console.log("here");
     const response = await getFunction("/users");
@@ -40,14 +41,16 @@ function Home(props) {
 
   return (
     <Wrapper>
-      <Container className="home-container">
-        <CreatePinCard />
-        {pins.map((pin, index) => {
-          const { urls, id } = pin;
+      {pins.length > 0 && (
+        <Container className="home-container">
+          <CreatePinCard />
+          {pins.map((pin, index) => {
+            const { urls, id } = pin;
 
-          return <Pin key={index} urls={urls} pins={pins} id={id} />;
-        })}
-      </Container>
+            return <Pin key={index} urls={urls} pin={pin} id={id} />;
+          })}
+        </Container>
+      )}
     </Wrapper>
   );
 }

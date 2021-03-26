@@ -1,0 +1,35 @@
+.RegistrationForm{
+    flex-direction: column;
+    width: 500px!important;
+.prepend{
+    background-color: white;
+    color:rgb(112, 112, 112);
+}
+.RegisterInput{
+    border-left: none;
+}
+.RegisterButton{
+    width:100%!important;
+}
+.googleButton{
+    border:1px solid rgb(219, 219, 219);
+    color: rgb(112, 112, 112);
+    border-radius:20px;
+    padding: 7px 10px;
+    width:100%;
+    background-color:white;
+    margin:0;
+}
+.LogInButton{
+    border:1px solid #618C7B;
+    color: #ffff;
+    border-radius:20px;
+    padding: 7px 10px;
+    width:100%;
+    background-color:#618C7B;
+    margin:0;
+}
+.fbIcon{
+    color: #3b5998;
+}
+}

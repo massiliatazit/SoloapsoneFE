@@ -27,23 +27,31 @@ function Pin(props) {
       console.log("clean up");
     };
   }, []);
-  const savePin = async (id) => {
-    props.SetSavedPins(id);
+  const savePin = async (pin) => {
+    props.SetSavedPins(pin);
     setSaved(true);
   };
   const handlePinClick = (id) => {
     history.push(`/${id}`);
   };
 
+  //console.log(props.pins.find((pin) => pin.id === props.id));
+
   return (
     <Wrapper>
-      {props.pins.length > 0 && (
+      {props.pin && (
         <Container onClick={() => handlePinClick(props.id)}>
           <img src={props.urls.regular} alt="pin" />
 
-          <button className="btn mt-4" onClick={() => savePin(props.id)}>
-            Save
-          </button>
+          {pinsaved ? (
+            <button className="btn mt-4" onClick={() => savePin(props.pin)}>
+              Saved
+            </button>
+          ) : (
+            <button className="btn mt-4" onClick={() => savePin(props.pin)}>
+              Save
+            </button>
+          )}
 
           <ModelFoot>
             <Destination className="ml-3 py-0">
@@ -105,6 +113,7 @@ const Container = styled.div`
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 16px;
     cursor: zoom-in;
+    opacity: 0.5;
   }
   img {
     display: flex;
@@ -116,6 +125,7 @@ const Container = styled.div`
     transition-duration: 0.3s;
     display: block;
   }
+
   .btn {
     position: absolute;
     top: 0;

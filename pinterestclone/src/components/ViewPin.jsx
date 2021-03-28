@@ -242,19 +242,18 @@ function ViewPin(props) {
                         </button>
                         <PopupPostNewComment>
                           <div className="left">
-                            <IconButton>
-                              <img
-                                src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
-                                alt=""
-                                srcSet=""
-                                height="48"
-                                style={{
-                                  borderRadius: "50%",
-                                  objectFit: "cover",
-                                  marginRight: 8,
-                                }}
-                              />
-                            </IconButton>
+                            <img
+                              src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+                              alt=""
+                              srcSet=""
+                              height="48"
+                              style={{
+                                borderRadius: "50%",
+                                objectFit: "cover",
+                                marginRight: 8,
+                              }}
+                            />
+
                             <input
                               type="text"
                               placeholder="Add a comment..."
@@ -264,14 +263,23 @@ function ViewPin(props) {
                               }
                             />
                           </div>
-                          <div className="right">
+
+                          <div>
+                            {" "}
                             <button
-                              disabled={commentInput.length === 0}
+                              ClassName="m-5 right"
+                              // disabled={commentInput.length === 0}
                               onClick={postCommentHandler}
                             >
                               Post
                             </button>
                           </div>
+                          {/* <button
+                            // disabled={commentInput.length === 0}
+                            onClick={postCommentHandler}
+                          >
+                            Cancel
+                          </button> */}
                         </PopupPostNewComment>
                       </>
                     )}
@@ -406,6 +414,7 @@ const Likes = styled.div`
 const PopupPostNewComment = styled.div`
   display: flex;
   align-items: center;
+  flex-direction:column;
   justify-content: space-between;
    border-top: 1px solid grey;
   padding: 12px 10px;
@@ -438,9 +447,14 @@ const PopupPostNewComment = styled.div`
     }
   }
   button {
-    background-color: transparent;
+    margin-top:14px;
+    margin-left:50;
+   border-radius: 30px;
+    background-color: #efefef;
     border: none;
     font-size: 14px;
     font-weight: 600;
-    color: lightblue;
+    color: black;
+    min-height: 40px;
+    min-width: 60px;
 `;

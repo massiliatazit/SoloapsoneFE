@@ -20,6 +20,7 @@ function ViewPin(props) {
   const [ShowComments, SetShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [commentInput, setCommentInput] = useState("");
 
   const { id } = props.match.params;
   const getPinsById = async () => {
@@ -52,6 +53,10 @@ function ViewPin(props) {
     if (response && response.length > 0) {
       setComments(response);
     }
+  };
+  const postCommentHandler = () => {
+    setCommentInput("");
+    postComment(commentInput);
   };
   return (
     <>
@@ -235,6 +240,39 @@ function ViewPin(props) {
                         >
                           Comments
                         </button>
+                        <PopupPostNewComment>
+                          <div className="left">
+                            <IconButton>
+                              <img
+                                src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+                                alt=""
+                                srcSet=""
+                                height="48"
+                                style={{
+                                  borderRadius: "50%",
+                                  objectFit: "cover",
+                                  marginRight: 8,
+                                }}
+                              />
+                            </IconButton>
+                            <input
+                              type="text"
+                              placeholder="Add a comment..."
+                              value={commentInput}
+                              onChange={(event) =>
+                                setCommentInput(event.target.value)
+                              }
+                            />
+                          </div>
+                          <div className="right">
+                            <button
+                              disabled={commentInput.length === 0}
+                              onClick={postCommentHandler}
+                            >
+                              Post
+                            </button>
+                          </div>
+                        </PopupPostNewComment>
                       </>
                     )}
                   </div>
@@ -364,4 +402,45 @@ const Likes = styled.div`
   background-size: cover;
   height: 19px;
   width: 19px;
+`;
+const PopupPostNewComment = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+   border-top: 1px solid grey;
+  padding: 12px 10px;
+  .left {
+    display: flex;
+    align-items: center;
+   input{
+     flex: 1;
+     border-radius:26px;
+     border:1px solid grey;
+     width: 100%;
+     height:48px;
+  :focus {
+    outline: none;
+  }
+      ::placeholder {
+        color: black;
+        font-size: 14px;
+        padding:10px
+      }
+    } 
+    }
+  }
+  .right {
+    button {
+      text-align: right;
+      :disabled {
+        opacity: 0.4;
+      }
+    }
+  }
+  button {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: lightblue;
 `;

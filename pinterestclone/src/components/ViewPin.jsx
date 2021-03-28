@@ -43,13 +43,13 @@ function ViewPin(props) {
     SetShowComments(!ShowComments);
   };
   const postComment = async (text) => {
-    const response = await postFunction("comments/" + pins.id, { text: text });
+    const response = await postFunction("/comments/" + pins.id, { text: text });
     if (response) {
       getComments();
     }
   };
   const getComments = async () => {
-    const response = await getFunction("comments/" + pins.id);
+    const response = await getFunction("/comments/" + pins.id);
     if (response && response.length > 0) {
       setComments(response);
     }
@@ -241,7 +241,7 @@ function ViewPin(props) {
                           Comments
                         </button>
                         <PopupPostNewComment>
-                          <div className="left">
+                          <div className="left d-flex justify-content-start">
                             <img
                               src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
                               alt=""
@@ -267,8 +267,8 @@ function ViewPin(props) {
                           <div>
                             {" "}
                             <button
-                              ClassName="m-5 right"
-                              // disabled={commentInput.length === 0}
+                              className="post"
+                              //disabled={commentInput.length === 0}
                               onClick={postCommentHandler}
                             >
                               Post
@@ -446,9 +446,9 @@ const PopupPostNewComment = styled.div`
       }
     }
   }
-  button {
-    margin-top:14px;
-    margin-left:50;
+  .post {
+    margin-top:8px;
+    margin-left:250%;
    border-radius: 30px;
     background-color: #efefef;
     border: none;

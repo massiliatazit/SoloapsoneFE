@@ -5,6 +5,7 @@ import Pin from "./Pin";
 import { postFunction, getFunction } from "../api/index";
 import CreatePinCard from "./CreatePinCard";
 import "./home.css";
+import Loaders from "./Loaders/Loaders";
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
@@ -38,7 +39,7 @@ function Home(props) {
 
   return (
     <Wrapper>
-      {pins.length > 0 && (
+      {pins.length > 0 ? (
         <Container className="home-container">
           <CreatePinCard />
           {pins.map((pin, index) => {
@@ -47,6 +48,8 @@ function Home(props) {
             return <Pin key={index} urls={urls} pin={pin} id={id} />;
           })}
         </Container>
+      ) : (
+        <Loaders />
       )}
     </Wrapper>
   );

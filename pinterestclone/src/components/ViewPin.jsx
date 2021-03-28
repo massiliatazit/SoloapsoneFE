@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loaders from "./Loaders/Loaders";
-
+import { postFunction, getFunction } from "../api";
 import unsplash from "../api/unsplash";
 import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,6 +17,9 @@ function ViewPin(props) {
   const [loading, Setloading] = useState(false);
   const [pinsaved, setSaved] = useState(false);
   const [pins, setPins] = useState([]);
+  const [ShowComments, SetShowComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
 
   const { id } = props.match.params;
   const getPinsById = async () => {
@@ -34,6 +37,21 @@ function ViewPin(props) {
   const savePin = async (pin) => {
     props.SetSavedPins(pin);
     setSaved(true);
+  };
+  const SeeComments = () => {
+    SetShowComments(!ShowComments);
+  };
+  const postComment = async (text) => {
+    const response = await postFunction("comments/" + pins.id, { text: text });
+    if (response) {
+      getComments();
+    }
+  };
+  const getComments = async () => {
+    const response = await getFunction("comments/" + pins.id);
+    if (response && response.length > 0) {
+      setComments(response);
+    }
   };
   return (
     <>
@@ -129,47 +147,96 @@ function ViewPin(props) {
                           verticalAlign: "middle",
                         }}
                       >
-                        <img
-                          src={pins.user.profile_image.medium}
-                          alt=""
-                          srcSet=""
-                          height="100%"
-                          style={{ borderRadius: "50%", objectFit: "cover" }}
-                        />
+                        <div className="d-flex flex-column">
+                          <img
+                            src={pins.user.profile_image.medium}
+                            alt=""
+                            srcSet=""
+                            height="100%"
+                            style={{ borderRadius: "50%", objectFit: "cover" }}
+                          />
+                          <Likes className="my-3 ml-3">
+                            <span className="ml-4 ">{pins.likes}</span>
+                          </Likes>
+                        </div>
                       </div>
                       <p className="mt-3 ml-4">{pins.user.first_name}</p>
                     </div>
                   </div>
                   <div>
-                    <button
-                      style={{
-                        width: "100px",
-                        backgroundColor: "white",
-                        border: "none",
-                        borderBottom: "2px solid",
-                      }}
-                    >
-                      Photos
-                    </button>
-                    <button
-                      style={{
-                        width: "100px",
-                        backgroundColor: "white",
-                        border: "none",
-                        marginLeft: "20px",
-                        color: "grey",
-                      }}
-                    >
-                      Comments
-                    </button>
-                  </div>
-                  <div className="d-flex ">
-                    <div style={{ margin: "10px" }}>
-                      Tried this Pin?
-                      <br />
-                      Add a photo to show how it went
-                    </div>
-                    <GreyBtn>Add Photo</GreyBtn>
+                    {!ShowComments ? (
+                      <>
+                        {" "}
+                        <button
+                          onClick={() => {
+                            SeeComments();
+                          }}
+                          className="active"
+                          style={{
+                            width: "100px",
+                            backgroundColor: "white",
+                            border: "none",
+                            borderBottom: "2px solid",
+                          }}
+                        >
+                          Photos
+                        </button>
+                        <button
+                          onClick={() => {
+                            SeeComments();
+                          }}
+                          style={{
+                            width: "100px",
+                            backgroundColor: "white",
+                            border: "none",
+                            marginLeft: "20px",
+                            color: "grey",
+                            borderBottom: "none",
+                          }}
+                        >
+                          Comments
+                        </button>
+                        <div className="d-flex " style={{ margin: "20px" }}>
+                          <div>
+                            Tried this Pin?
+                            <br />
+                            Add a photo to show how it went
+                          </div>
+                          <GreyBtn>Add Photo</GreyBtn>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => {
+                            SeeComments();
+                          }}
+                          style={{
+                            width: "100px",
+                            backgroundColor: "white",
+                            border: "none",
+                            color: "grey",
+                          }}
+                        >
+                          Photos
+                        </button>
+                        <button
+                          onClick={() => {
+                            SeeComments();
+                          }}
+                          style={{
+                            width: "100px",
+                            backgroundColor: "white",
+                            border: "none",
+                            marginLeft: "20px",
+                            color: "black",
+                            borderBottom: "2px solid",
+                          }}
+                        >
+                          Comments
+                        </button>
+                      </>
+                    )}
                   </div>
                 </Details>
               </div>
@@ -207,9 +274,25 @@ function ViewPin(props) {
                             src={pinrelated.cover_photo.urls.regular}
                             alt="pin"
                           />
-                          <h3 style={{ margin: "10px" }}>
-                            Photo by {pinrelated.cover_photo.user.username}
-                          </h3>
+                          <div className="d-flex flex-column justify-content-start">
+                            <h6 style={{ margin: "10px" }}>
+                              {pinrelated.title}
+                            </h6>
+                            <div>
+                              <img
+                                src={pinrelated.user.profile_image.small}
+                                alt=""
+                                srcSet=""
+                                height="100%"
+                                style={{
+                                  borderRadius: "50%",
+                                  objectFit: "cover",
+                                  marginRight: 15,
+                                }}
+                              />
+                              <span>{pinrelated.user.username}</span>
+                            </div>
+                          </div>
                         </ImagerelatedPins>
                       </>
                     ))}
@@ -274,4 +357,11 @@ const Details = styled.div`
   & > div {
     margin-bottom: 30px;
   }
+`;
+const Likes = styled.div`
+  background-image: url(https://s.pinimg.com/webapp/love-c31e0b8d.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 19px;
+  width: 19px;
 `;

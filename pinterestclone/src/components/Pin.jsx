@@ -40,9 +40,14 @@ function Pin(props) {
   return (
     <Wrapper>
       {props.pin && (
-        <Container onClick={() => handlePinClick(props.id)}>
-          <img src={props.urls.regular} alt="pin" />
-
+        <Container>
+          <div>
+            <img
+              src={props.urls.regular}
+              alt="pin"
+              onClick={() => handlePinClick(props.id)}
+            />
+          </div>
           {pinsaved ? (
             <button className="btn mt-4" onClick={() => savePin(props.pin)}>
               Saved
@@ -57,7 +62,7 @@ function Pin(props) {
             <Destination className="ml-3 py-0">
               <IconButton>
                 <LaunchIcon />
-                <span>destination</span>
+                {/* <span>destination</span> */}
               </IconButton>
             </Destination>
             <IconButton>
@@ -99,33 +104,35 @@ const Container = styled.div`
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  :before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0);
-  }
-  :hover::before {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 16px;
-    cursor: zoom-in;
-    opacity: 0.5;
-  }
+  // :before {
+  //   content: "";
+  //   position: absolute;
+  //   width: 100%;
+  //   height: 100%;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   background-color: rgba(0, 0, 0, 0);
+  // }
+  // :hover::before {
+  //   // background-color: rgba(0, 0, 0, 0.2);
+  //   border-radius: 16px;
+  //   cursor: zoom-in;
+  //   ovisibility: hidden;
+  // }
   img {
     display: flex;
     width: 100%;
-    cursor: zoom-in;
+
     border-radius: 16px;
     object-fit: cover;
-    opacity: 1;
+    visibility: visible;
     transition-duration: 0.3s;
     display: block;
   }
-
+  img:hover {
+    cursor: zoom-in;
+  }
   .btn {
     position: absolute;
     top: 0;
@@ -145,9 +152,11 @@ const Container = styled.div`
     transform: translate(-30%, -30%);
     -ms-transform: translate(-50%, -50%);
     opacity: 0;
+    visibility: hidden;
   }
   :hover button {
     opacity: 1;
+    visibility: visible;
   }
 `;
 const ModelFoot = styled.div`
@@ -167,7 +176,7 @@ const ModelFoot = styled.div`
   }
 `;
 const Destination = styled.div`
-  width: 122px;
+  width: 110px;
   height: 30px;
   border-radius: 18px;
  

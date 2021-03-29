@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Header from "./Headers/Header";
 import { connect } from "react-redux";
 import Pin from "./Pin";
 import { postFunction, getFunction } from "../api/index";
 import CreatePinCard from "./CreatePinCard";
 import "./home.css";
 import Loaders from "./Loaders/Loaders";
+import { Row, Container } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
@@ -30,7 +32,6 @@ function Home(props) {
     setLoading(false);
   };
   useEffect(() => {
-    console.log("ented useEffect");
     getUser();
 
     // setLogged(true);
@@ -38,20 +39,26 @@ function Home(props) {
   }, []);
 
   return (
-    <Wrapper>
-      {pins.length > 0 ? (
-        <Container className="home-container">
-          <CreatePinCard />
-          {pins.map((pin, index) => {
-            const { urls, id } = pin;
+    <>
+      <Header onSubmit={props.onSubmit} />
+      <Wrapper>
+        {pins.length > 0 ? (
+          <Container fluid>
+            <Row>
+              {" "}
+              <CreatePinCard />
+              {pins.map((pin, index) => {
+                const { urls, id } = pin;
 
-            return <Pin key={index} urls={urls} pin={pin} id={id} />;
-          })}
-        </Container>
-      ) : (
-        <Loaders />
-      )}
-    </Wrapper>
+                return <Pin key={index} urls={urls} pin={pin} id={id} />;
+              })}
+            </Row>
+          </Container>
+        ) : (
+          <Loaders />
+        )}
+      </Wrapper>
+    </>
   );
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
@@ -63,10 +70,10 @@ const Wrapper = styled.div`
   margin-top: 15px;
   justify-content: center;
 `;
-const Container = styled.div`
-  margin: 0 auto;
-  height: 100%;
-  width: calc(100% - 20vw);
+// const Container = styled.div`
+//   margin: 0 auto;
+//   height: 100%;
+//   width: calc(100% - 20vw);
 
-  background-color: white;
-`;
+//   background-color: white;
+// `;

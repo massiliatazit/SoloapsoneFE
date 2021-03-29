@@ -241,7 +241,7 @@ function ViewPin(props) {
                           Comments
                         </button>
                         <PopupPostNewComment>
-                          <div className="left d-flex justify-content-start">
+                          <CommentsContainer className="left">
                             <img
                               src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
                               alt=""
@@ -262,7 +262,7 @@ function ViewPin(props) {
                                 setCommentInput(event.target.value)
                               }
                             />
-                          </div>
+                          </CommentsContainer>
 
                           <div>
                             {" "}
@@ -413,16 +413,16 @@ const Likes = styled.div`
 `;
 const PopupPostNewComment = styled.div`
   display: flex;
-  align-items: center;
-  flex-direction:column;
-  justify-content: space-between;
+  // align-items: center;
+  // flex-direction:column;
+  // justify-content: space-between;
    border-top: 1px solid grey;
   padding: 12px 10px;
   .left {
     display: flex;
     align-items: center;
    input{
-     flex: 1;
+    //  flex: 1;
      border-radius:26px;
      border:1px solid grey;
      width: 100%;
@@ -448,7 +448,7 @@ const PopupPostNewComment = styled.div`
   }
   .post {
     margin-top:8px;
-    margin-left:250%;
+    margin-left:20%;
    border-radius: 30px;
     background-color: #efefef;
     border: none;
@@ -457,4 +457,9 @@ const PopupPostNewComment = styled.div`
     color: black;
     min-height: 40px;
     min-width: 60px;
+`;
+const CommentsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
 `;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Header from "./components/Header";
+
 import Home from "./components/Home";
 import 'animate.css'
 import Signup from "./components/Signup/Signup"
@@ -13,7 +13,7 @@ import SavedPinsPage from "./components/SavedPinsPage";
 import ViewPin from "./components/ViewPin";
 import PinBuilder from "./components/PinBuilder";
 
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./components/LoginPage/LoginPage";
 
 const mapStateToProps = (state) => state;
 
@@ -28,7 +28,7 @@ function App(props) {
   const {loading}=props.status
   const getImageOnSearch = (term) => {
     return unsplash.get("https://api.unsplash.com/search/photos", {
-      params: { query: term },
+      params: { query: term,h:300 },
     });
   };
   
@@ -80,11 +80,11 @@ function App(props) {
     <Router>
       {/* {!(loading || props.errors.show) ? ( */}
         
-      <Route path="/" ><Header onSubmit={onSearchSubmit} /></Route>
+     
       <Switch>
-        <Route path="/homefeed">
+        <Route path="/homefeed" >
          
-          <Home pins={pins} />
+          <Home pins={pins} onSubmit={onSearchSubmit}/>
         </Route>
        
         <Route path="/PinBuilder" render={() => <PinBuilder />}></Route>

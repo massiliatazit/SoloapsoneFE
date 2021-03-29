@@ -3,7 +3,7 @@ import React, { useMemo, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import styled from "styled-components";
-
+import { postFunction, putMediaFunction } from "../api";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 const mapStateToProps = (state) => state;
@@ -19,7 +19,33 @@ function PostPostModal(props) {
 
   const [newPostImage, setNewPostImage] = useState();
   const [isImageSelected, setIsImageSelected] = useState(false);
+  const newPostImageUploadHandler = (picture) => {
+    if (newPostImage === null) setNewPostImage({ pictures: picture });
+    setIsImageSelected(true);
+  };
+  const resetHandler = () => {
+    setNewPostImage();
+    setIsImageSelected(false);
+  };
+  const postImage = async (id) => {
+    const formData = new FormData();
+    formData.append("image", newPostImage[0]);
+    const postMedia = await putMediaFunction(
+      "/pins/" + id + "/picture",
+      formData
+    );
 
+    if (postMedia._id) {
+      window.location.replace("/");
+    }
+  };
+  const postpin = async () => {
+    const response = await postFunction("/pins/", { title: title });
+    console.log(response);
+    if (response && response.pin) {
+      postImage(response.pin._id);
+    }
+  };
   return (
     <AddPinModal>
       <AddPinContainer>
@@ -51,11 +77,17 @@ function PostPostModal(props) {
                 name="upload_img"
                 id="upload_img"
                 value=""
+                maxFileSize={5242880}
+                singleImage={true}
+                withPreview={true}
+                withLabel={false}
+                onChange={(image) => setNewPostImage(image)}
+                imgExtension={[".jpg", ".gif", ".png", ".gif"]}
               ></input>
             </label>
             <ModalPin>
               <PinImage>
-                <img onLoad="" src="" alt="pin_image" />
+                <img onLoad="" src={newPostImage} alt="pin_image" />
               </PinImage>
             </ModalPin>
           </Section2>
@@ -72,7 +104,7 @@ function PostPostModal(props) {
                 <option value="medium">medium</option>
                 <option value="large">large</option>
               </select>
-              <SavePin>Save</SavePin>
+              <SavePin onClick={postpin}>Save</SavePin>
             </SelectSize>
           </RSection1>
           <RSection2>
@@ -81,6 +113,8 @@ function PostPostModal(props) {
               type="text"
               className="new_pin_input"
               id="pin_title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <Userdetails>
               <img
@@ -94,6 +128,8 @@ function PostPostModal(props) {
               type="text"
               className="new_pin_input"
               id="pin_description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <input
               placeholder="Add a destination link"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import unsplash from "../api/unsplash";
+import Header from "./Headers/Header";
 import { connect } from "react-redux";
-import Card from "./Card";
+
 import "../styles/index.css";
 import styled from "styled-components";
 import { Row, Col, Container } from "react-bootstrap";
@@ -21,6 +21,7 @@ function SavedPinsPage(props) {
   }, []);
   return (
     <>
+      <Header />
       <Container className=" px-4 mb-5 d-flex  flex-column justify-content-center align-items-center">
         <CenteredContainer>
           {pins.length > 0 && (
@@ -79,7 +80,7 @@ function SavedPinsPage(props) {
         <Row>
           <Col>
             <div
-              style={{ width: "100%", textAlign: "center", marginTop: "215%" }}
+              style={{ width: "100%", textAlign: "center", marginTop: "240%" }}
             >
               <img
                 src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"

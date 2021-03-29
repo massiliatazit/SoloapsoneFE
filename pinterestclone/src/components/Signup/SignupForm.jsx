@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import "../../styles/signup.css";
+import "./signup.css";
 import { postFunction } from "../../api";
 import { FaFacebook } from "react-icons/fa";
 const SignupForm = () => {

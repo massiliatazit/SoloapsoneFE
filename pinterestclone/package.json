@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
     "animate.css": "^4.1.1",
+    "antd": "^4.15.0",
     "aos": "^2.3.4",
     "bootstrap": "^4.6.0",
     "lodash": "^4.17.21",

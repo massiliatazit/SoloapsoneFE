@@ -454,32 +454,32 @@ header nav .buttons .signup {
 }
 
 .column:nth-child(2) {
-  margin-top: 160px;
+  margin-top: 100px;
   -webkit-transition-delay: 0.2s;
   transition-delay: 0.2s;
 }
 
 .column:nth-child(3) {
-  margin-top: 320px;
+  margin-top: 180px;
   -webkit-transition-delay: 0.4s;
   transition-delay: 0.4s;
 }
 
 .column:nth-child(4) {
-  margin-top: 50px;
+  margin-top: 300px;
   
   -webkit-transition-delay: 0.6s;
   transition-delay: 0.6s;
 }
 
 .column:nth-child(5) {
-  margin-top: 320px;
+  margin-top: 180px;
   -webkit-transition-delay: 0.8s;
   transition-delay: 0.8s;
 }
 
 .column:nth-child(6) {
-  margin-top: 160px;
+  margin-top: 100px;
   -webkit-transition-delay: 1s;
   transition-delay: 1s;
 }

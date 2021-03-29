@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Col } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 function CreatePinCard(props) {
   let history = useHistory();
@@ -9,23 +10,25 @@ function CreatePinCard(props) {
     history.push("/PinBuilder");
   }
   return (
-    <Wrapper>
-      <CreatePin>
-        <img
-          src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
-          alt=""
-        ></img>
-        <h3>{props.user.username}</h3>
-        <p>
-          {" "}
-          <span>0</span> Monthly views
-        </p>
-        <SponsorButton>Sponsor</SponsorButton>
-        <CreatePinButton type="button" onClick={handleClick}>
-          Create a pin
-        </CreatePinButton>
-      </CreatePin>
-    </Wrapper>
+    <Col>
+      <Wrapper>
+        <CreatePin>
+          <img
+            src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+            alt=""
+          ></img>
+          <h3>{props.user.username}</h3>
+          <p>
+            {" "}
+            <span>0</span> Monthly views
+          </p>
+          <SponsorButton>Sponsor</SponsorButton>
+          <CreatePinButton type="button" onClick={handleClick}>
+            Create a pin
+          </CreatePinButton>
+        </CreatePin>
+      </Wrapper>
+    </Col>
   );
 }
 

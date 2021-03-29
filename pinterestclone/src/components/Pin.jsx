@@ -5,6 +5,7 @@ import LaunchIcon from "@material-ui/icons/Launch";
 import IconButton from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { Col } from "react-bootstrap";
 import { postFunction, getFunction } from "../api/index";
 import { useHistory } from "react-router-dom";
 import { pink } from "@material-ui/core/colors";
@@ -38,57 +39,60 @@ function Pin(props) {
   //console.log(props.pins.find((pin) => pin.id === props.id));
 
   return (
-    <Wrapper>
-      {props.pin && (
-        <Container>
-          <div>
-            <img
-              src={props.urls.regular}
-              alt="pin"
-              onClick={() => handlePinClick(props.id)}
-            />
-          </div>
-          {pinsaved ? (
-            <button className="btn mt-4" onClick={() => savePin(props.pin)}>
-              Saved
-            </button>
-          ) : (
-            <button className="btn mt-4" onClick={() => savePin(props.pin)}>
-              Save
-            </button>
-          )}
+    <Col xs={6} md={2}>
+      {" "}
+      <Wrapper>
+        {props.pin && (
+          <Container>
+            <div>
+              <img
+                src={props.urls.regular}
+                alt="pin"
+                onClick={() => handlePinClick(props.id)}
+              />
+            </div>
+            {pinsaved ? (
+              <button className="btn mt-4" onClick={() => savePin(props.pin)}>
+                Saved
+              </button>
+            ) : (
+              <button className="btn mt-4" onClick={() => savePin(props.pin)}>
+                Save
+              </button>
+            )}
 
-          <ModelFoot>
-            <Destination className="ml-3 py-0">
+            <ModelFoot>
+              <Destination className="ml-3 py-0">
+                <IconButton>
+                  <LaunchIcon />
+                  {/* <span>destination</span> */}
+                </IconButton>
+              </Destination>
               <IconButton>
-                <LaunchIcon />
-                {/* <span>destination</span> */}
+                <ShareIcon
+                  style={{
+                    backgroundColor: "#f0f0f0",
+                    borderRadius: "50%",
+                    padding: "4px",
+                  }}
+                />
               </IconButton>
-            </Destination>
-            <IconButton>
-              <ShareIcon
-                style={{
-                  backgroundColor: "#f0f0f0",
-                  borderRadius: "50%",
-                  padding: "4px",
-                }}
-              />
-            </IconButton>
-            <IconButton>
-              <MoreHorizIcon
-                style={{
-                  backgroundColor: "#f0f0f0",
-                  borderRadius: "50%",
-                  padding: "4px",
-                  marginRight: "22px",
-                  padding: "0",
-                }}
-              />
-            </IconButton>
-          </ModelFoot>
-        </Container>
-      )}
-    </Wrapper>
+              <IconButton>
+                <MoreHorizIcon
+                  style={{
+                    backgroundColor: "#f0f0f0",
+                    borderRadius: "50%",
+                    padding: "4px",
+                    marginRight: "22px",
+                    padding: "0",
+                  }}
+                />
+              </IconButton>
+            </ModelFoot>
+          </Container>
+        )}
+      </Wrapper>
+    </Col>
   );
 }
 
@@ -123,7 +127,7 @@ const Container = styled.div`
   img {
     display: flex;
     width: 100%;
-
+    height: 300px;
     border-radius: 16px;
     object-fit: cover;
     visibility: visible;

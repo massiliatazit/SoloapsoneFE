@@ -76,12 +76,14 @@ function PostPostModal(props) {
                 type="file"
                 name="upload_img"
                 id="upload_img"
-                value=""
                 maxFileSize={5242880}
                 singleImage={true}
                 withPreview={true}
                 withLabel={false}
-                onChange={(image) => setNewPostImage(image)}
+                onChange={(event) => {
+                  console.log(event.target.files);
+                  //setNewPostImage(image);
+                }}
                 imgExtension={[".jpg", ".gif", ".png", ".gif"]}
               ></input>
             </label>

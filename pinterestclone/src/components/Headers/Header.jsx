@@ -17,6 +17,7 @@ function Header(props) {
   let history = useHistory();
 
   const [input, setInput] = useState("");
+  // const [showInbox, SetshowInbox] = useState(false);
   const [showDropdown, setDropdown] = useState(false);
   const [animatePanel, setAnimatePanel] = useState(false);
   const [currentPage, setCurrentPage] = useState(location.pathname);
@@ -24,6 +25,9 @@ function Header(props) {
     e.preventDefault();
     props.onSubmit(input);
   };
+  // const handleShowInbox = () => {
+  //   SetshowInbox(!showInbox);
+  // };
   const handleShowSavedPins = (username) => {
     history.push(`/${username}/created`);
   };
@@ -78,7 +82,12 @@ function Header(props) {
           <NotificationsIcon />
         </IconButton>
         <IconButton>
-          <TextsmsIcon />
+          {/* <TextsmsIcon
+            onClick={() => {
+              handleShowInbox();
+            }}
+          /> */}
+          <Inbox />
         </IconButton>
 
         <IconButton>
@@ -101,7 +110,6 @@ function Header(props) {
         <IconButton onClick={toggleProfileDropdownHandler}>
           <KeyboardArrowDownIcon />
         </IconButton>
-        {/* )} */}
       </IconsWrapper>
     </Wrapper>
   );

@@ -50,7 +50,7 @@ function App(props) {
   const getNewPins = () => {
     let promises = [];
     let pinData = [];
-    let pins = ["food", "plants", "sahara", "cars", "travel", "heals", "nature","fantasy","books","flowers"];
+    let pins = ["food", "plants", "sahara", "yellow", "travel", "art", "nature","stars","books","flowers","manicure"];
     pins.forEach((pinTerm) => {
       promises.push(
         getImageOnSearch(pinTerm).then((res) => {

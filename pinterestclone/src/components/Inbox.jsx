@@ -3,12 +3,17 @@ import styled from "styled-components";
 import "antd/dist/antd.css";
 import { Drawer } from "antd";
 
+import TextsmsIcon from "@material-ui/icons/Textsms";
+
 const Icon = styled.img`
   padding: 12px;
-  height: 50px;
+  height: 48px;
   opacity: 0.6;
-  margin-left: 5px;
+  margin-left: 0px;
   border-radius: 50%;
+  color: #767676;
+  fill: currentColor;
+
   &:hover {
     background-color: #eee;
     cursor: pointer;
@@ -17,6 +22,7 @@ const Icon = styled.img`
 const InboxWrapper = styled.div`
   padding: 8px;
   font-weight: 500;
+
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -37,6 +43,29 @@ const InboxWrapper = styled.div`
       "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
       "Helvetica Neue", sans-serif;
     font-weight: 600;
+  }
+`;
+const MessageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  padding: 8px;
+  bottom: 0;
+  input {
+    border-radius: 26px;
+    border: 1px solid grey;
+    min-width: 70%;
+    height: 48px;
+
+    :focus {
+      outline: none;
+    }
+    ::placeholder {
+      color: black;
+      font-size: 14px;
+      padding: 10px;
+    }
   }
 `;
 const Search = styled.input`
@@ -93,19 +122,16 @@ const Inbox = () => {
   return (
     <>
       <div onClick={showDrawer}>
-        <Icon
-          src="https://www.flaticon.com/svg/static/icons/svg/684/684849.svg"
-          alt="Inbox"
-        />
+        <TextsmsIcon />
       </div>
       <Drawer
         title="Inbox"
-        style={{ textAlign: "center" }}
+        style={{ textAlign: "center", overflow: "hidden" }}
         placement="right"
         closable={false}
         onClose={onClose}
         visible={visible}
-        width={350}
+        width={380}
       >
         <h1>Share Ideas With Your Friends</h1>
         <InboxWrapper>
@@ -121,45 +147,56 @@ const Inbox = () => {
         <PersonWrap>
           <Person>
             <img
-              src="https://i.pinimg.com/236x/8a/72/19/8a72196d76ff6c2f42a49fc65b67d8fc.jpg"
+              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
               alt=""
               style={{ height: "40px", borderRadius: "25px" }}
             />
           </Person>
           <a href="">
             <div>
-              <h3>Margestivu</h3>
+              <h3>following 1</h3>
             </div>
           </a>
         </PersonWrap>
         <PersonWrap>
           <Person>
             <img
-              src="https://i.pinimg.com/236x/72/ac/45/72ac455e393eed9b22d4f0dd0fb19323.jpg"
+              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
               alt=""
               style={{ height: "40px", borderRadius: "25px" }}
             />
           </Person>
           <a href="">
             <div>
-              <h3>Hellen Margret</h3>
+              <h3>following 2</h3>
             </div>
           </a>
         </PersonWrap>
         <PersonWrap>
           <Person>
             <img
-              src="https://i.pinimg.com/236x/0f/7d/c4/0f7dc42e7fd48ac880e2b137e427bdf8.jpg"
+              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
               alt=""
               style={{ height: "40px", borderRadius: "25px" }}
             />
           </Person>
           <a href="">
             <div>
-              <h3>Suryan</h3>
+              <h3>following 3</h3>
             </div>
           </a>
         </PersonWrap>
+        <MessageContainer>
+          <Icon
+            src="https://www.flaticon.com/svg/vstatic/svg/889/889668.svg?token=exp=1617026404~hmac=4eecd80899885377e7f4b19eed96ccd3"
+            alt="Inbox"
+          />
+          <input type="text" placeholder="Send a Message..." />
+          <Icon
+            src="https://www.flaticon.com/svg/vstatic/svg/1216/1216811.svg?token=exp=1617027163~hmac=ab929926b14466b1567071f2bb298860"
+            alt="Inbox"
+          />
+        </MessageContainer>
       </Drawer>
     </>
   );

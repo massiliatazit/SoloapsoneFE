@@ -139,7 +139,7 @@ function ViewPin(props) {
                       <h6 className="mt-4" style={{ fontWeight: 600 }}>
                         {pins.description}
                       </h6>
-                      <GreyBtn className="mt-2">Follow</GreyBtn>
+                      <GreyBtn className="mt-2 ">Follow</GreyBtn>
                     </div>
                   </div>
                   <div>
@@ -202,7 +202,7 @@ function ViewPin(props) {
                           Comments
                         </button>
                         <div className="d-flex " style={{ margin: "20px" }}>
-                          <div>
+                          <div style={{ marginRight: "20px" }}>
                             Tried this Pin?
                             <br />
                             Add a photo to show how it went
@@ -370,6 +370,7 @@ const GreyBtn = styled.button`
   border: none;
   min-width: 60px;
   max-height:53px
+
   margin-right: 10px;
   border-radius: 30px;
   font-weight: 700;
@@ -413,10 +414,11 @@ const Likes = styled.div`
 `;
 const PopupPostNewComment = styled.div`
   display: flex;
+  margin-top: 25px;
   // align-items: center;
   // flex-direction:column;
   // justify-content: space-between;
-   border-top: 1px solid grey;
+  
   padding: 12px 10px;
   .left {
     display: flex;

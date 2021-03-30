@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import styled from "styled-components";
 import { postFunction, putMediaFunction } from "../api";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { useHistory } from "react-router-dom";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 const mapStateToProps = (state) => state;
 
@@ -12,40 +13,48 @@ const mapDispatchToProps = (dispatch) => ({
   setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
   showErrors: (boolean) =>
     dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
+  SetCreatedPins: (pin) =>
+    dispatch({ type: "RECEIVE_PIN_WITH_CREATE", pin: pin }),
 });
 function PostPostModal(props) {
+  let history = useHistory();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
+  const [showLabel, setShowLabel] = useState(true);
+  const [showModalPin, setShowModalPin] = useState(false);
   const [newPostImage, setNewPostImage] = useState();
-  const [isImageSelected, setIsImageSelected] = useState(false);
-  const newPostImageUploadHandler = (picture) => {
-    if (newPostImage === null) setNewPostImage({ pictures: picture });
-    setIsImageSelected(true);
-  };
-  const resetHandler = () => {
-    setNewPostImage();
-    setIsImageSelected(false);
-  };
+
+  function showImagePin(e) {
+    setNewPostImage(e.currentTarget.files[0]);
+    setShowLabel(false);
+    setShowModalPin(true);
+  }
+
   const postImage = async (id) => {
     const formData = new FormData();
-    formData.append("image", newPostImage[0]);
+    formData.append("image", newPostImage);
     const postMedia = await putMediaFunction(
       "/pins/" + id + "/picture",
       formData
     );
 
     if (postMedia._id) {
-      window.location.replace("/");
+      props.SetCreatedPins(postMedia);
+      console.log(postMedia);
+      // window.location.replace("/massylialala/created");
     }
   };
   const postpin = async () => {
-    const response = await postFunction("/pins/", { title: title });
+    const response = await postFunction("/pins/", {
+      title: title,
+      description: description,
+    });
     console.log(response);
     if (response && response.pin) {
       postImage(response.pin._id);
     }
   };
+
   return (
     <AddPinModal>
       <AddPinContainer>
@@ -58,7 +67,13 @@ function PostPostModal(props) {
             </Iconsection1Container>
           </Section1>
           <Section2>
-            <label htmlFor="upload_img" id="upload_img_label">
+            <label
+              htmlFor="upload_img"
+              id="upload_img_label"
+              style={{
+                display: showLabel ? "block" : "none",
+              }}
+            >
               <UploadImageContainer>
                 <DotedBorder>
                   <Iconsection2Container>
@@ -80,16 +95,27 @@ function PostPostModal(props) {
                 singleImage={true}
                 withPreview={true}
                 withLabel={false}
-                onChange={(event) => {
-                  console.log(event.target.files);
-                  //setNewPostImage(image);
+                accept="image/*"
+                onChange={(e) => {
+                  showImagePin(e);
                 }}
                 imgExtension={[".jpg", ".gif", ".png", ".gif"]}
               ></input>
             </label>
-            <ModalPin>
+            <ModalPin
+              style={{
+                display: showModalPin ? "block" : "none",
+              }}
+            >
               <PinImage>
-                <img onLoad="" src={newPostImage} alt="pin_image" />
+                {newPostImage && (
+                  <img
+                    onLoad=""
+                    src={URL.createObjectURL(newPostImage)}
+                    alt="pin_image"
+                    id="pin_image"
+                  />
+                )}
               </PinImage>
             </ModalPin>
           </Section2>

@@ -9,14 +9,19 @@ import { RECEIVE_ALL_PINS,
 import merge from 'lodash/merge';
 
 // default pin state
-const pins = {};
+const pins = [];
 const pin = {
 title: "",
 description: "",
-url: "",
-image_url: "",
-user_id: "",
-board_id: ""
+link: "",
+images: "",
+views: "",
+comments:"",
+owner:"",
+categories:"",
+likes:"",
+liked_by_user:false,
+pinnedBy:"",
 };
 
 const PinsReducer = function(state = {pins, pin, errors: []}, action){

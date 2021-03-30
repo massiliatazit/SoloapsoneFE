@@ -68,10 +68,12 @@ export const putMediaFunction = async (endp, data) => {
       body: data,
       headers: new Headers({
         Authorization: "Bearer " + token,
+      
       }),
     });
     if (response.ok) {
-      return await response.json();
+     
+       return await response.json();
     } else {
       if (response.status === 401 && refreshToken) {
         const refetch = tokenRefresh(postFunction, endp, data);

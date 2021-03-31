@@ -10,7 +10,7 @@ function CreatePinCard(props) {
     history.push("/PinBuilder");
   }
   return (
-    <Col>
+    <Col xs={6} md={2}>
       <Wrapper>
         <CreatePin>
           <img

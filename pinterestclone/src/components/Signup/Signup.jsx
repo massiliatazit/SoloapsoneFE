@@ -19,7 +19,7 @@ function Signup(props) {
 
   const getPins = async () => {
     unsplash
-      .get(`https://api.unsplash.com/topics/houseplants`, {
+      .get(`https://api.unsplash.com/topics/animals`, {
         params: { quantity: 30 },
       })
       .then((res) => {
@@ -248,16 +248,20 @@ function Signup(props) {
             {[0, 1, 2, 3, 4, 5, 6].map((i) => (
               <div className="column animate-before">
                 {pins &&
-                  pins
-                    .sort(() => 0.5 - Math.random())
-                    .slice(0, 5)
-                    .map((pin) => (
-                      <img
-                        src={pin.urls.regular}
-                        className="item"
-                        alt="signupPins"
-                      />
-                    ))}
+                  Array.from(
+                    new Set(
+                      pins
+                        .sort(() => 0.4 - Math.random())
+                        .slice(0, 5)
+                        .map((pin) => (
+                          <img
+                            src={pin.urls.regular}
+                            className="item"
+                            alt="signupPins"
+                          />
+                        ))
+                    )
+                  )}
               </div>
             ))}
           </div>

@@ -18,167 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
   SetCreatedPins: (pin) =>
     dispatch({ type: "RECEIVE_PIN_WITH_CREATE", pin: pin }),
 });
-function PostPostModal(props) {
-  let history = useHistory();
-  const [showModal, setShowModal] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [showLabel, setShowLabel] = useState(true);
-  const [showModalPin, setShowModalPin] = useState(false);
-  const [newPostImage, setNewPostImage] = useState();
 
-  function showImagePin(e) {
-    setNewPostImage(e.currentTarget.files[0]);
-    setShowLabel(false);
-    setShowModalPin(true);
-  }
-
-  const postImage = async (id) => {
-    const formData = new FormData();
-    formData.append("image", newPostImage);
-    const postMedia = await putMediaFunction(
-      "/pins/" + id + "/picture",
-      formData
-    );
-
-    if (postMedia._id) {
-      props.SetCreatedPins(postMedia);
-      console.log(postMedia);
-      // window.location.replace("/massylialala/created");
-    }
-  };
-  const postpin = async () => {
-    const response = await postFunction("/pins/", {
-      title: title,
-      description: description,
-    });
-    console.log(response);
-    if (response && response.pin) {
-      postImage(response.pin._id);
-      setShowModal((prev) => !prev);
-    }
-  };
-
-  return (
-    <>
-      <AddPinModal>
-        <AddPinContainer>
-          <LeftSide>
-            <Section1>
-              <Iconsection1Container>
-                <IconButton>
-                  <MoreHorizIcon />
-                </IconButton>
-              </Iconsection1Container>
-            </Section1>
-            <Section2>
-              <label
-                htmlFor="upload_img"
-                id="upload_img_label"
-                style={{
-                  display: showLabel ? "block" : "none",
-                }}
-              >
-                <UploadImageContainer>
-                  <DotedBorder>
-                    <Iconsection2Container>
-                      <IconButton>
-                        <ArrowUpwardIcon />
-                      </IconButton>
-                    </Iconsection2Container>
-                    <div>Click to upload</div>
-                    <div>
-                      Recommendation: Use high-quality .jpg less than 20MB
-                    </div>
-                  </DotedBorder>
-                </UploadImageContainer>
-                <input
-                  type="file"
-                  name="upload_img"
-                  id="upload_img"
-                  maxFileSize={5242880}
-                  singleImage={true}
-                  withPreview={true}
-                  withLabel={false}
-                  accept="image/*"
-                  onChange={(e) => {
-                    showImagePin(e);
-                  }}
-                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                ></input>
-              </label>
-              <ModalPin
-                style={{
-                  display: showModalPin ? "block" : "none",
-                }}
-              >
-                <PinImage>
-                  {newPostImage && (
-                    <img
-                      onLoad=""
-                      src={URL.createObjectURL(newPostImage)}
-                      alt="pin_image"
-                      id="pin_image"
-                    />
-                  )}
-                </PinImage>
-              </ModalPin>
-            </Section2>
-            <Section3>
-              <SaveFromSite>Save from site</SaveFromSite>
-            </Section3>
-          </LeftSide>
-          <RightSide>
-            <RSection1>
-              <SelectSize>
-                <select defaultValue="Select" name="pin_size" id="pin_size">
-                  <option value="">Select</option>
-                  <option value="small">small</option>
-                  <option value="medium">medium</option>
-                  <option value="large">large</option>
-                </select>
-                <SavePin onClick={postpin}>Save</SavePin>
-              </SelectSize>
-            </RSection1>
-            <RSection2>
-              <input
-                placeholder="Add your title"
-                type="text"
-                className="new_pin_input"
-                id="pin_title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <Userdetails>
-                <img
-                  src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
-                  alt=""
-                ></img>
-                <span>Username</span>
-              </Userdetails>
-              <input
-                placeholder="Tell everyone what your Pin is about"
-                type="text"
-                className="new_pin_input"
-                id="pin_description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <input
-                placeholder="Add a destination link"
-                type="text"
-                className="new_pin_input"
-                id="pin_destination"
-              />
-            </RSection2>
-          </RightSide>
-        </AddPinContainer>
-      </AddPinModal>
-      <Modal showModal={showModal} setShowModal={setShowModal} />
-    </>
-  );
-}
-export default connect(mapStateToProps, mapDispatchToProps)(PostPostModal);
 const AddPinModal = styled.div`
   width: 100%;
   height: 100%;
@@ -403,3 +243,165 @@ const Userdetails = styled.div`
     margin-left: 10px;
   }
 `;
+function PostPostModal(props) {
+  let history = useHistory();
+  const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [showLabel, setShowLabel] = useState(true);
+  const [showModalPin, setShowModalPin] = useState(false);
+  const [newPostImage, setNewPostImage] = useState();
+
+  function showImagePin(e) {
+    setNewPostImage(e.currentTarget.files[0]);
+    setShowLabel(false);
+    setShowModalPin(true);
+  }
+
+  const postImage = async (id) => {
+    const formData = new FormData();
+    formData.append("image", newPostImage);
+    const postMedia = await putMediaFunction(
+      "/pins/" + id + "/picture",
+      formData
+    );
+
+    if (postMedia._id) {
+      props.SetCreatedPins(postMedia);
+      console.log(postMedia);
+      // window.location.replace("/massylialala/created");
+    }
+  };
+  const postpin = async () => {
+    const response = await postFunction("/pins/", {
+      title: title,
+      description: description,
+    });
+    console.log(response);
+    if (response && response.pin) {
+      postImage(response.pin._id);
+      setShowModal((prev) => !prev);
+    }
+  };
+
+  return (
+    <>
+      <AddPinModal>
+        <AddPinContainer>
+          <LeftSide>
+            <Section1>
+              <Iconsection1Container>
+                <IconButton>
+                  <MoreHorizIcon />
+                </IconButton>
+              </Iconsection1Container>
+            </Section1>
+            <Section2>
+              <label
+                htmlFor="upload_img"
+                id="upload_img_label"
+                style={{
+                  display: showLabel ? "block" : "none",
+                }}
+              >
+                <UploadImageContainer>
+                  <DotedBorder>
+                    <Iconsection2Container>
+                      <IconButton>
+                        <ArrowUpwardIcon />
+                      </IconButton>
+                    </Iconsection2Container>
+                    <div>Click to upload</div>
+                    <div>
+                      Recommendation: Use high-quality .jpg less than 20MB
+                    </div>
+                  </DotedBorder>
+                </UploadImageContainer>
+                <input
+                  type="file"
+                  name="upload_img"
+                  id="upload_img"
+                  maxFileSize={5242880}
+                  singleImage={true}
+                  withPreview={true}
+                  withLabel={false}
+                  accept="image/*"
+                  onChange={(e) => {
+                    showImagePin(e);
+                  }}
+                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                ></input>
+              </label>
+              <ModalPin
+                style={{
+                  display: showModalPin ? "block" : "none",
+                }}
+              >
+                <PinImage>
+                  {newPostImage && (
+                    <img
+                      onLoad=""
+                      src={URL.createObjectURL(newPostImage)}
+                      alt="pin_image"
+                      id="pin_image"
+                    />
+                  )}
+                </PinImage>
+              </ModalPin>
+            </Section2>
+            <Section3>
+              <SaveFromSite>Save from site</SaveFromSite>
+            </Section3>
+          </LeftSide>
+          <RightSide>
+            <RSection1>
+              <SelectSize>
+                <select defaultValue="Select" name="pin_size" id="pin_size">
+                  <option value="">Select</option>
+                  <option value="small">small</option>
+                  <option value="medium">medium</option>
+                  <option value="large">large</option>
+                </select>
+                <SavePin onClick={postpin}>Save</SavePin>
+              </SelectSize>
+            </RSection1>
+            <RSection2>
+              <input
+                placeholder="Add your title"
+                type="text"
+                className="new_pin_input"
+                id="pin_title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <Userdetails>
+                <img
+                  src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+                  alt=""
+                ></img>
+                <span>Username</span>
+              </Userdetails>
+              <input
+                placeholder="Tell everyone what your Pin is about"
+                type="text"
+                className="new_pin_input"
+                id="pin_description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <input
+                placeholder="Add a destination link"
+                type="text"
+                className="new_pin_input"
+                id="pin_destination"
+              />
+            </RSection2>
+          </RightSide>
+        </AddPinContainer>
+      </AddPinModal>
+      <Modal showModal={showModal} setShowModal={setShowModal} />
+    </>
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostPostModal);

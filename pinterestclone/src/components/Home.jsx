@@ -35,28 +35,33 @@ function Home(props) {
     getUser();
 
     // setLogged(true);
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, []);
 
   return (
     <>
       <Header onSubmit={props.onSubmit} />
       <Wrapper>
-        {pins.length > 0 ? (
-          <Container fluid>
-            <Row>
-              {" "}
-              <CreatePinCard />
-              {pins.map((pin, index) => {
-                const { urls, id } = pin;
+        <Container fluid>
+          <Row>
+            {!loading ? (
+              <>
+                {" "}
+                <CreatePinCard />
+                {pins.length > 0 &&
+                  pins.map((pin, index) => {
+                    const { urls, id } = pin;
 
-                return <Pin key={index} urls={urls} pin={pin} id={id} />;
-              })}
-            </Row>
-          </Container>
-        ) : (
-          <Loaders />
-        )}
+                    return <Pin key={index} urls={urls} pin={pin} id={id} />;
+                  })}{" "}
+              </>
+            ) : (
+              <Loaders />
+            )}
+          </Row>
+        </Container>
       </Wrapper>
     </>
   );

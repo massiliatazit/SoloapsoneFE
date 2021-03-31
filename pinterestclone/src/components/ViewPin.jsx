@@ -17,6 +17,7 @@ function ViewPin(props) {
   const [loading, Setloading] = useState(false);
   const [pinsaved, setSaved] = useState(false);
   const [pins, setPins] = useState([]);
+  const [Liked, setLiked] = useState(false);
   const [ShowComments, SetShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
@@ -31,7 +32,16 @@ function ViewPin(props) {
       setPins(results);
     });
   };
-
+  const likePin = () => {
+    unsplash
+      .post(`https://api.unsplash.com/photos/${id}/like`, { data: id })
+      .then((res) => {
+        let reponse = res.photo;
+        console.log(reponse);
+        setPins(reponse);
+        setIsLiked(!isLiked);
+      });
+  };
   useEffect(() => {
     getPinsById();
   }, []);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
-import Header from "./Headers/Header";
+import Header from "../Headers/Header";
 import styled from "styled-components";
 import PostPostModal from "./PostPostModal";
 import { Row, Col, Container } from "react-bootstrap";

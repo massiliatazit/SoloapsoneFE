@@ -11,7 +11,7 @@ import unsplash from "./api/unsplash";
 import Loaders from "./components/Loaders/Loaders";
 import SavedPinsPage from "./components/SavedPinsPage";
 import ViewPin from "./components/ViewPin";
-import PinBuilder from "./components/PinBuilder";
+import PinBuilder from "./components/PinBuilder/PinBuilder";
 
 import LoginPage from "./components/LoginPage/LoginPage";
 

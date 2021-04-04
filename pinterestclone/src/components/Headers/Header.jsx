@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import TextsmsIcon from "@material-ui/icons/Textsms";
 
+import TextsmsIcon from "@material-ui/icons/Textsms";
+import Notifications from "../Notifications";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Inbox from "../Inbox";
@@ -79,7 +79,8 @@ function Header(props) {
       </SearchWrapper>
       <IconsWrapper>
         <IconButton>
-          <NotificationsIcon />
+          {/* <NotificationsIcon /> */}
+          <Notifications />
         </IconButton>
         <IconButton>
           {/* <TextsmsIcon

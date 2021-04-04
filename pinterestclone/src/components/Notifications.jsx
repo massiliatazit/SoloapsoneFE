@@ -34,15 +34,6 @@ const Image = styled.img`
 `;
 
 const Notifications = () => {
-  const [visible, setVisible] = useState(false);
-
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
   const menu = (
     <Menu>
       <Menu.Item key="0">

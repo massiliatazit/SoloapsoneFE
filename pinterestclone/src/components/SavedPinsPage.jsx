@@ -83,7 +83,7 @@ function SavedPinsPage(props) {
               style={{ width: "100%", textAlign: "center", marginTop: "240%" }}
             >
               <img
-                src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+                src={props.user.img}
                 alt="photo"
                 width="120px"
                 height="120px"

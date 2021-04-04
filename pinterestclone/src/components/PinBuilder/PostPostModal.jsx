@@ -3,7 +3,8 @@ import React, { useMemo, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import styled from "styled-components";
-
+import { Select, Divider, Input } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { postFunction, putMediaFunction } from "../../api";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { useHistory } from "react-router-dom";
@@ -169,7 +170,7 @@ const RSection1 = styled.div`
 `;
 const SelectSize = styled.div`
   width: 236px;
-  height: 40px;
+  height: 32px;
 
   display: flex;
 
@@ -243,6 +244,9 @@ const Userdetails = styled.div`
     margin-left: 10px;
   }
 `;
+const { Option } = Select;
+
+let index = 0;
 function PostPostModal(props) {
   let history = useHistory();
   const [showModal, setShowModal] = useState(false);
@@ -251,6 +255,8 @@ function PostPostModal(props) {
   const [showLabel, setShowLabel] = useState(true);
   const [showModalPin, setShowModalPin] = useState(false);
   const [newPostImage, setNewPostImage] = useState();
+  const [items, SetItems] = useState([]);
+  const [categories, Setcategories] = useState("");
 
   function showImagePin(e) {
     setNewPostImage(e.currentTarget.files[0]);
@@ -276,6 +282,7 @@ function PostPostModal(props) {
     const response = await postFunction("/pins/", {
       title: title,
       description: description,
+      categories: categories,
     });
     console.log(response);
     if (response && response.pin) {
@@ -283,7 +290,13 @@ function PostPostModal(props) {
       setShowModal((prev) => !prev);
     }
   };
-
+  const onCategorychange = (event) => {
+    Setcategories(event.target.value);
+  };
+  const addItem = () => {
+    SetItems([...items, categories || `New item ${index++}`]);
+    Setcategories("");
+  };
   return (
     <>
       <AddPinModal>
@@ -356,12 +369,44 @@ function PostPostModal(props) {
           <RightSide>
             <RSection1>
               <SelectSize>
-                <select defaultValue="Select" name="pin_size" id="pin_size">
-                  <option value="">Select</option>
-                  <option value="small">small</option>
-                  <option value="medium">medium</option>
-                  <option value="large">large</option>
-                </select>
+                <Select
+                  style={{ width: 240 }}
+                  placeholder="Choose"
+                  dropdownRender={(menu) => (
+                    <div>
+                      {menu}
+                      <Divider style={{ margin: "4px 0" }} />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "nowrap",
+                          padding: 8,
+                        }}
+                      >
+                        <Input
+                          style={{ flex: "auto" }}
+                          value={categories}
+                          onChange={(event) => onCategorychange(event)}
+                        />
+                        <a
+                          style={{
+                            flex: "none",
+                            padding: "8px",
+                            display: "block",
+                            cursor: "pointer",
+                          }}
+                          onClick={addItem}
+                        >
+                          <PlusOutlined /> Add item
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                >
+                  {items.map((item) => (
+                    <Option key={item}>{item}</Option>
+                  ))}
+                </Select>
                 <SavePin onClick={postpin}>Save</SavePin>
               </SelectSize>
             </RSection1>
@@ -375,11 +420,8 @@ function PostPostModal(props) {
                 onChange={(e) => setTitle(e.target.value)}
               />
               <Userdetails>
-                <img
-                  src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
-                  alt=""
-                ></img>
-                <span>Username</span>
+                <img src={props.user.img} alt=""></img>
+                <span>{props.user.username}</span>
               </Userdetails>
               <input
                 placeholder="Tell everyone what your Pin is about"

@@ -4,6 +4,7 @@ import Header from "../Headers/Header";
 import styled from "styled-components";
 import PostPostModal from "./PostPostModal";
 import { Row, Col, Container } from "react-bootstrap";
+
 function PinBuilder() {
   const [pins, setPins] = useState([<PostPostModal />]);
   const addPin = () => {

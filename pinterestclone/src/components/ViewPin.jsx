@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Header from "./Headers/Header";
+import { PokemonSelector } from "react-reactions";
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import { Container, Row, Col } from "react-bootstrap";
 const mapStateToProps = (state) => state;
@@ -17,11 +18,12 @@ function ViewPin(props) {
   const [loading, Setloading] = useState(false);
   const [pinsaved, setSaved] = useState(false);
   const [pins, setPins] = useState([]);
-  const [Liked, setLiked] = useState(false);
+  const [showLargeHeart, setShowLargeHeart] = useState(false);
   const [ShowComments, SetShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [commentInput, setCommentInput] = useState("");
+  const [showReactions, SetShowReactions] = useState(false);
 
   const { id } = props.match.params;
   const getPinsById = async () => {
@@ -41,6 +43,12 @@ function ViewPin(props) {
         setPins(reponse);
         setIsLiked(!isLiked);
       });
+  };
+  const toggleLargeHeart = () => {
+    setShowLargeHeart(true);
+    setTimeout(() => {
+      setShowLargeHeart(false);
+    }, 2000);
   };
   useEffect(() => {
     getPinsById();
@@ -68,6 +76,7 @@ function ViewPin(props) {
     setCommentInput("");
     postComment(commentInput);
   };
+
   return (
     <>
       {" "}
@@ -129,6 +138,19 @@ function ViewPin(props) {
                         <IconButton>
                           <PublishTwoToneIcon></PublishTwoToneIcon>
                         </IconButton>
+                        <IconButton>
+                          <LikeDiv
+                            onMouseEnter={(e) => {
+                              SetShowReactions(true);
+                            }}
+                            onMouseLeave={(e) => {
+                              SetShowReactions(false);
+                            }}
+                          ></LikeDiv>
+                        </IconButton>
+                        <div style={{ position: "absolute", zIndex: "100" }}>
+                          {showReactions && <PokemonSelector />}
+                        </div>
                       </div>
                       <RedBtn onClick={() => savePin(pins)}>Save</RedBtn>
                     </div>
@@ -383,7 +405,13 @@ const Image = styled.img`
   background-size: cover;
   border-radius: 20px;
 `;
-
+const LikeDiv = styled.div`
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(https://s.pinimg.com/webapp/heartOutline-1f1b1ac2.svg);
+`;
 const GreyBtn = styled.button`
   padding: 15px;
   border: none;

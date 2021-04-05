@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import "antd/dist/antd.css";
 import { Drawer } from "antd";
-
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
-
+import IconButton from "@material-ui/core/IconButton";
 const Icon = styled.img`
   padding: 12px;
   height: 48px;
@@ -51,6 +51,7 @@ const MessageContainer = styled.div`
   align-items: center;
   position: absolute;
   padding: 8px;
+
   bottom: 0;
   input {
     border-radius: 26px;
@@ -192,10 +193,10 @@ const Inbox = () => {
             alt="Inbox"
           />
           <input type="text" placeholder="Send a Message..." />
-          <Icon
-            src="https://www.flaticon.com/svg/vstatic/svg/1216/1216811.svg?token=exp=1617027163~hmac=ab929926b14466b1567071f2bb298860"
-            alt="Inbox"
-          />
+
+          <IconButton>
+            <FavoriteIcon fontSize="large" />
+          </IconButton>
         </MessageContainer>
       </Drawer>
     </>

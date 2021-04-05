@@ -6,7 +6,7 @@ import unsplash from "../api/unsplash";
 import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-
+import Header from "./Headers/Header";
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import { Container, Row, Col } from "react-bootstrap";
 const mapStateToProps = (state) => state;
@@ -74,289 +74,298 @@ function ViewPin(props) {
       {pins.length === 0 ? (
         <Loaders />
       ) : (
-        <Container
-          fluid
-          className="flex-column justify-content-center align-items-center"
-        >
-          <Row>
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: "white",
-                padding: "10px",
-              }}
-            >
+        <>
+          <Header />
+          <Container
+            fluid
+            className="flex-column justify-content-center align-items-center"
+          >
+            <Row>
               <div
                 style={{
-                  display: "flex",
-                  width: "800px",
-                  margin: "auto",
-                  boxShadow: "0px 2px 6px #bbb",
-                  justifyContent: "space-evenly",
-                  alignItems: "center",
-
-                  maxHeight: "max-content",
-                  border: "none",
-                  borderRadius: "24px",
-                  backgroundColor: "#fff",
-                  overflow: "hidden",
-                  padding: 20,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "white",
+                  padding: "10px",
                 }}
               >
-                <div style={{ padding: 20 }}>
-                  <img
-                    src={pins.urls.regular}
-                    className="img-fluid "
-                    style={{
-                      borderRadius: 32,
-                      minHeight: 400,
-                      objectFit: "cover",
-                    }}
-                    alt=""
-                    srcSet=""
-                    width="100%"
-                  />
-                </div>
-                <Details>
-                  <div className="d-flex justify-content-between ">
-                    <div>
-                      <IconButton>
-                        <MoreHorizIcon></MoreHorizIcon>
-                      </IconButton>
-                      <IconButton>
-                        <PublishTwoToneIcon></PublishTwoToneIcon>
-                      </IconButton>
-                    </div>
-                    <RedBtn onClick={() => savePin(pins)}>Save</RedBtn>
-                  </div>
-                  <div>
-                    <h2 style={{ fontWeight: 700, whiteSpace: "nowrap" }}>
-                      Photo by: {pins.user.username}
-                    </h2>
-                    <a
-                      href={pins.links.self}
-                      style={{
-                        maxWidth: "300px",
-                        color: "#000",
-                        fontWeight: 400,
-                        textDecoration: "underline",
-                      }}
-                    >
-                      {pins.links.self}
-                    </a>
-                    <div className="d-flex justify-content-between ">
-                      <h6 className="mt-4" style={{ fontWeight: 600 }}>
-                        {pins.description}
-                      </h6>
-                      <GreyBtn className="mt-2 ">Follow</GreyBtn>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="d-flex">
-                      <div
-                        style={{
-                          maxHeight: "48px",
-                          maxWidth: "48px",
+                <div
+                  style={{
+                    display: "flex",
+                    width: "800px",
+                    margin: "auto",
+                    boxShadow: "0px 2px 6px #bbb",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
 
-                          verticalAlign: "middle",
+                    maxHeight: "max-content",
+                    border: "none",
+                    borderRadius: "24px",
+                    backgroundColor: "#fff",
+                    overflow: "hidden",
+                    padding: 20,
+                  }}
+                >
+                  <div style={{ padding: 20 }}>
+                    <img
+                      src={pins.urls.regular}
+                      className="img-fluid "
+                      style={{
+                        borderRadius: 32,
+                        minHeight: 400,
+                        objectFit: "cover",
+                      }}
+                      alt=""
+                      srcSet=""
+                      width="100%"
+                    />
+                  </div>
+                  <Details>
+                    <div className="d-flex justify-content-between ">
+                      <div>
+                        <IconButton>
+                          <MoreHorizIcon></MoreHorizIcon>
+                        </IconButton>
+                        <IconButton>
+                          <PublishTwoToneIcon></PublishTwoToneIcon>
+                        </IconButton>
+                      </div>
+                      <RedBtn onClick={() => savePin(pins)}>Save</RedBtn>
+                    </div>
+                    <div>
+                      <h2 style={{ fontWeight: 700, whiteSpace: "nowrap" }}>
+                        Photo by: {pins.user.username}
+                      </h2>
+                      <a
+                        href={pins.links.self}
+                        style={{
+                          maxWidth: "300px",
+                          color: "#000",
+                          fontWeight: 400,
+                          textDecoration: "underline",
                         }}
                       >
-                        <div className="d-flex flex-column">
-                          <img
-                            src={pins.user.profile_image.medium}
-                            alt=""
-                            srcSet=""
-                            height="100%"
-                            style={{ borderRadius: "50%", objectFit: "cover" }}
-                          />
-                          <Likes className="my-3 ml-3">
-                            <span className="ml-4 ">{pins.likes}</span>
-                          </Likes>
-                        </div>
+                        {pins.links.self}
+                      </a>
+                      <div className="d-flex justify-content-between ">
+                        <h6
+                          className="mt-4"
+                          style={{ fontWeight: 600, textOverflow: "ellipsis" }}
+                        >
+                          {pins.description}
+                        </h6>
+                        <GreyBtn className="mt-2 ">Follow</GreyBtn>
                       </div>
-                      <p className="mt-3 ml-4">{pins.user.first_name}</p>
                     </div>
-                  </div>
-                  <div>
-                    {!ShowComments ? (
-                      <>
-                        {" "}
-                        <button
-                          onClick={() => {
-                            SeeComments();
-                          }}
-                          className="active"
+                    <div>
+                      <div className="d-flex">
+                        <div
                           style={{
-                            width: "100px",
-                            backgroundColor: "white",
-                            border: "none",
-                            borderBottom: "2px solid",
+                            maxHeight: "48px",
+                            maxWidth: "48px",
+
+                            verticalAlign: "middle",
                           }}
                         >
-                          Photos
-                        </button>
-                        <button
-                          onClick={() => {
-                            SeeComments();
-                          }}
-                          style={{
-                            width: "100px",
-                            backgroundColor: "white",
-                            border: "none",
-                            marginLeft: "20px",
-                            color: "grey",
-                            borderBottom: "none",
-                          }}
-                        >
-                          Comments
-                        </button>
-                        <div className="d-flex " style={{ margin: "20px" }}>
-                          <div style={{ marginRight: "20px" }}>
-                            Tried this Pin?
-                            <br />
-                            Add a photo to show how it went
-                          </div>
-                          <GreyBtn>Add Photo</GreyBtn>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => {
-                            SeeComments();
-                          }}
-                          style={{
-                            width: "100px",
-                            backgroundColor: "white",
-                            border: "none",
-                            color: "grey",
-                          }}
-                        >
-                          Photos
-                        </button>
-                        <button
-                          onClick={() => {
-                            SeeComments();
-                          }}
-                          style={{
-                            width: "100px",
-                            backgroundColor: "white",
-                            border: "none",
-                            marginLeft: "20px",
-                            color: "black",
-                            borderBottom: "2px solid",
-                          }}
-                        >
-                          Comments
-                        </button>
-                        <PopupPostNewComment>
-                          <CommentsContainer className="left">
+                          <div className="d-flex flex-column">
                             <img
-                              src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+                              src={pins.user.profile_image.medium}
                               alt=""
                               srcSet=""
-                              height="48"
+                              height="100%"
                               style={{
                                 borderRadius: "50%",
                                 objectFit: "cover",
-                                marginRight: 8,
                               }}
                             />
-
-                            <input
-                              type="text"
-                              placeholder="Add a comment..."
-                              value={commentInput}
-                              onChange={(event) =>
-                                setCommentInput(event.target.value)
-                              }
-                            />
-                          </CommentsContainer>
-
-                          <div>
-                            {" "}
-                            <button
-                              className="post"
-                              //disabled={commentInput.length === 0}
-                              onClick={postCommentHandler}
-                            >
-                              Post
-                            </button>
+                            <Likes className="my-3 ml-3">
+                              <span className="ml-4 ">{pins.likes}</span>
+                            </Likes>
                           </div>
-                          {/* <button
+                        </div>
+                        <p className="mt-3 ml-4">{pins.user.first_name}</p>
+                      </div>
+                    </div>
+                    <div>
+                      {!ShowComments ? (
+                        <>
+                          {" "}
+                          <button
+                            onClick={() => {
+                              SeeComments();
+                            }}
+                            className="active"
+                            style={{
+                              width: "100px",
+                              backgroundColor: "white",
+                              border: "none",
+                              borderBottom: "2px solid",
+                            }}
+                          >
+                            Photos
+                          </button>
+                          <button
+                            onClick={() => {
+                              SeeComments();
+                            }}
+                            style={{
+                              width: "100px",
+                              backgroundColor: "white",
+                              border: "none",
+                              marginLeft: "20px",
+                              color: "grey",
+                              borderBottom: "none",
+                            }}
+                          >
+                            Comments
+                          </button>
+                          <div className="d-flex " style={{ margin: "20px" }}>
+                            <div style={{ marginRight: "20px" }}>
+                              Tried this Pin?
+                              <br />
+                              Add a photo to show how it went
+                            </div>
+                            <GreyBtn>Add Photo</GreyBtn>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => {
+                              SeeComments();
+                            }}
+                            style={{
+                              width: "100px",
+                              backgroundColor: "white",
+                              border: "none",
+                              color: "grey",
+                            }}
+                          >
+                            Photos
+                          </button>
+                          <button
+                            onClick={() => {
+                              SeeComments();
+                            }}
+                            style={{
+                              width: "100px",
+                              backgroundColor: "white",
+                              border: "none",
+                              marginLeft: "20px",
+                              color: "black",
+                              borderBottom: "2px solid",
+                            }}
+                          >
+                            Comments
+                          </button>
+                          <PopupPostNewComment>
+                            <CommentsContainer className="left">
+                              <img
+                                src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+                                alt=""
+                                srcSet=""
+                                height="48"
+                                style={{
+                                  borderRadius: "50%",
+                                  objectFit: "cover",
+                                  marginRight: 8,
+                                }}
+                              />
+
+                              <input
+                                type="text"
+                                placeholder="Add a comment..."
+                                value={commentInput}
+                                onChange={(event) =>
+                                  setCommentInput(event.target.value)
+                                }
+                              />
+                            </CommentsContainer>
+
+                            <div>
+                              {" "}
+                              <button
+                                className="post"
+                                //disabled={commentInput.length === 0}
+                                onClick={postCommentHandler}
+                              >
+                                Post
+                              </button>
+                            </div>
+                            {/* <button
                             // disabled={commentInput.length === 0}
                             onClick={postCommentHandler}
                           >
                             Cancel
                           </button> */}
-                        </PopupPostNewComment>
-                      </>
-                    )}
+                          </PopupPostNewComment>
+                        </>
+                      )}
+                    </div>
+                  </Details>
+                </div>
+              </div>
+            </Row>
+            <Row>
+              <Col>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div>
+                    {" "}
+                    <h6
+                      style={{
+                        textAlign: "center",
+                        fontSize: 21,
+                        fontWeight: 700,
+                        marginTop: 40,
+                      }}
+                    >
+                      More similar content
+                    </h6>
                   </div>
-                </Details>
-              </div>
-            </div>
-          </Row>
-          <Row>
-            <Col>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                  flexDirection: "column",
-                }}
-              >
-                <div>
-                  {" "}
-                  <h6
-                    style={{
-                      textAlign: "center",
-                      fontSize: 21,
-                      fontWeight: 700,
-                      marginTop: 40,
-                    }}
-                  >
-                    More similar content
-                  </h6>
-                </div>
-                <div className="d-flex justify-content-center mt-1">
-                  {pins.related_collections.results.length > 0 &&
-                    pins.related_collections.results.map((pinrelated) => (
-                      <>
-                        <ImagerelatedPins>
-                          <Image
-                            src={pinrelated.cover_photo.urls.regular}
-                            alt="pin"
-                          />
-                          <div className="d-flex flex-column justify-content-start">
-                            <h6 style={{ margin: "10px" }}>
-                              {pinrelated.title}
-                            </h6>
-                            <div>
-                              <img
-                                src={pinrelated.user.profile_image.small}
-                                alt=""
-                                srcSet=""
-                                height="100%"
-                                style={{
-                                  borderRadius: "50%",
-                                  objectFit: "cover",
-                                  marginRight: 15,
-                                }}
-                              />
-                              <span>{pinrelated.user.username}</span>
+                  <div className="d-flex justify-content-center mt-1">
+                    {pins.related_collections.results.length > 0 &&
+                      pins.related_collections.results.map((pinrelated) => (
+                        <>
+                          <ImagerelatedPins>
+                            <Image
+                              src={pinrelated.cover_photo.urls.regular}
+                              alt="pin"
+                            />
+                            <div className="d-flex flex-column justify-content-start">
+                              <h6 style={{ margin: "10px" }}>
+                                {pinrelated.title}
+                              </h6>
+                              <div>
+                                <img
+                                  src={pinrelated.user.profile_image.small}
+                                  alt=""
+                                  srcSet=""
+                                  height="100%"
+                                  style={{
+                                    borderRadius: "50%",
+                                    objectFit: "cover",
+                                    marginRight: 15,
+                                  }}
+                                />
+                                <span>{pinrelated.user.username}</span>
+                              </div>
                             </div>
-                          </div>
-                        </ImagerelatedPins>
-                      </>
-                    ))}
+                          </ImagerelatedPins>
+                        </>
+                      ))}
+                  </div>
                 </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
+              </Col>
+            </Row>
+          </Container>
+        </>
       )}
     </>
   );

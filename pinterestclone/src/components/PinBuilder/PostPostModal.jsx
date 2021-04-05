@@ -256,7 +256,7 @@ function PostPostModal(props) {
   const [showModalPin, setShowModalPin] = useState(false);
   const [newPostImage, setNewPostImage] = useState();
   const [items, SetItems] = useState([]);
-  const [categories, Setcategories] = useState("");
+  const [categories, Setcategories] = useState([]);
 
   function showImagePin(e) {
     setNewPostImage(e.currentTarget.files[0]);
@@ -294,8 +294,8 @@ function PostPostModal(props) {
     Setcategories(event.target.value);
   };
   const addItem = () => {
-    SetItems([...items, categories || `New item ${index++}`]);
-    Setcategories("");
+    SetItems([...items, [...categories] || `New item ${index++}`]);
+    Setcategories([]);
   };
   return (
     <>

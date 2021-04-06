@@ -9,7 +9,7 @@ import { Row, Col, Container } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 function Board(props) {
   const [pins, setPins] = useState([]);
-  const [savedPins, setSavedPins] = useState([]);
+
   console.log(props.user.saved);
 
   const { username } = props.match.params;
@@ -18,7 +18,6 @@ function Board(props) {
   useEffect(() => {
     console.log(props.pins);
     setPins(props.pins);
-    setSavedPins(props.user.saved);
   }, []);
   return (
     <>
@@ -38,7 +37,6 @@ function Board(props) {
             >
               <div
                 style={{
-                  //position: "absolute",
                   transform: "rotate(-25deg) scale(1.5)",
                   marginLeft: "1rem",
                 }}

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "antd/dist/antd.css";
 import { Drawer } from "antd";
+import io from "socket.io-client";
+import { joinRoom } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";
@@ -110,8 +112,9 @@ const Person = styled.div`
 `;
 
 const Inbox = () => {
-  const [visible, setVisible] = React.useState(false);
-
+  const [visible, setVisible] = useState(false);
+  const [name, SetName] = useState("");
+  const [room, SetRoom] = useState("");
   const showDrawer = () => {
     setVisible(true);
   };

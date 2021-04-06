@@ -131,7 +131,7 @@ function ViewPin(props) {
                   </div>
                   <Details>
                     <div className="d-flex justify-content-between ">
-                      <div>
+                      <div style={{ position: "relative" }}>
                         <IconButton>
                           <MoreHorizIcon></MoreHorizIcon>
                         </IconButton>
@@ -143,14 +143,24 @@ function ViewPin(props) {
                             onMouseEnter={(e) => {
                               SetShowReactions(true);
                             }}
+                            // onMouseLeave={(e) => {
+                            //   SetShowReactions(false);
+                            // }}
+                          ></LikeDiv>
+                        </IconButton>
+                        {showReactions && (
+                          <div
                             onMouseLeave={(e) => {
                               SetShowReactions(false);
                             }}
-                          ></LikeDiv>
-                        </IconButton>
-                        <div style={{ position: "absolute", zIndex: "100" }}>
-                          {showReactions && <PokemonSelector />}
-                        </div>
+                            style={{
+                              position: "absolute",
+                              zIndex: "100",
+                            }}
+                          >
+                            <PokemonSelector />
+                          </div>
+                        )}
                       </div>
                       <RedBtn onClick={() => savePin(pins)}>Save</RedBtn>
                     </div>

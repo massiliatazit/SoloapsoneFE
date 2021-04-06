@@ -279,10 +279,15 @@ function PostPostModal(props) {
     }
   };
   const postpin = async () => {
+    console.log({
+      title: title,
+      description: description,
+      categories: items,
+    });
     const response = await postFunction("/pins/", {
       title: title,
       description: description,
-      categories: categories,
+      categories: items,
     });
     console.log(response);
     if (response && response.pin) {
@@ -294,7 +299,7 @@ function PostPostModal(props) {
     Setcategories(event.target.value);
   };
   const addItem = () => {
-    SetItems([...items, categories || `New item ${index++}`]);
+    SetItems([...items, { name: categories }]);
     Setcategories("");
   };
   return (
@@ -404,7 +409,7 @@ function PostPostModal(props) {
                   )}
                 >
                   {items.map((item) => (
-                    <Option key={item}>{item}</Option>
+                    <Option key={item.name}>{item.name}</Option>
                   ))}
                 </Select>
                 <SavePin onClick={postpin}>Save</SavePin>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import "antd/dist/antd.css";
 import { Drawer } from "antd";
 import io from "socket.io-client";
-import { joinRoom } from "../api/socket";
+// import { joinRoom } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";

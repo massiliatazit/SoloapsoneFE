@@ -9,11 +9,12 @@ import Signup from "./Pages/Signup/Signup"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import unsplash from "./api/unsplash";
 import Loaders from "./components/Loaders/Loaders";
-import SavedPinsPage from "./Pages/SavedPinsPage";
+
 import ViewPin from "./Pages/ViewPin";
 import PinBuilder from "./Pages/PinBuilder/PinBuilder";
 
 import LoginPage from "./Pages/LoginPage/LoginPage";
+import SavedPins from "./components/SavedPins";
 
 const mapStateToProps = (state) => state;
 
@@ -90,7 +91,7 @@ function App(props) {
         <Route path="/PinBuilder" render={() => <PinBuilder />}></Route>
         <Route path="/" exact render={() => <Signup />}></Route>
         <Route path="/Login" exact render={() => <LoginPage pins={pins}/>}></Route>
-        <Route path="/:username/created" exact render={(props) => <SavedPinsPage pins={pins} {...props}/>}></Route>
+        <Route path="/:username/saved" exact render={(props) => <SavedPins pins={pins} {...props}/>}></Route>
         <Route path="/:id"  render={(props) => <ViewPin {...props} />} />
       </Switch>
        {/* ): */}

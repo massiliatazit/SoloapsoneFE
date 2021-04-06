@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Headers/Header";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
 import "../styles/index.css";
 import styled from "styled-components";
 import { Row, Col, Container } from "react-bootstrap";
 const mapStateToProps = (state) => state;
-function SavedPinsPage(props) {
+function Board(props) {
   const [pins, setPins] = useState([]);
   const [savedPins, setSavedPins] = useState([]);
   console.log(props.user.saved);
@@ -76,7 +77,6 @@ function SavedPinsPage(props) {
             </div>
           )}
         </CenteredContainer>
-
         <Row>
           <Col>
             <div
@@ -92,7 +92,7 @@ function SavedPinsPage(props) {
               <h3 style={{ fontWeight: "bold", marginTop: "10px" }}>
                 {props.user.name}
               </h3>
-              <div>{props.user.email}</div>
+              <div>{username}</div>
               <div>
                 {props.user.following.length} following •{" "}
                 {props.user.followers.length} followers
@@ -101,39 +101,18 @@ function SavedPinsPage(props) {
           </Col>
         </Row>
         <Row>
+          <SavePinsButton>
+            <a href="/:username/saved">Saved</a>
+          </SavePinsButton>
           <CreatePinsButton>
             <a href="/:username/created">Created</a>
           </CreatePinsButton>
-          <SavePinsButton>
-            <a href="/">Saved</a>
-          </SavePinsButton>
-        </Row>
-        <Row>
-          <Col>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                flexWrap: "wrap",
-                flexDirection: "row",
-              }}
-            >
-              {savedPins &&
-                savedPins.map((pin) => (
-                  <ImageCard>
-                    <Image src={pin.urls.regular} alt="pin" />
-                    <h3 style={{ margin: "10px" }}>
-                      Photo by {pin.user.username}
-                    </h3>
-                  </ImageCard>
-                ))}
-            </div>
-          </Col>
         </Row>
       </Container>
     </>
   );
 }
+export default withRouter(connect(mapStateToProps)(Board));
 
 const styles = {
   pin_container: {
@@ -151,7 +130,6 @@ const styles = {
   },
 };
 
-export default connect(mapStateToProps)(SavedPinsPage);
 const styledButtons = styled.div`
   display: flex;
   height: 48px;
@@ -162,7 +140,7 @@ const styledButtons = styled.div`
   cursor: pointer;
   margin-top: 20px;
 `;
-const CreatePinsButton = styled(styledButtons)`
+const SavePinsButton = styled(styledButtons)`
   background-color: rgba(17, 17, 17);
 
   a {
@@ -171,7 +149,8 @@ const CreatePinsButton = styled(styledButtons)`
     font-weight: 700;
   }
 `;
-const SavePinsButton = styled(styledButtons)`
+
+const CreatePinsButton = styled(styledButtons)`
   background-color: white;
   a {
     text-decoration: none;

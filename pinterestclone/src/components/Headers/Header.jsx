@@ -27,7 +27,7 @@ function Header(props) {
   };
 
   const handleShowSavedPins = (username) => {
-    history.push(`/${username}/created`);
+    history.push(`/${username}/saved`);
   };
   const toggleProfileDropdownHandler = () => {
     if (showDropdown) {

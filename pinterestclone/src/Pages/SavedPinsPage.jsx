@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Headers/Header";
+import Header from "../components/Headers/Header";
 import { connect } from "react-redux";
 
 import "../styles/index.css";

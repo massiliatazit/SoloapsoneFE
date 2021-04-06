@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Loaders from "./Loaders/Loaders";
+import Loaders from "../components/Loaders/Loaders";
 import { postFunction, getFunction } from "../api";
 import unsplash from "../api/unsplash";
 import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import Header from "./Headers/Header";
+import Header from "../components/Headers/Header";
 import { PokemonSelector } from "react-reactions";
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import { Container, Row, Col } from "react-bootstrap";

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Header from "./Headers/Header";
+import Header from "../../components/Headers/Header";
 import { connect } from "react-redux";
-import Pin from "./Pin";
-import { postFunction, getFunction } from "../api/index";
-import CreatePinCard from "./CreatePinCard";
+import Pin from "../../components/Pin";
+import { postFunction, getFunction } from "../../api/index";
+import CreatePinCard from "../../components/CreatePinCard";
 import "./home.css";
-import Loaders from "./Loaders/Loaders";
+import Loaders from "../../components/Loaders/Loaders";
 import { Row, Container } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 

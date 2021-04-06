@@ -17,7 +17,7 @@ function Header(props) {
   let history = useHistory();
 
   const [input, setInput] = useState("");
-  // const [showInbox, SetshowInbox] = useState(false);
+
   const [showDropdown, setDropdown] = useState(false);
   const [animatePanel, setAnimatePanel] = useState(false);
   const [currentPage, setCurrentPage] = useState(location.pathname);
@@ -25,9 +25,7 @@ function Header(props) {
     e.preventDefault();
     props.onSubmit(input);
   };
-  // const handleShowInbox = () => {
-  //   SetshowInbox(!showInbox);
-  // };
+
   const handleShowSavedPins = (username) => {
     history.push(`/${username}/created`);
   };
@@ -57,13 +55,13 @@ function Header(props) {
       <HomePageButton>
         <a href="/homefeed">Homepage</a>
       </HomePageButton>
-      <HomePageButton>
+      <TodaysButton>
         <a href="/Today">Today's</a>
-      </HomePageButton>
-      <FollowingButton>
+      </TodaysButton>
+      {/* <FollowingButton>
         {" "}
         <a href="/">Following</a>
-      </FollowingButton>
+      </FollowingButton> */}
       <SearchWrapper>
         <SearchBarWrapper>
           {" "}
@@ -79,7 +77,6 @@ function Header(props) {
       </SearchWrapper>
       <IconsWrapper>
         <IconButton>
-          {/* <NotificationsIcon /> */}
           <Notifications />
         </IconButton>
         <IconButton>
@@ -149,7 +146,7 @@ const HomePageButton = styled(HomeButtons)`
     font-weight: 700;
   }
 `;
-const FollowingButton = styled(HomeButtons)`
+const TodaysButton = styled(HomeButtons)`
   background-color: white;
   a {
     text-decoration: none;

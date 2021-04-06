@@ -3,17 +3,17 @@ import "./App.css";
 import { connect } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Home from "./components/Home";
+import Home from "./Pages/Home/Home";
 import 'animate.css'
-import Signup from "./components/Signup/Signup"
+import Signup from "./Pages/Signup/Signup"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import unsplash from "./api/unsplash";
 import Loaders from "./components/Loaders/Loaders";
-import SavedPinsPage from "./components/SavedPinsPage";
-import ViewPin from "./components/ViewPin";
-import PinBuilder from "./components/PinBuilder/PinBuilder";
+import SavedPinsPage from "./Pages/SavedPinsPage";
+import ViewPin from "./Pages/ViewPin";
+import PinBuilder from "./Pages/PinBuilder/PinBuilder";
 
-import LoginPage from "./components/LoginPage/LoginPage";
+import LoginPage from "./Pages/LoginPage/LoginPage";
 
 const mapStateToProps = (state) => state;
 

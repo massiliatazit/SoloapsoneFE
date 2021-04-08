@@ -15,6 +15,7 @@ import PinBuilder from "./Pages/PinBuilder/PinBuilder";
 
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import SavedPins from "./components/SavedPins";
+import CreatedPins from "./components/CreatedPins";
 
 const mapStateToProps = (state) => state;
 
@@ -92,6 +93,7 @@ function App(props) {
         <Route path="/" exact render={() => <Signup />}></Route>
         <Route path="/Login" exact render={() => <LoginPage pins={pins}/>}></Route>
         <Route path="/:username/saved" exact render={(props) => <SavedPins pins={pins} {...props}/>}></Route>
+        <Route path="/:username/created" exact render={(props) => <CreatedPins pins={pins} {...props}/>}></Route>
         <Route path="/:id"  render={(props) => <ViewPin {...props} />} />
       </Switch>
        {/* ): */}

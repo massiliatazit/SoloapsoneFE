@@ -44,11 +44,11 @@ case RECEIVE_PIN: {
 }
 
 case RECEIVE_PIN_WITH_CREATE: {
- const oldPins = state.pins;
- const newPins = [...oldPins, action.pin];
- const newState = merge({}, state, {pins: newPins, pin: action.pin});
- return newState;
-}
+  const oldPins = state.pins;
+  const newPins = [...oldPins, action.pin];
+  const newState = merge({}, state, {pins: newPins, pin: action.pin});
+  return newState;
+ }
 
 case RECEIVE_PIN_WITH_EDIT: {
  let idx = -1;

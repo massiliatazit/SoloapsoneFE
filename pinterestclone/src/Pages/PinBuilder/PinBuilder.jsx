@@ -14,6 +14,7 @@ function PinBuilder() {
 
   return (
     <>
+      <Header />
       <Wrapper>
         <ButtonADD type="button" onClick={addPin}>
           <AddIcon />

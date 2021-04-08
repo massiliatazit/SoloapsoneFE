@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Headers/Header";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-
+import { useHistory } from "react-router-dom";
 import "../styles/index.css";
 import styled from "styled-components";
 import { Row, Col, Container } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 function Board(props) {
   const [pins, setPins] = useState([]);
-
+  let history = useHistory();
   console.log(props.user.saved);
 
   const { username } = props.match.params;
@@ -19,6 +19,9 @@ function Board(props) {
     console.log(props.pins);
     setPins(props.pins);
   }, []);
+  const handleShowCreatedPins = () => {
+    history.push(`/${username}/created`);
+  };
   return (
     <>
       <Header />
@@ -102,8 +105,13 @@ function Board(props) {
           <SavePinsButton>
             <a href="/:username/saved">Saved</a>
           </SavePinsButton>
-          <CreatePinsButton>
-            <a href="/:username/created">Created</a>
+          <CreatePinsButton
+            onClick={() => {
+              handleShowCreatedPins();
+            }}
+          >
+            Created
+            {/* <a href="/:username/created">Created</a> */}
           </CreatePinsButton>
         </Row>
       </Container>

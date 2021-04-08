@@ -2,11 +2,160 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "antd/dist/antd.css";
 import { Drawer } from "antd";
+import { useDispatch } from "react-redux";
 import io from "socket.io-client";
-// import { joinRoom } from "../api/socket";
+import { joinRoom, sendChat } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";
+import unsplash from "../api/unsplash";
+
+const Inbox = (props) => {
+  const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
+  const [text, setText] = useState("");
+  const [users, setUsers] = useState("");
+  const [input, setInput] = useState("");
+  const [showSend, setShowSend] = useState(false);
+  const showDrawer = () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (e.target.value.length > 0) {
+  //     //SEND MESSAGE
+  //     dispatch({ type: "ADD_MESSAGE_TO_CHAT", payload: text });
+  //     setShowSend(true);
+  //   } else {
+  //   }
+  // };
+
+  // const sendMessage = () => {
+  //   const message = {
+  //     sender: props.user.username,
+  //     text: text,
+  //     createdAt: new Date(),
+  //   };
+  //   sendChat({ ...message, roomId: props.room._id });
+  //   props.newMessage(message);
+  //   setText("");
+  // };
+  const getUsersOnSearch = (input) => {
+    return unsplash.get("https://api.unsplash.com/search/users", {
+      params: { query: input },
+    });
+  };
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    getUsersOnSearch(input).then((res) => {
+      let results = res.data.results;
+      console.log(results, "inbox");
+      setUsers(results);
+    });
+  };
+  return (
+    <>
+      <div onClick={showDrawer}>
+        <TextsmsIcon />
+      </div>
+      <Drawer
+        title="Inbox"
+        style={{ textAlign: "center", overflow: "hidden" }}
+        placement="right"
+        closable={false}
+        onClose={onClose}
+        visible={visible}
+        width={380}
+      >
+        <h1>Share Ideas With Your Friends</h1>
+        <InboxWrapper>
+          <SearchIconWrapper>
+            <SearchIcon
+              src="https://www.flaticon.com/svg/static/icons/svg/598/598494.svg"
+              alt="Icon"
+            />
+          </SearchIconWrapper>
+
+          <Search
+            type="text"
+            placeholder="Search by name or email"
+            nChange={(e) => setInput(e.target.value)}
+          />
+          <button
+            className="d-none"
+            type="submit"
+            onClick={(e) => onSearchSubmit(e)}
+          ></button>
+        </InboxWrapper>
+        <p>Some contacts...</p>
+        <PersonWrap>
+          <Person>
+            <img
+              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
+              alt=""
+              style={{ height: "40px", borderRadius: "25px" }}
+            />
+          </Person>
+          <a href="">
+            <div>
+              <h3>following 1</h3>
+            </div>
+          </a>
+        </PersonWrap>
+        <PersonWrap>
+          <Person>
+            <img
+              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
+              alt=""
+              style={{ height: "40px", borderRadius: "25px" }}
+            />
+          </Person>
+          <a href="">
+            <div>
+              <h3>following 2</h3>
+            </div>
+          </a>
+        </PersonWrap>
+        <PersonWrap>
+          <Person>
+            <img
+              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
+              alt=""
+              style={{ height: "40px", borderRadius: "25px" }}
+            />
+          </Person>
+          <a href="">
+            <div>
+              <h3>following 3</h3>
+            </div>
+          </a>
+        </PersonWrap>
+        <MessageContainer>
+          <Icon
+            src="https://www.flaticon.com/svg/vstatic/svg/889/889668.svg?token=exp=1617026404~hmac=4eecd80899885377e7f4b19eed96ccd3"
+            alt="Inbox"
+          />
+
+          <form>
+            <input type="text" placeholder="Send a Message..." />
+          </form>
+
+          <IconButton>
+            <FavoriteIcon fontSize="large" />
+          </IconButton>
+        </MessageContainer>
+      </Drawer>
+    </>
+  );
+};
+export default Inbox;
 const Icon = styled.img`
   padding: 12px;
   height: 48px;
@@ -110,99 +259,3 @@ const Person = styled.div`
   height: 40px;
   border-radius: 25px;
 `;
-
-const Inbox = () => {
-  const [visible, setVisible] = useState(false);
-  const [name, SetName] = useState("");
-  const [room, SetRoom] = useState("");
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
-
-  return (
-    <>
-      <div onClick={showDrawer}>
-        <TextsmsIcon />
-      </div>
-      <Drawer
-        title="Inbox"
-        style={{ textAlign: "center", overflow: "hidden" }}
-        placement="right"
-        closable={false}
-        onClose={onClose}
-        visible={visible}
-        width={380}
-      >
-        <h1>Share Ideas With Your Friends</h1>
-        <InboxWrapper>
-          <SearchIconWrapper>
-            <SearchIcon
-              src="https://www.flaticon.com/svg/static/icons/svg/598/598494.svg"
-              alt="Icon"
-            />
-          </SearchIconWrapper>
-          <Search type="text" placeholder="Search by name or email" />
-        </InboxWrapper>
-        <p>Some contacts...</p>
-        <PersonWrap>
-          <Person>
-            <img
-              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-              alt=""
-              style={{ height: "40px", borderRadius: "25px" }}
-            />
-          </Person>
-          <a href="">
-            <div>
-              <h3>following 1</h3>
-            </div>
-          </a>
-        </PersonWrap>
-        <PersonWrap>
-          <Person>
-            <img
-              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-              alt=""
-              style={{ height: "40px", borderRadius: "25px" }}
-            />
-          </Person>
-          <a href="">
-            <div>
-              <h3>following 2</h3>
-            </div>
-          </a>
-        </PersonWrap>
-        <PersonWrap>
-          <Person>
-            <img
-              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-              alt=""
-              style={{ height: "40px", borderRadius: "25px" }}
-            />
-          </Person>
-          <a href="">
-            <div>
-              <h3>following 3</h3>
-            </div>
-          </a>
-        </PersonWrap>
-        <MessageContainer>
-          <Icon
-            src="https://www.flaticon.com/svg/vstatic/svg/889/889668.svg?token=exp=1617026404~hmac=4eecd80899885377e7f4b19eed96ccd3"
-            alt="Inbox"
-          />
-          <input type="text" placeholder="Send a Message..." />
-
-          <IconButton>
-            <FavoriteIcon fontSize="large" />
-          </IconButton>
-        </MessageContainer>
-      </Drawer>
-    </>
-  );
-};
-export default Inbox;

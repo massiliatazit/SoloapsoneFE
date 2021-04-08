@@ -74,7 +74,7 @@ const Inbox = (props) => {
         visible={visible}
         width={380}
       >
-        <h1>Share Ideas With Your Friends</h1>
+        <h3>Share Ideas With Your Friends</h3>
         <InboxWrapper>
           <SearchIconWrapper>
             <SearchIcon
@@ -86,7 +86,7 @@ const Inbox = (props) => {
           <Search
             type="text"
             placeholder="Search by name or email"
-            nChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
           />
           <button
             className="d-none"

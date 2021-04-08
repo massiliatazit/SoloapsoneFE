@@ -168,6 +168,7 @@ const SearchBarWrapper = styled.div`
   width: 100%;
   border-radius: 50px;
   border: none;
+
   padding-left: 10px;
   form {
     display: flex;
@@ -178,6 +179,7 @@ const SearchBarWrapper = styled.div`
     border: none;
     width: 100%;
     margin-left: 5px;
+
     font-size: 16px;
   }
   form > button {

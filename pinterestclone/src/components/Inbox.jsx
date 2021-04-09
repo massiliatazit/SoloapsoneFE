@@ -4,7 +4,7 @@ import "antd/dist/antd.css";
 import { Drawer } from "antd";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
-import { joinRoom, sendChat } from "../api/socket";
+import { joinRoom, sendChat, addUserSocketToRoom } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,9 +12,10 @@ import unsplash from "../api/unsplash";
 
 const Inbox = (props) => {
   const dispatch = useDispatch();
+  const [roomName, setRoomName] = useState("");
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
+
   const [text, setText] = useState("");
   const [users, setUsers] = useState("");
   const [input, setInput] = useState("");
@@ -27,26 +28,26 @@ const Inbox = (props) => {
     setVisible(false);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (e.target.value.length > 0) {
-  //     //SEND MESSAGE
-  //     dispatch({ type: "ADD_MESSAGE_TO_CHAT", payload: text });
-  //     setShowSend(true);
-  //   } else {
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (e.target.value.length > 0) {
+      //SEND MESSAGE
+      dispatch({ type: "ADD_MESSAGE_TO_CHAT", payload: text });
+      setShowSend(true);
+    } else {
+    }
+  };
 
-  // const sendMessage = () => {
-  //   const message = {
-  //     sender: props.user.username,
-  //     text: text,
-  //     createdAt: new Date(),
-  //   };
-  //   sendChat({ ...message, roomId: props.room._id });
-  //   props.newMessage(message);
-  //   setText("");
-  // };
+  const sendMessage = () => {
+    const message = {
+      sender: props.user.username,
+      text: text,
+      createdAt: new Date(),
+    };
+    sendChat({ ...message, roomId: props.room._id });
+    props.newMessage(message);
+    setText("");
+  };
   const getUsersOnSearch = (input) => {
     return unsplash.get("https://api.unsplash.com/search/users", {
       params: { query: input },
@@ -83,17 +84,40 @@ const Inbox = (props) => {
             />
           </SearchIconWrapper>
 
-          <Search
-            type="text"
-            placeholder="Search by name or email"
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <button
-            className="d-none"
-            type="submit"
-            onClick={(e) => onSearchSubmit(e)}
-          ></button>
+          <form>
+            <Search
+              type="text"
+              placeholder="Search by name or email"
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <button
+              className="d-none"
+              type="submit"
+              onClick={(e) => onSearchSubmit(e)}
+            ></button>
+          </form>
         </InboxWrapper>
+        {users.length > 0 &&
+          users
+            .filter((user) => user.username.startsWith(input))
+            .map((user) => {
+              return (
+                <PersonWrap>
+                  <Person>
+                    <img
+                      src={user.profile_image.small}
+                      alt=""
+                      style={{ height: "40px", borderRadius: "25px" }}
+                    />
+                  </Person>
+                  <a href="">
+                    <div>
+                      <h3>{user.username}</h3>
+                    </div>
+                  </a>
+                </PersonWrap>
+              );
+            })}
         <p>Some contacts...</p>
         <PersonWrap>
           <Person>

@@ -130,3 +130,69 @@ export const deleteFunction = async (endp) => {
   }
 };
 
+export const createRoomFetch = async (
+  name
+) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_URL}/rooms`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        chatHistory: [],
+        participants: [],
+        onlineParticipants: [],
+        images: "",
+      }),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+    const parsedResp = await response.json();
+    return parsedResp;
+  } catch (error) {
+    console.log(error);
+    return { message: "help us" };
+  }
+};
+
+export const addUserToRoom = async (
+  roomId,
+  userId
+)=>{
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_URL}/rooms/${roomId}/add-user/${userId}`,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const parsedResp = await response.json();
+    return parsedResp;
+  } catch (error) {
+    console.log(error);
+    return { message: "ya dun goofed" };
+  }
+};
+
+export const fetchRoom = async (roomId)=>{
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_URL}/rooms/${roomId}`,
+      {
+        credentials: "include",
+      }
+    );
+    const parsedResp = await response.json();
+    return parsedResp;
+  } catch (error) {
+    console.log(error);
+    return { message: "room fetch failed :(" };
+  }
+};

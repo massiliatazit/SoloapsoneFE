@@ -1,15 +1,48 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+
 import "antd/dist/antd.css";
 import { Drawer } from "antd";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
+import { createRoomFetch, addUserToRoom } from "../api/index";
 import { joinRoom, sendChat, addUserSocketToRoom } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";
 import unsplash from "../api/unsplash";
+/**
+ * 
+ * ---make yourself online update your socketId  (when yo are online (logged in ))
+ * ---------
+ *  downgrade fe socket to 2.3.0
+ *  when someone logged in  emit event  called SET_ONLINE
+ * 
+ *    and send this data {_id:"ajslkdjaslkdjaskllsakdjasl"}
+ *    this will update your socketId and make you joined all the conversations that you are onlineParticipants
+ *  
+ * 
+ * ------ create new chat or join to room----- ( when you click on chat)
+ * when you want to chat with someone
+ *    if you have chat history before (it means you have roomId) if you click on the chat
+ *      emit event JOIN_ROOM {roomId}
+ *    else
+ *       emit event JOIN_ROOM {participants:["asdas"],userId}
+ *    
+      ----- chat -------------------------------- (you wrote message and press enter)
 
+   emit this event -< CHAT_MESSAGE
+   send  this ->  
+        data= {
+            sender,
+           text,
+           roomId,
+          attachment,
+        }
+
+} props 
+ * @returns 
+ */
 const Inbox = (props) => {
   const dispatch = useDispatch();
   const [roomName, setRoomName] = useState("");
@@ -23,7 +56,7 @@ const Inbox = (props) => {
   const showDrawer = () => {
     setVisible(true);
   };
-
+  // client = 2.3.0 backend = 2.3.0
   const onClose = () => {
     setVisible(false);
   };

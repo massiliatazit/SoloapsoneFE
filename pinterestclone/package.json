@@ -12,6 +12,7 @@
     "animate.css": "^4.1.1",
     "antd": "^4.15.0",
     "aos": "^2.3.4",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "lodash": "^4.17.21",
     "lodash.merge": "^4.6.2",

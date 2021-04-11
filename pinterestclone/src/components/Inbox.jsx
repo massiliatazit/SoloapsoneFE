@@ -108,7 +108,7 @@ const Inbox = (props) => {
         visible={visible}
         width={380}
       >
-        <h3>Share Ideas With Your Friends</h3>
+        <h5>Share Ideas With Your Friends</h5>
         <InboxWrapper>
           <SearchIconWrapper>
             <SearchIcon
@@ -117,7 +117,13 @@ const Inbox = (props) => {
             />
           </SearchIconWrapper>
 
-          <form>
+          <form
+            style={{
+              backgroundColor: "#efefef",
+              borderRadius: "0px 25px 25px 0px",
+              width: "100%",
+            }}
+          >
             <Search
               type="text"
               placeholder="Search by name or email"
@@ -145,55 +151,32 @@ const Inbox = (props) => {
                   </Person>
                   <a href="">
                     <div>
-                      <h3>{user.username}</h3>
+                      <h4>{user.username}</h4>
                     </div>
                   </a>
                 </PersonWrap>
               );
             })}
-        <p>Some contacts...</p>
-        <PersonWrap>
-          <Person>
-            <img
-              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-              alt=""
-              style={{ height: "40px", borderRadius: "25px" }}
-            />
-          </Person>
-          <a href="">
-            <div>
-              <h3>following 1</h3>
-            </div>
-          </a>
-        </PersonWrap>
-        <PersonWrap>
-          <Person>
-            <img
-              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-              alt=""
-              style={{ height: "40px", borderRadius: "25px" }}
-            />
-          </Person>
-          <a href="">
-            <div>
-              <h3>following 2</h3>
-            </div>
-          </a>
-        </PersonWrap>
-        <PersonWrap>
-          <Person>
-            <img
-              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-              alt=""
-              style={{ height: "40px", borderRadius: "25px" }}
-            />
-          </Person>
-          <a href="">
-            <div>
-              <h3>following 3</h3>
-            </div>
-          </a>
-        </PersonWrap>
+        {!input && (
+          <>
+            {/* <p>Some contacts...</p> */}
+            <PersonWrap>
+              <Person>
+                <img
+                  src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
+                  alt=""
+                  style={{ height: "40px", borderRadius: "25px" }}
+                />
+              </Person>
+              <a href="">
+                <div>
+                  <h4>following 1</h4>
+                </div>
+              </a>
+            </PersonWrap>
+          </>
+        )}
+
         <MessageContainer>
           <Icon
             src="https://www.flaticon.com/svg/vstatic/svg/889/889668.svg?token=exp=1617026404~hmac=4eecd80899885377e7f4b19eed96ccd3"

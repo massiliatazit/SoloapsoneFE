@@ -108,7 +108,7 @@ const Inbox = (props) => {
         visible={visible}
         width={380}
       >
-        <h5>Share Ideas With Your Friends</h5>
+        <h5 style={{ fontWeight: "bold" }}>Share Ideas With Your Friends</h5>
         <InboxWrapper>
           <SearchIconWrapper>
             <SearchIcon
@@ -144,22 +144,22 @@ const Inbox = (props) => {
                 <PersonWrap>
                   <Person>
                     <img
-                      src={user.profile_image.small}
+                      src={user.profile_image.medium}
                       alt=""
                       style={{ height: "40px", borderRadius: "25px" }}
                     />
                   </Person>
-                  <a href="">
-                    <div>
-                      <h4>{user.username}</h4>
-                    </div>
-                  </a>
+
+                  <div>
+                    <p className="mb-0">{user.name}</p>
+                    <span>{user.username}</span>
+                  </div>
                 </PersonWrap>
               );
             })}
-        {!input && (
+        {!input && users.length === 0 && (
           <>
-            {/* <p>Some contacts...</p> */}
+            <p>Suggestions</p>
             <PersonWrap>
               <Person>
                 <img
@@ -168,11 +168,11 @@ const Inbox = (props) => {
                   style={{ height: "40px", borderRadius: "25px" }}
                 />
               </Person>
-              <a href="">
-                <div>
-                  <h4>following 1</h4>
-                </div>
-              </a>
+
+              <div className="text-align-left">
+                <p className="mb-0">username</p>
+                <span>following</span>
+              </div>
             </PersonWrap>
           </>
         )}
@@ -242,7 +242,7 @@ const MessageContainer = styled.div`
   align-items: center;
   position: absolute;
   padding: 8px;
-
+  background-color: white;
   bottom: 0;
   input {
     border-radius: 26px;
@@ -293,6 +293,14 @@ const PersonWrap = styled.div`
   font-size: 16px;
   margin-bottom: 20px;
   display: flex;
+  p {
+    font-weight: 600;
+  }
+  span {
+    color: #767676;
+    font-weight: 400;
+    font-size: 12;
+  }
 `;
 const Person = styled.div`
   width: 50px;

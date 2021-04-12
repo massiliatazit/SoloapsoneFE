@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import { connect } from "react-redux";
-import { getFunction } from "../api/index";
+import { getFunction, deleteFunction } from "../api/index";
 import "../styles/index.css";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Row, Col } from "react-bootstrap";
@@ -14,6 +15,7 @@ function CreatedPins(props) {
   const { username } = props.match.params;
   useEffect(() => {
     getcreatedPins();
+    deletePin();
   }, []);
 
   const getcreatedPins = async () => {
@@ -23,6 +25,10 @@ function CreatedPins(props) {
       setcreatedPins(response);
       //   response.links && setNext(response.links.next);
     }
+  };
+  const deletePin = async (id) => {
+    const response = await deleteFunction(`/pins/${id}`);
+    console.log(response);
   };
   const handlePinClick = (id) => {
     history.push(`/${id}`);
@@ -41,7 +47,7 @@ function CreatedPins(props) {
             }}
           >
             {createdPins &&
-              createdPins.map((pin) => (
+              createdPins.reverse().map((pin) => (
                 <ImageCard>
                   <Image
                     src={pin.images}
@@ -50,9 +56,13 @@ function CreatedPins(props) {
                       handlePinClick(pin._id);
                     }}
                   />
-                  <h3 style={{ margin: "10px" }}>
-                    Photo by {pin.owner.username}
-                  </h3>
+                  <div className="d-flex flex-column justify-content-start">
+                    <h6 style={{ margin: "10px" }}>{pin.title}</h6>
+                    <div className="d-flex  justify-content-between">
+                      <EditOutlined />
+                      <DeleteOutlined onClick={() => deletePin(pin._id)} />
+                    </div>
+                  </div>
                 </ImageCard>
               ))}
           </div>

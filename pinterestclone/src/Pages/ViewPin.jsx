@@ -13,6 +13,8 @@ import { Container, Row, Col } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => ({
   SetSavedPins: (pin) => dispatch({ type: "PINS_SAVED_BY_USER", payload: pin }),
+  SetFollowing: (userID) =>
+    dispatch({ type: "ADD_FOLLOWING", payload: userID }),
 });
 function ViewPin(props) {
   const [loading, Setloading] = useState(false);
@@ -22,6 +24,7 @@ function ViewPin(props) {
   const [ShowComments, SetShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [addTofollowing, setfollowing] = useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [showReactions, SetShowReactions] = useState(false);
 
@@ -57,6 +60,17 @@ function ViewPin(props) {
     props.SetSavedPins(pin);
     setSaved(true);
   };
+  const AddorRemovefollowing = async (userId) => {
+    const index = props.user.following.indexOf(userId);
+    if (!props.user.following.includes(userId)) {
+      props.SetFollowing(userId);
+      setfollowing(true);
+    } else {
+      props.user.following.splice(index, 1);
+      setfollowing(false);
+    }
+  };
+
   const SeeComments = () => {
     SetShowComments(!ShowComments);
   };
@@ -162,7 +176,11 @@ function ViewPin(props) {
                           </div>
                         )}
                       </div>
-                      <RedBtn onClick={() => savePin(pins)}>Save</RedBtn>
+                      {pinsaved ? (
+                        <RedBtn onClick={() => savePin(pins)}>Saved</RedBtn>
+                      ) : (
+                        <RedBtn onClick={() => savePin(pins)}>Save</RedBtn>
+                      )}
                     </div>
                     <div>
                       <h2 style={{ fontWeight: 700, whiteSpace: "nowrap" }}>
@@ -186,7 +204,21 @@ function ViewPin(props) {
                         >
                           {pins.description}
                         </h6>
-                        <GreyBtn className="mt-2 ">Follow</GreyBtn>
+                        {addTofollowing ? (
+                          <GreyBtn
+                            className="mt-2 "
+                            onClick={() => AddorRemovefollowing(pins.user.id)}
+                          >
+                            Following
+                          </GreyBtn>
+                        ) : (
+                          <GreyBtn
+                            className="mt-2 "
+                            onClick={() => AddorRemovefollowing(pins.user.id)}
+                          >
+                            Follow
+                          </GreyBtn>
+                        )}
                       </div>
                     </div>
                     <div>

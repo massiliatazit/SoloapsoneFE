@@ -23,6 +23,7 @@ function Pin(props) {
   const [pinsaved, setSaved] = useState(false);
   useEffect(() => {
     // setLogged(true);
+
     setLoading(false);
     return () => {
       console.log("clean up");
@@ -35,8 +36,6 @@ function Pin(props) {
   const handlePinClick = (id) => {
     history.push(`/${id}`);
   };
-
-  //console.log(props.pins.find((pin) => pin.id === props.id));
 
   return (
     <Col xs={6} md={2}>

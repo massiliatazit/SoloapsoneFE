@@ -9,6 +9,11 @@ export default function (state = {}, action) {
         return{
           ...state,
          saved:state.saved.concat(action.payload)
+        };
+        case"ADD_FOLLOWING":
+        return{
+          ...state,
+         following:state.following.concat(action.payload)
         }
        
 

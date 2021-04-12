@@ -11,7 +11,7 @@ import chat from "../Reducers/chat";
 const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
-  user: {saved:[]},
+  user: {saved:[],following:[],followers:[]},
   chat:{chatHistory:[]},
   status: {
     notifications: {},loading: true,

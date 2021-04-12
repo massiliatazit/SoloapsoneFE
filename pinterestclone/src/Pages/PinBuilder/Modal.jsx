@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback } from "react";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
-
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 const Background = styled.div`
   width: 100%;
@@ -111,6 +111,7 @@ background-color:"grey";
 
 const mapStateToProps = (state) => state;
 const Modal = (props) => {
+  let history = useHistory();
   let { showModal, setShowModal, pinsReducers } = props;
   const modalRef = useRef();
 
@@ -173,7 +174,13 @@ const Modal = (props) => {
                   <h1>{pinsReducers.pin.title}</h1>
                   <p>{pinsReducers.pin.description}</p>
                   <div className="d-flex" style={{ marginTop: 100 }}>
-                    <GreyBtn>See created Pins</GreyBtn>
+                    <GreyBtn
+                      onClick={() =>
+                        history.push(`/${props.user.username}/created`)
+                      }
+                    >
+                      See created Pins
+                    </GreyBtn>
                     <RedBtn>Sponsor</RedBtn>
                   </div>
                 </ModalContent>

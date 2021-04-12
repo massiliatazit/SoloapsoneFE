@@ -171,7 +171,7 @@ function ViewPin(props) {
                               zIndex: "100",
                             }}
                           >
-                            <PokemonSelector />
+                            <PokemonSelector onSelect={() => console.log(1)} />
                           </div>
                         )}
                       </div>

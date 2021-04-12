@@ -1,9 +1,9 @@
 export default function (state = {}, action) {
     switch (action.type) {
-      case "GET_TO_ROOM":
+      case "SET_ROOM":
         return {
           ...state,
-          ...action.payload,
+          roomId: action.payload,
         };
         case"ADD_MESSAGE_TO_CHAT":
         return{

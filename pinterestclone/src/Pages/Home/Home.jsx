@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "../../components/Headers/Header";
 import { connect } from "react-redux";
 import Pin from "../../components/Pin";
+import { joinOnline } from "../../api/socket";
 import { postFunction, getFunction } from "../../api/index";
 import CreatePinCard from "../../components/CreatePinCard";
 import "./home.css";
@@ -23,10 +24,12 @@ function Home(props) {
   const [loggedIn, setloggedIn] = useState(true);
   const getUser = async (username) => {
     console.log("here");
-    const response = await getFunction("/users");
+    const response = await getFunction("/users/me");
 
     if (response) {
       props.Setuser(response);
+      console.log(response);
+      joinOnline(props.user._id);
     } else {
     }
     setLoading(false);

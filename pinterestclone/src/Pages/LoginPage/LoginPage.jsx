@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { postFunction } from "../../api/index";
 import { FaFacebook } from "react-icons/fa";
+
 import { Container, Row, Col } from "react-bootstrap";
 import LoginModal from "./LoginModal";
 import styled from "styled-components";
@@ -22,6 +23,7 @@ function LoginPage(props) {
       });
       localStorage.setItem("token", login.tokens.token);
       localStorage.setItem("refreshToken", login.tokens.refreshToken);
+
       window.location.replace("/homefeed");
     } catch (error) {
       console.log(error);

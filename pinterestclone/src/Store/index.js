@@ -12,7 +12,7 @@ const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
   user: {saved:[],following:[],followers:[]},
-  chat:{chatHistory:[]},
+  chat:{chatHistory:[],roomId:""},
   status: {
     notifications: {},loading: true,
   },

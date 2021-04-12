@@ -6,8 +6,9 @@ import { Drawer } from "antd";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import io from "socket.io-client";
-import { createRoomFetch, addUserToRoom } from "../api/index";
-import { joinRoom, sendChat, addUserSocketToRoom } from "../api/socket";
+import SendIcon from "@material-ui/icons/Send";
+import { createRoomFetch, addUserToRoom, getFunction } from "../api/index";
+import { joinRoom, sendChat, getRoomId } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";
@@ -54,6 +55,7 @@ const Inbox = (props) => {
   const [text, setText] = useState("");
   const [users, setUsers] = useState("");
   const [input, setInput] = useState("");
+  const [userjoin, setUserjoin] = useState(false);
   const [showSend, setShowSend] = useState(false);
   const showDrawer = () => {
     setVisible(true);
@@ -61,6 +63,9 @@ const Inbox = (props) => {
   // client = 2.3.0 backend = 2.3.0
   const onClose = () => {
     setVisible(false);
+  };
+  const setRoom = (RoomId) => {
+    dispatch({ type: "SET_ROOM", payload: RoomId });
   };
 
   const handleSubmit = async (e) => {
@@ -77,25 +82,36 @@ const Inbox = (props) => {
     const message = {
       sender: props.user.username,
       text: text,
+      roomId: props.chat.RoomId,
+
       createdAt: new Date(),
     };
-    sendChat({ ...message, roomId: props.room._id });
-    props.newMessage(message);
+
+    sendChat({ ...message });
     setText("");
   };
-  const getUsersOnSearch = (input) => {
-    return unsplash.get("https://api.unsplash.com/search/users", {
-      params: { query: input },
+  // const getUsersOnSearch = (input) => {
+  //   return unsplash.get("https://api.unsplash.com/search/users", {
+  //     params: { query: input },
+  //   });
+  // };
+
+  const getUsersOnSearch = async (input) => {
+    const response = await getFunction("/users");
+    const filteredArray = response.filter((filtereduser) => {
+      return filtereduser.username.includes(input);
     });
+    return filteredArray;
   };
-  const onSearchSubmit = (e) => {
+  const onSearchSubmit = async (e) => {
     e.preventDefault();
-    getUsersOnSearch(input).then((res) => {
-      let results = res.data.results;
-      console.log(results, "inbox");
-      setUsers(results);
-    });
+    const results = await getUsersOnSearch(input);
+    console.log(results);
+    setUsers(results);
   };
+  useEffect(() => {
+    getRoomId(setRoom);
+  });
   return (
     <>
       <div onClick={showDrawer}>
@@ -112,44 +128,58 @@ const Inbox = (props) => {
       >
         <h5 style={{ fontWeight: "bold" }}>Share Ideas With Your Friends</h5>
         <InboxWrapper>
-          <SearchIconWrapper>
-            <SearchIcon
-              src="https://www.flaticon.com/svg/static/icons/svg/598/598494.svg"
-              alt="Icon"
-            />
-          </SearchIconWrapper>
-
-          <form
-            style={{
-              backgroundColor: "#efefef",
-              borderRadius: "0px 25px 25px 0px",
-              width: "100%",
-            }}
-          >
-            <Search
-              type="text"
-              placeholder="Search by name or email"
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <button
-              className="d-none"
-              type="submit"
-              onClick={(e) => onSearchSubmit(e)}
-            ></button>
-          </form>
+          {!userjoin && (
+            <>
+              {" "}
+              <SearchIconWrapper>
+                <SearchIcon
+                  src="https://www.flaticon.com/svg/static/icons/svg/598/598494.svg"
+                  alt="Icon"
+                />
+              </SearchIconWrapper>
+              <form
+                style={{
+                  backgroundColor: "#efefef",
+                  borderRadius: "0px 25px 25px 0px",
+                  width: "100%",
+                }}
+              >
+                <Search
+                  type="text"
+                  placeholder="Search by name or email"
+                  onChange={(e) => setInput(e.target.value)}
+                />
+                <button
+                  className="d-none"
+                  type="submit"
+                  onClick={(e) => onSearchSubmit(e)}
+                ></button>
+              </form>
+            </>
+          )}
         </InboxWrapper>
         {users.length > 0 &&
+          !userjoin &&
           users
             .filter((user) => user.username.startsWith(input))
             .map((user) => {
               return (
                 <PersonWrap>
                   <Person>
-                    <img
-                      src={user.profile_image.medium}
-                      alt=""
-                      style={{ height: "40px", borderRadius: "25px" }}
-                    />
+                    {user.img && (
+                      <img
+                        src={user.img}
+                        alt=""
+                        style={{ height: "40px", borderRadius: "25px" }}
+                        onClick={() => {
+                          joinRoom({
+                            userId: props.user._id,
+                            participants: [user._id],
+                          });
+                          setUserjoin(true);
+                        }}
+                      />
+                    )}
                   </Person>
 
                   <div>
@@ -167,7 +197,7 @@ const Inbox = (props) => {
               <PersonWrap>
                 <Person>
                   <img
-                    src={user.profile_image.medium}
+                    src={user.img}
                     alt=""
                     style={{ height: "40px", borderRadius: "25px" }}
                   />
@@ -188,9 +218,15 @@ const Inbox = (props) => {
           />
 
           <form>
-            <input type="text" placeholder="Send a Message..." />
+            <input
+              type="text"
+              placeholder="Send a Message..."
+              onChange={(e) => setText(e.target.value)}
+            />
           </form>
-
+          <IconButton>
+            <SendIcon onClick={() => sendMessage()} />
+          </IconButton>
           <IconButton>
             <FavoriteIcon fontSize="large" />
           </IconButton>

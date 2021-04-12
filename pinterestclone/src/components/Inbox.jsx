@@ -4,6 +4,7 @@ import styled from "styled-components";
 import "antd/dist/antd.css";
 import { Drawer } from "antd";
 import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import io from "socket.io-client";
 import { createRoomFetch, addUserToRoom } from "../api/index";
 import { joinRoom, sendChat, addUserSocketToRoom } from "../api/socket";
@@ -11,6 +12,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";
 import unsplash from "../api/unsplash";
+const mapStateToProps = (state) => state;
 /**
  * 
  * ---make yourself online update your socketId  (when yo are online (logged in ))
@@ -157,25 +159,27 @@ const Inbox = (props) => {
                 </PersonWrap>
               );
             })}
-        {!input && users.length === 0 && (
-          <>
-            <p>Suggestions</p>
-            <PersonWrap>
-              <Person>
-                <img
-                  src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-                  alt=""
-                  style={{ height: "40px", borderRadius: "25px" }}
-                />
-              </Person>
+        {!input &&
+          users.length === 0 &&
+          props.user.following.map((user) => (
+            <>
+              <p>Suggestions</p>
+              <PersonWrap>
+                <Person>
+                  <img
+                    src={user.profile_image.medium}
+                    alt=""
+                    style={{ height: "40px", borderRadius: "25px" }}
+                  />
+                </Person>
 
-              <div className="text-align-left">
-                <p className="mb-0">username</p>
-                <span>following</span>
-              </div>
-            </PersonWrap>
-          </>
-        )}
+                <div className="text-align-left">
+                  <p className="mb-0">{user.username}</p>
+                  <span>following</span>
+                </div>
+              </PersonWrap>
+            </>
+          ))}
 
         <MessageContainer>
           <Icon
@@ -195,7 +199,7 @@ const Inbox = (props) => {
     </>
   );
 };
-export default Inbox;
+export default connect(mapStateToProps)(Inbox);
 const Icon = styled.img`
   padding: 12px;
   height: 48px;

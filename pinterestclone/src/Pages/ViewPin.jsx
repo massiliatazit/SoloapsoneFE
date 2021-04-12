@@ -13,8 +13,7 @@ import { Container, Row, Col } from "react-bootstrap";
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => ({
   SetSavedPins: (pin) => dispatch({ type: "PINS_SAVED_BY_USER", payload: pin }),
-  SetFollowing: (userID) =>
-    dispatch({ type: "ADD_FOLLOWING", payload: userID }),
+  SetFollowing: (user) => dispatch({ type: "ADD_FOLLOWING", payload: user }),
 });
 function ViewPin(props) {
   const [loading, Setloading] = useState(false);
@@ -60,10 +59,10 @@ function ViewPin(props) {
     props.SetSavedPins(pin);
     setSaved(true);
   };
-  const AddorRemovefollowing = async (userId) => {
-    const index = props.user.following.indexOf(userId);
-    if (!props.user.following.includes(userId)) {
-      props.SetFollowing(userId);
+  const AddorRemovefollowing = async (user) => {
+    const index = props.user.following.indexOf(user);
+    if (!props.user.following.includes(user)) {
+      props.SetFollowing(user);
       setfollowing(true);
     } else {
       props.user.following.splice(index, 1);
@@ -207,14 +206,14 @@ function ViewPin(props) {
                         {addTofollowing ? (
                           <GreyBtn
                             className="mt-2 "
-                            onClick={() => AddorRemovefollowing(pins.user.id)}
+                            onClick={() => AddorRemovefollowing(pins.user)}
                           >
                             Following
                           </GreyBtn>
                         ) : (
                           <GreyBtn
                             className="mt-2 "
-                            onClick={() => AddorRemovefollowing(pins.user.id)}
+                            onClick={() => AddorRemovefollowing(pins.user)}
                           >
                             Follow
                           </GreyBtn>

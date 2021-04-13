@@ -10,6 +10,8 @@ import Header from "../components/Headers/Header";
 import { PokemonSelector } from "react-reactions";
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import { Container, Row, Col } from "react-bootstrap";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => ({
   SetSavedPins: (pin) => dispatch({ type: "PINS_SAVED_BY_USER", payload: pin }),
@@ -171,7 +173,7 @@ function ViewPin(props) {
                               zIndex: "100",
                             }}
                           >
-                            <PokemonSelector onSelect={() => console.log(1)} />
+                            <PokemonSelector onSelect={() => console.log(3)} />
                           </div>
                         )}
                       </div>

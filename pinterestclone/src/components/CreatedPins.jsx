@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 import { connect } from "react-redux";
 import { getFunction, deleteFunction } from "../api/index";
 import "../styles/index.css";

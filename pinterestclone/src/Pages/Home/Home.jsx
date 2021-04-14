@@ -27,7 +27,7 @@ function Home(props) {
     const response = await getFunction("/users/me");
 
     if (response) {
-      props.Setuser(response);
+     await props.Setuser(response);
       console.log(response);
       joinOnline(props.user._id);
     } else {

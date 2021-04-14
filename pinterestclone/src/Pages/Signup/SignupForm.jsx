@@ -27,7 +27,7 @@ const SignupForm = () => {
       });
       localStorage.setItem("token", register.tokens.token);
       localStorage.setItem("refreshToken", register.tokens.refreshToken);
-      window.location.replace("/Login");
+      window.location.replace("/homefeed");
     } catch (error) {
       console.log(error);
     }

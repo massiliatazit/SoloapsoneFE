@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import io from "socket.io-client";
 import SendIcon from "@material-ui/icons/Send";
 import { createRoomFetch, addUserToRoom, getFunction } from "../api/index";
-import { joinRoom, sendChat, getRoomId } from "../api/socket";
+import { joinRoom, sendChat, getRoomId, listenChat } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import IconButton from "@material-ui/core/IconButton";
@@ -67,6 +67,9 @@ const Inbox = (props) => {
   const setRoom = (RoomId) => {
     dispatch({ type: "SET_ROOM", payload: RoomId });
   };
+  const receiveMessage = (message) => {
+    dispatch({ type: "ADD_MESSAGE_TO_CHAT", payload: message });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,11 +85,11 @@ const Inbox = (props) => {
     const message = {
       sender: props.user.username,
       text: text,
-      roomId: props.chat.RoomId,
+      roomId: props.chat.roomId,
 
       createdAt: new Date(),
     };
-
+    console.log(message);
     sendChat({ ...message });
     setText("");
   };
@@ -111,7 +114,8 @@ const Inbox = (props) => {
   };
   useEffect(() => {
     getRoomId(setRoom);
-  });
+    listenChat(receiveMessage);
+  }, []);
   return (
     <>
       <div onClick={showDrawer}>
@@ -127,8 +131,8 @@ const Inbox = (props) => {
         width={380}
       >
         <h5 style={{ fontWeight: "bold" }}>Share Ideas With Your Friends</h5>
-        <InboxWrapper>
-          {!userjoin && (
+        {!userjoin && (
+          <InboxWrapper>
             <>
               {" "}
               <SearchIconWrapper>
@@ -156,8 +160,8 @@ const Inbox = (props) => {
                 ></button>
               </form>
             </>
-          )}
-        </InboxWrapper>
+          </InboxWrapper>
+        )}
         {users.length > 0 &&
           !userjoin &&
           users
@@ -210,7 +214,20 @@ const Inbox = (props) => {
               </PersonWrap>
             </>
           ))}
-
+        {userjoin &&
+          props.chat.chatHistory.map((msg, i) => (
+            <div
+              className={
+                msg.sender === props.user.username ? "text-right" : "text-left"
+              }
+              key={i}
+            >
+              <div style={{ fontWeight: 400, fontSize: 11, color: "#767676" }}>
+                {msg.sender}
+              </div>
+              <div>{msg.text}</div>{" "}
+            </div>
+          ))}
         <MessageContainer>
           <Icon
             src="https://www.flaticon.com/svg/vstatic/svg/889/889668.svg?token=exp=1617026404~hmac=4eecd80899885377e7f4b19eed96ccd3"
@@ -222,6 +239,7 @@ const Inbox = (props) => {
               type="text"
               placeholder="Send a Message..."
               onChange={(e) => setText(e.target.value)}
+              F
             />
           </form>
           <IconButton>
@@ -289,6 +307,7 @@ const MessageContainer = styled.div`
     border: 1px solid grey;
     min-width: 70%;
     height: 48px;
+    padding: 15px;
 
     :focus {
       outline: none;
@@ -296,7 +315,7 @@ const MessageContainer = styled.div`
     ::placeholder {
       color: black;
       font-size: 14px;
-      padding: 10px;
+      padding: 15px;
     }
   }
 `;

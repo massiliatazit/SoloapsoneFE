@@ -16,11 +16,12 @@ export const joinRoom = (data)=>{
   
  
   export const getRoomId=(setRoom)=>{
-    socket.on("roomId",(data)=>setRoom(data))
+    socket.on("roomId",(data)=> {console.log(data);setRoom(data)})
+
   }
-  export const listenChat = ( data) => {
+  export const listenChat = ( receiveMessage) => {
     
-    socket.on("CHAT_MESSAGE", data);
+    socket.on("CHAT_MESSAGE", data => receiveMessage(data));
   };
   
   export const sendChat = (data) => {

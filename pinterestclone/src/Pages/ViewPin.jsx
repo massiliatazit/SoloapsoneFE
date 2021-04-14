@@ -28,7 +28,7 @@ function ViewPin(props) {
   const [addTofollowing, setfollowing] = useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [showReactions, SetShowReactions] = useState(false);
-
+  console.log("here props", props);
   const { id } = props.match.params;
   const getPinsById = async () => {
     console.log("hello");
@@ -91,7 +91,7 @@ function ViewPin(props) {
     setCommentInput("");
     postComment(commentInput);
   };
-
+  console.log("here is ", props);
   return (
     <>
       {" "}
@@ -326,7 +326,7 @@ function ViewPin(props) {
                           <PopupPostNewComment>
                             <CommentsContainer className="left">
                               <img
-                                src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"
+                                src={props.user.img}
                                 alt=""
                                 srcSet=""
                                 height="48"

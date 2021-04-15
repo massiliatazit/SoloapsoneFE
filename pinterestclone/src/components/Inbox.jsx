@@ -253,7 +253,24 @@ const Inbox = (props) => {
             <SendIcon onClick={() => sendMessage()} />
           </IconButton>
           <IconButton>
-            <FavoriteIcon fontSize="large" />
+            <FavoriteIcon
+              fontSize="large"
+              onClick={() => {
+                setText(
+                  <svg
+                    class="gUZ lZJ U9O kVc"
+                    height="48"
+                    width="48"
+                    viewBox="0 0 24 24"
+                    aria-label="cœur"
+                    role="img"
+                  >
+                    <path d="M22.178 13.583l-9.131 8.992a1.502 1.502 0 0 1-2.094 0l-9.131-8.992a6.192 6.192 0 0 1 0-8.773c2.439-2.413 6.395-2.413 8.834 0L12 6.154l1.344-1.344c2.439-2.413 6.395-2.413 8.834 0a6.192 6.192 0 0 1 0 8.773"></path>
+                  </svg>
+                );
+                sendMessage();
+              }}
+            />
           </IconButton>
         </MessageContainer>
       </Drawer>

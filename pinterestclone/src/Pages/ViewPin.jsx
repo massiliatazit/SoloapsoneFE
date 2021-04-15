@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Header from "../components/Headers/Header";
-import { PokemonSelector } from "react-reactions";
+import { FacebookCounter, FacebookSelector } from "react-reactions";
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import { Container, Row, Col } from "react-bootstrap";
 import "emoji-mart/css/emoji-mart.css";
@@ -24,11 +24,40 @@ function ViewPin(props) {
   const [showLargeHeart, setShowLargeHeart] = useState(false);
   const [ShowComments, SetShowComments] = useState(false);
   const [comments, setComments] = useState([]);
+  const [showSelector, setShowSelector] = useState(false);
+  const [userEmoji, setUserEmoji] = useState("Case Sandberg");
+  const [counters, setCounters] = useState([
+    {
+      emoji: "like",
+      by: "Case Sandberg",
+    },
+    /*,
+    {
+      emoji: "like",
+      by: "Henry Boldizsar",
+    },
+    {
+      emoji: "like",
+      by: "Joseph Poon",
+    },
+    {
+      emoji: "like",
+      by: "Elizabeth Stark",
+    },
+    {
+      emoji: "like",
+      by: "Cameron Gillard",
+    },
+    {
+      emoji: "love",
+      by: "Rob Sandberg",
+    },*/
+  ]);
   const [isLiked, setIsLiked] = useState(false);
   const [addTofollowing, setfollowing] = useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [showReactions, SetShowReactions] = useState(false);
-  console.log("here props", props);
+
   const { id } = props.match.params;
   const getPinsById = async () => {
     console.log("hello");
@@ -91,7 +120,24 @@ function ViewPin(props) {
     setCommentInput("");
     postComment(commentInput);
   };
-  console.log("here is ", props);
+  console.log(counters);
+  const handleAdd = () => setShowSelector(true);
+  const handleSelect = (emoji) => {
+    const index = counters.findIndex((el) => el.by === userEmoji);
+
+    if (index > -1) {
+      setCounters([
+        ...counters.slice(0, index),
+        { emoji, by: userEmoji },
+        ...counters.slice(index + 1),
+      ]);
+    } else {
+      setCounters([...counters, { emoji, by: userEmoji }]);
+    }
+
+    setShowSelector(false);
+  };
+
   return (
     <>
       {" "}
@@ -154,16 +200,27 @@ function ViewPin(props) {
                           <PublishTwoToneIcon></PublishTwoToneIcon>
                         </IconButton>
                         <IconButton>
-                          <LikeDiv
+                          {/* <LikeDiv
                             onMouseEnter={(e) => {
                               SetShowReactions(true);
                             }}
                             // onMouseLeave={(e) => {
                             //   SetShowReactions(false);
                             // }}
-                          ></LikeDiv>
+                          ></LikeDiv> */}
+                          <FacebookCounter
+                            counters={counters}
+                            onClick={() => handleAdd()}
+                            bg="#fafafa"
+                            important={["Henry Boldizsar", "Rob Sandberg"]}
+                          />
                         </IconButton>
-                        {showReactions && (
+                        {showSelector ? (
+                          <FacebookSelector
+                            onSelect={() => handleSelect(counters.emoji)}
+                          />
+                        ) : null}
+                        {/* {showReactions && (
                           <div
                             onMouseLeave={(e) => {
                               SetShowReactions(false);
@@ -173,9 +230,8 @@ function ViewPin(props) {
                               zIndex: "100",
                             }}
                           >
-                            <PokemonSelector onSelect={() => console.log(3)} />
                           </div>
-                        )}
+                        )} */}
                       </div>
                       {pinsaved ? (
                         <RedBtn onClick={() => savePin(pins)}>Saved</RedBtn>

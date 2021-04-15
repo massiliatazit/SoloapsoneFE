@@ -237,11 +237,14 @@ const Inbox = (props) => {
           <form>
             <input
               type="text"
+              value={text}
               placeholder="Send a Message..."
               onChange={(e) => setText(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-                  sendMessage();
+                  {
+                    sendMessage();
+                  }
                 }
               }}
             />

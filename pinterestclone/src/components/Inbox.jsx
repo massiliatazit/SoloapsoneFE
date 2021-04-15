@@ -89,9 +89,9 @@ const Inbox = (props) => {
 
       createdAt: new Date(),
     };
-    console.log(message);
+
     sendChat({ ...message });
-    setText("");
+    setText(" ");
   };
   // const getUsersOnSearch = (input) => {
   //   return unsplash.get("https://api.unsplash.com/search/users", {
@@ -239,7 +239,11 @@ const Inbox = (props) => {
               type="text"
               placeholder="Send a Message..."
               onChange={(e) => setText(e.target.value)}
-              F
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  sendMessage();
+                }
+              }}
             />
           </form>
           <IconButton>

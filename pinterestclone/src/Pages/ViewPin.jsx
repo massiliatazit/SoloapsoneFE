@@ -31,7 +31,11 @@ function ViewPin(props) {
       emoji: "like",
       by: "Case Sandberg",
     },
-    /*,
+    {
+      emoji: "love",
+      by: "Rob Sandberg",
+    },
+
     {
       emoji: "like",
       by: "Henry Boldizsar",
@@ -48,10 +52,6 @@ function ViewPin(props) {
       emoji: "like",
       by: "Cameron Gillard",
     },
-    {
-      emoji: "love",
-      by: "Rob Sandberg",
-    },*/
   ]);
   const [isLiked, setIsLiked] = useState(false);
   const [addTofollowing, setfollowing] = useState(false);
@@ -124,7 +124,7 @@ function ViewPin(props) {
   const handleAdd = () => setShowSelector(true);
   const handleSelect = (emoji) => {
     const index = counters.findIndex((el) => el.by === userEmoji);
-
+    console.log(index);
     if (index > -1) {
       setCounters([
         ...counters.slice(0, index),
@@ -216,9 +216,7 @@ function ViewPin(props) {
                           />
                         </IconButton>
                         {showSelector ? (
-                          <FacebookSelector
-                            onSelect={() => handleSelect(counters.emoji)}
-                          />
+                          <FacebookSelector onSelect={() => handleSelect()} />
                         ) : null}
                         {/* {showReactions && (
                           <div

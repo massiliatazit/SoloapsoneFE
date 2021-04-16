@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PinterestIcon from "@material-ui/icons/Pinterest";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import Dropdownmenu from "../Dropdownmenu";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -106,7 +107,8 @@ function Header(props) {
         </IconButton>
         {/* {showDropdown && ( */}
         <IconButton onClick={toggleProfileDropdownHandler}>
-          <KeyboardArrowDownIcon />
+          {/* <KeyboardArrowDownIcon /> */}
+          <Dropdownmenu />
         </IconButton>
       </IconsWrapper>
     </Wrapper>
@@ -132,6 +134,7 @@ const HomeButtons = styled.div`
   display: flex;
   height: 48px;
   min-width: 100px;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   border-radius: 24px;

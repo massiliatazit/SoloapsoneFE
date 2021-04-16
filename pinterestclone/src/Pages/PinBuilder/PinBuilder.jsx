@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
-import Header from "../../components/Headers/Header";
+
 import styled from "styled-components";
 import PostPostModal from "./PostPostModal";
 import { Row, Col, Container } from "react-bootstrap";
@@ -14,7 +14,6 @@ function PinBuilder() {
 
   return (
     <>
-      <Header />
       <Wrapper>
         <ButtonADD type="button" onClick={addPin}>
           <AddIcon />

@@ -38,7 +38,7 @@ function Pin(props) {
   };
 
   return (
-    <Col xs={6} md={2}>
+    <Col xs={6} md={4} lg={2}>
       {" "}
       <Wrapper>
         {props.pin && (

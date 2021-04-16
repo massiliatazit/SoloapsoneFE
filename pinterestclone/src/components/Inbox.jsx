@@ -6,7 +6,7 @@ import { Drawer } from "antd";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import io from "socket.io-client";
-import SendIcon from "@material-ui/icons/Send";
+import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import { createRoomFetch, addUserToRoom, getFunction } from "../api/index";
 import { joinRoom, sendChat, getRoomId, listenChat } from "../api/socket";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -57,6 +57,7 @@ const Inbox = (props) => {
   const [input, setInput] = useState("");
   const [userjoin, setUserjoin] = useState(false);
   const [showSend, setShowSend] = useState(false);
+  const [attachment, setAttachment] = useState("");
   const showDrawer = () => {
     setVisible(true);
   };
@@ -86,6 +87,7 @@ const Inbox = (props) => {
       sender: props.user.username,
       text: text,
       roomId: props.chat.roomId,
+      // attachment: ,
 
       createdAt: new Date(),
     };
@@ -197,11 +199,12 @@ const Inbox = (props) => {
           users.length === 0 &&
           props.user.following.map((user) => (
             <>
+              {console.log("here user", user)}
               <p>Suggestions</p>
               <PersonWrap>
                 <Person>
                   <img
-                    src={user.img}
+                    src={user.profile_image.medium}
                     alt=""
                     style={{ height: "40px", borderRadius: "25px" }}
                   />
@@ -249,10 +252,13 @@ const Inbox = (props) => {
               }}
             />
           </form>
-          <IconButton>
-            <SendIcon onClick={() => sendMessage()} />
+          <IconButton style={{ backgroundColor: "#e60023", marginLeft: 6 }}>
+            <SendOutlinedIcon
+              style={{ fill: "white" }}
+              onClick={() => sendMessage()}
+            />
           </IconButton>
-          <IconButton>
+          <IconButton style={{ padding: 0 }}>
             <FavoriteIcon
               fontSize="large"
               onClick={() => {

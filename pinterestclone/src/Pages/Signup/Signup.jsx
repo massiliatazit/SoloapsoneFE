@@ -274,7 +274,7 @@ function Signup(props) {
             height: "100vh",
             width: "100%",
             position: "absolute",
-            bottom: "-1100px",
+            bottom: "-1000px",
           }}
           className=" wrappy"
         >

@@ -1,11 +1,17 @@
 import React from "react";
 import "antd/dist/antd.css";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import { Menu, Dropdown } from "antd";
 
 function Dropdownmenu() {
-  const style = { fontWeight: 600 };
+  const logOut = async () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    window.location.replace("/");
+  };
+
   const menu = (
     <Menu>
       <Menu.Item key="0">
@@ -20,8 +26,11 @@ function Dropdownmenu() {
         <Alink href="https://www.aliyun.com">Settings</Alink>
       </Menu.Item>
       <Menu.Divider />
+
       <Menu.Item key="3">
-        Sign out <LogoutOutlined />
+        <Link to="/" onClick={logOut}>
+          Log Out
+        </Link>
       </Menu.Item>
     </Menu>
   );
@@ -31,7 +40,7 @@ function Dropdownmenu() {
       <Alink
         className="ant-dropdown-link"
         onClick={(e) => e.preventDefault()}
-        style={{ color: "#767676", textDecoration: "none" }}
+        style={{ color: "#767676" }}
       >
         <KeyboardArrowDownIcon />
       </Alink>
@@ -42,4 +51,5 @@ function Dropdownmenu() {
 export default Dropdownmenu;
 const Alink = styled.a`
   font-weight: 600;
+  text-decoration: "none";
 `;

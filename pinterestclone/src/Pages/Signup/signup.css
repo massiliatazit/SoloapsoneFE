@@ -129,6 +129,7 @@ header nav .buttons .signup {
 .button-arrow-up {
   border: none;
   padding: 10px;
+ 
   outline: none;
   background-color: rgba(10, 10, 10, 0.637);
   backdrop-filter: blur(10px);
@@ -141,6 +142,8 @@ header nav .buttons .signup {
   animation-iteration-count: infinite;
 }
 .button-arrow-down {
+  top:59%;
+  margin-bottom: 14%;
   border: none;
   padding: 10px;
   outline: none;
@@ -151,7 +154,7 @@ header nav .buttons .signup {
   animation: updown 1s ease;
   position: absolute;
   bottom: 20px;
-  left: 50%;
+  left: 48%;
   animation-iteration-count: infinite;
 }
 @keyframes updown {
@@ -359,7 +362,7 @@ header nav .buttons .signup {
   }
 }
 .heading {
-  margin-top: 120px;
+  margin-top: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -454,32 +457,32 @@ header nav .buttons .signup {
 }
 
 .column:nth-child(2) {
-  margin-top: 100px;
+  margin-top: 80px;
   -webkit-transition-delay: 0.2s;
   transition-delay: 0.2s;
 }
 
 .column:nth-child(3) {
-  margin-top: 180px;
+  margin-top: 130px;
   -webkit-transition-delay: 0.4s;
   transition-delay: 0.4s;
 }
 
 .column:nth-child(4) {
-  margin-top: 300px;
+  margin-top: 240px;
   
   -webkit-transition-delay: 0.6s;
   transition-delay: 0.6s;
 }
 
 .column:nth-child(5) {
-  margin-top: 180px;
+  margin-top: 130px;
   -webkit-transition-delay: 0.8s;
   transition-delay: 0.8s;
 }
 
 .column:nth-child(6) {
-  margin-top: 100px;
+  margin-top: 80px;
   -webkit-transition-delay: 1s;
   transition-delay: 1s;
 }

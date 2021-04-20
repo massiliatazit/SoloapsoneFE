@@ -12,7 +12,7 @@ import Loaders from "./components/Loaders/Loaders";
 
 import ViewPin from "./Pages/ViewPin";
 import PinBuilder from "./Pages/PinBuilder/PinBuilder";
-
+import StoryBuilder from "./Pages/PinBuilder/StoryBuilder";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import SavedPins from "./components/SavedPins";
 import CreatedPins from "./components/CreatedPins";
@@ -88,6 +88,9 @@ function App(props) {
          
           <Home pins={pins} onSubmit={onSearchSubmit}/>
         </Route>
+<Route path="/story-pin-builder">
+  <StoryBuilder/>
+</Route>
        
         <Route path="/PinBuilder" render={() => <PinBuilder />}></Route>
         <Route path="/" exact render={() => <Signup />}></Route>

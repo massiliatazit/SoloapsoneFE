@@ -29,6 +29,7 @@ function CreatedPins(props) {
   };
   const deletePin = async (id) => {
     const response = await deleteFunction(`/pins/${id}`);
+    await getcreatedPins();
     console.log(response);
   };
   const handlePinClick = (id) => {

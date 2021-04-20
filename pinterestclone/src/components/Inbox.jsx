@@ -72,16 +72,6 @@ const Inbox = (props) => {
     dispatch({ type: "ADD_MESSAGE_TO_CHAT", payload: message });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (e.target.value.length > 0) {
-      //SEND MESSAGE
-      dispatch({ type: "ADD_MESSAGE_TO_CHAT", payload: text });
-      setShowSend(true);
-    } else {
-    }
-  };
-
   const sendMessage = () => {
     const message = {
       sender: props.user.username,

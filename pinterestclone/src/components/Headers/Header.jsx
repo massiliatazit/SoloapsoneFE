@@ -5,7 +5,10 @@ import { connect } from "react-redux";
 import Dropdownmenu from "../Dropdownmenu";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
+import "antd/dist/antd.css";
 
+import { Menu, Dropdown, Button, message, Space, Tooltip } from "antd";
+import { CaretDownOutlined } from "@ant-design/icons";
 import TextsmsIcon from "@material-ui/icons/Textsms";
 import Notifications from "../Notifications";
 import { useLocation } from "react-router-dom";
@@ -43,6 +46,23 @@ function Header(props) {
       setDropdown(true);
     }
   };
+  function handleMenuClick() {
+    history.push("/PinBuilder");
+  }
+  function handleStoryclick() {
+    history.push("/story-pin-builder");
+  }
+  const menu = (
+    <Menu style={{ minWidth: 164, padding: 8 }}>
+      <Menu.Item key="1" onClick={handleStoryclick}>
+        Create story
+      </Menu.Item>
+      <Menu.Item key="2" onClick={handleMenuClick}>
+        {" "}
+        Create a pin
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <Wrapper>
@@ -56,9 +76,11 @@ function Header(props) {
       <HomePageButton>
         <a href="/homefeed">Homepage</a>
       </HomePageButton>
-      <TodaysButton>
-        <a href="/Today">Today's</a>
-      </TodaysButton>
+      <Dropdown overlay={menu}>
+        <TodaysButton>
+          Create <CaretDownOutlined />
+        </TodaysButton>
+      </Dropdown>
       {/* <FollowingButton>
         {" "}
         <a href="/">Following</a>
@@ -139,10 +161,12 @@ const HomeButtons = styled.div`
   justify-content: center;
   border-radius: 24px;
   cursor: pointer;
+  margin-bottom: 10px;
+  margin-right: 10px;
 `;
 const HomePageButton = styled(HomeButtons)`
   background-color: rgba(17, 17, 17);
-  margin: 10px;
+
   a {
     text-decoration: none;
     color: white;
@@ -150,15 +174,19 @@ const HomePageButton = styled(HomeButtons)`
   }
 `;
 const TodaysButton = styled(HomeButtons)`
-  background-color: white;
-  a {
-    text-decoration: none;
-    color: black;
+  background-color:#e1e1e1;
+ 
     font-weight: 700;
   }
 
   :hover {
-    background-color: #e1e1e1;
+    background-color: rgba(17, 17, 17);
+    color: white;
+    a {
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+  }
   }
 `;
 const SearchWrapper = styled.div`

@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 const Background = styled.div`
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: #999999;
   position: fixed;
   display: flex;
   top: 0;
@@ -28,8 +28,8 @@ const LeftSide = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
-  height: 500px;
+  width: 1300px;
+  height: 700px;
   margin-right: 10px;
   margin-left: 10px;
   padding: 10px;
@@ -110,9 +110,9 @@ const GreyBtn = styled.button`
 `;
 
 const mapStateToProps = (state) => state;
-const Modal = (props) => {
+function StoryModal(props) {
   let history = useHistory();
-  let { showModal, setShowModal, pinsReducers } = props;
+  let { showModal, setShowModal } = props;
   const modalRef = useRef();
 
   const animation = useSpring({
@@ -143,57 +143,23 @@ const Modal = (props) => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
-
   return (
     <>
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
-            {pinsReducers.pin.images.length > 0 && (
-              <ModalWrapper showModal={showModal}>
-                <LeftSide>
-                  <ModalImg src={pinsReducers.pin.images[0]} alt="pins" />
-                  <div className="mt-4">
-                    <img
-                      src={props.user.img}
-                      alt=""
-                      srcSet=""
-                      height="26px"
-                      style={{
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                        marginLeft: 20,
-
-                        marginRight: 20,
-                      }}
-                    />
-                    <span>{props.user.username}</span>
-                  </div>
-                </LeftSide>
-                <ModalContent>
-                  <h1>{pinsReducers.pin.title}</h1>
-                  <p>{pinsReducers.pin.description}</p>
-                  <div className="d-flex" style={{ marginTop: 100 }}>
-                    <GreyBtn
-                      onClick={() =>
-                        history.push(`/${props.user.username}/created`)
-                      }
-                    >
-                      See created Pins
-                    </GreyBtn>
-                    <RedBtn>Sponsor</RedBtn>
-                  </div>
-                </ModalContent>
-                <CloseModalButton
-                  aria-label="Close modal"
-                  onClick={() => setShowModal((prev) => !prev)}
-                />
-              </ModalWrapper>
-            )}
+            <ModalWrapper showModal={showModal}>
+              <ModalContent></ModalContent>
+              <CloseModalButton
+                aria-label="Close modal"
+                onClick={() => setShowModal((prev) => !prev)}
+              />
+            </ModalWrapper>
           </animated.div>
         </Background>
       ) : null}
     </>
   );
-};
-export default connect(mapStateToProps)(Modal);
+}
+
+export default StoryModal;

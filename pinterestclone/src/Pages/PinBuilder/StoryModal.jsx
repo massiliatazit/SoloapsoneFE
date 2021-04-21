@@ -1,9 +1,15 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import IconButton from "@material-ui/core/IconButton";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { useHistory } from "react-router-dom";
+import { postFunction, putMediaFunction } from "../../api";
 import { connect } from "react-redux";
+import "antd/dist/antd.css";
+
+import { Steps } from "antd";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 const Background = styled.div`
   width: 100%;
   height: 100%;
@@ -36,8 +42,7 @@ const ModalWrapper = styled.div`
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+
   position: relative;
   z-index: 10;
 
@@ -56,11 +61,12 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   align-items: center;
   line-height: 1.8;
   color: #141414;
-  p {
-    margin-bottom: 1rem;
+  h3 {
+    font-weight: bold;
   }
 `;
 
@@ -74,47 +80,113 @@ const CloseModalButton = styled(MdClose)`
   padding: 0;
   z-index: 10;
 `;
-const RedBtn = styled.button`
-  padding: 15px;
-  border: none;
-  width: 150px;
-  color: white;
-  background-color: #ed0000;
-  border-radius: 30px;
-  &:hover {
+const Section2 = styled.div`
+  padding: 40px;
+  width: 100%;
+  height: 600px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  label {
+    width: 100%;
+    height: 100%;
     cursor: pointer;
   }
-  &:focus {
-    outline: none;
+  input {
+    width: 0;
+    height: 0;
+    opacity: 0;
   }
 `;
-const GreyBtn = styled.button`
-  padding: 15px;
-  border: none;
-  min-width: 60px;
-  max-height: 53px;
-  background-color: "grey";
-  margin-right: 10px;
-  border-radius: 30px;
-  font-weight: 700;
+
+const UploadImageContainer = styled.div`
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+
+  background-color: #ffffff;
+`;
+const DotedBorder = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border: 2px dashed #dadada;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+const ModalPin = styled.div`
+  width: 252px;
+  height: 512px;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  display: none;
+`;
+const IconContainer = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  &:hover {
-    background-color: #ddd;
-    cursor: pointer;
-  }
-  &:focus {
-    outline: none;
-  }
-`;
+  flex-shrink: 0;
 
+  background-color: #f0f0f0;
+  cursor: pointer;
+`;
+const Iconsection2Container = styled(IconContainer)`
+  background-color: #767676;
+`;
+const PinImage = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Stepscreatestory = styled.div`
+  width: 40%;
+`;
 const mapStateToProps = (state) => state;
 function StoryModal(props) {
   let history = useHistory();
-  let { showModal, setShowModal } = props;
-  const modalRef = useRef();
+  const { Step } = Steps;
 
+  let { showModal, setShowModal } = props;
+  const [showLabel, setShowLabel] = useState(true);
+  const [showModalPin, setShowModalPin] = useState(false);
+  const [newPostImage, setNewPostImage] = useState();
+  const modalRef = useRef();
+  function showImagePin(e) {
+    setNewPostImage(e.currentTarget.files[0]);
+    setShowLabel(false);
+    setShowModalPin(true);
+  }
+
+  //   const postImage = async (id) => {
+  //     const formData = new FormData();
+  //     formData.append("image", newPostImage);
+  //     const postMedia = await putMediaFunction(
+  //       "/pins/" + id + "/picture",
+  //       formData
+  //     );
+
+  //     if (postMedia._id) {
+  //       props.SetCreatedPins(postMedia);
+  //       console.log(postMedia);
+  //       // window.location.replace("/massylialala/created");
+  //     }
+  //   };
   const animation = useSpring({
     config: {
       duration: 250,
@@ -149,7 +221,70 @@ function StoryModal(props) {
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
-              <ModalContent></ModalContent>
+              <ModalContent>
+                <h3>Add up to 20 images or videos</h3>
+                <Section2>
+                  <label
+                    htmlFor="upload_img"
+                    id="upload_img_label"
+                    style={{
+                      display: showLabel ? "block" : "none",
+                    }}
+                  >
+                    <UploadImageContainer>
+                      <DotedBorder>
+                        <Iconsection2Container>
+                          <IconButton>
+                            <ArrowUpwardIcon />
+                          </IconButton>
+                        </Iconsection2Container>
+                        <div>Click to upload</div>
+                        <div>
+                          Recommendation: Use high-quality .jpg less than 20MB
+                        </div>
+                      </DotedBorder>
+                    </UploadImageContainer>
+                    <input
+                      type="file"
+                      name="upload_img"
+                      id="upload_img"
+                      maxFileSize={5242880}
+                      singleImage={true}
+                      withPreview={true}
+                      withLabel={false}
+                      accept="image/*"
+                      onChange={(e) => {
+                        showImagePin(e);
+                      }}
+                      imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                    ></input>
+                  </label>
+                  <ModalPin
+                    style={{
+                      display: showModalPin ? "block" : "none",
+                    }}
+                  >
+                    <PinImage>
+                      {newPostImage && (
+                        <img
+                          onLoad=""
+                          src={URL.createObjectURL(newPostImage)}
+                          alt="pin_image"
+                          id="pin_image"
+                        />
+                      )}
+                    </PinImage>
+                  </ModalPin>
+                </Section2>
+                <Stepscreatestory>
+                  <Steps size="small" current={0}>
+                    <Step title="Load" />
+                    <Step title="Design" />
+                    <Step title="Details" />
+                    <Step title="Audience" />
+                  </Steps>
+                </Stepscreatestory>
+              </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"
                 onClick={() => setShowModal((prev) => !prev)}

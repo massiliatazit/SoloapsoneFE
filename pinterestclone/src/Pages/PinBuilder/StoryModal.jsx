@@ -7,9 +7,11 @@ import { useHistory } from "react-router-dom";
 import { postFunction, putMediaFunction } from "../../api";
 import { connect } from "react-redux";
 import "antd/dist/antd.css";
-
+import { Container, Row, Col } from "react-bootstrap";
 import { Steps } from "antd";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import AddIcon from "@material-ui/icons/Add";
 const Background = styled.div`
   width: 100%;
   height: 100%;
@@ -81,7 +83,7 @@ const CloseModalButton = styled(MdClose)`
   z-index: 10;
 `;
 const Section2 = styled.div`
-  padding: 40px;
+  padding: 10px;
   width: 100%;
   height: 600px;
 
@@ -153,6 +155,20 @@ const PinImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const Addstoryimage = styled.div`
+  height: 138;
+  width: 70;
+  display: flex;
+
+  /* transform: scale(0.208);
+  transform-origin: left top; */
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    border: 2px solid rgb(255, 255, 255);
+  }
 `;
 const Stepscreatestory = styled.div`
   width: 40%;
@@ -259,22 +275,57 @@ function StoryModal(props) {
                       imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                     ></input>
                   </label>
-                  <ModalPin
-                    style={{
-                      display: showModalPin ? "block" : "none",
-                    }}
-                  >
-                    <PinImage>
-                      {newPostImage && (
-                        <img
-                          onLoad=""
-                          src={URL.createObjectURL(newPostImage)}
-                          alt="pin_image"
-                          id="pin_image"
-                        />
-                      )}
-                    </PinImage>
-                  </ModalPin>
+                  {showModalPin && (
+                    <Container fluid>
+                      <Row>
+                        <Col md={3} className="p-0">
+                          {" "}
+                          <Row className="d-flex justify-content-between">
+                            <span>page 1 of 1 </span>
+                            <div>
+                              <AddToPhotosIcon /> <AddIcon />
+                            </div>
+                          </Row>
+                          <Row>
+                            <Col md={3}>
+                              {" "}
+                              <Addstoryimage>
+                                <img
+                                  onLoad=""
+                                  src={URL.createObjectURL(newPostImage)}
+                                  alt="pin_image"
+                                  id="pin_image"
+                                />
+                              </Addstoryimage>
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col
+                          md={6}
+                          className="d-flex justify-content-center"
+                          style={{ backgroundColor: "#efefef" }}
+                        >
+                          <ModalPin
+                            style={{
+                              display: showModalPin ? "block" : "none",
+                            }}
+                          >
+                            <PinImage>
+                              {newPostImage && (
+                                <img
+                                  onLoad=""
+                                  src={URL.createObjectURL(newPostImage)}
+                                  alt="pin_image"
+                                  id="_image"
+                                />
+                              )}
+                            </PinImage>
+                          </ModalPin>
+                        </Col>
+                        <Col md={3}></Col>
+                      </Row>
+                    </Container>
+                  )}
                 </Section2>
                 <Stepscreatestory>
                   <Steps size="small" current={0}>

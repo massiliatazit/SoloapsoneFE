@@ -174,19 +174,18 @@ const HomePageButton = styled(HomeButtons)`
   }
 `;
 const TodaysButton = styled(HomeButtons)`
-  background-color:#e1e1e1;
- 
-    font-weight: 700;
-  }
+  background-color: #e1e1e1;
+
+  font-weight: 700;
 
   :hover {
     background-color: rgba(17, 17, 17);
     color: white;
     a {
-    text-decoration: none;
-    color: white;
-    font-weight: 700;
-  }
+      text-decoration: none;
+      color: white;
+      font-weight: 700;
+    }
   }
 `;
 const SearchWrapper = styled.div`

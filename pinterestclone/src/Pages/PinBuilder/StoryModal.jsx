@@ -11,7 +11,7 @@ import "antd/dist/antd.css";
 import { Menu, Dropdown, Button, message, Space, Tooltip } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { BlockPicker } from "react-color";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 import { Steps } from "antd";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
@@ -48,6 +48,7 @@ const ModalWrapper = styled.div`
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
+  overflow-y: auto;
 
   position: relative;
   z-index: 10;
@@ -113,7 +114,7 @@ const CloseModalButton = styled(MdClose)`
 const Section2 = styled.div`
   padding: 10px;
   width: 100%;
-  height: 600px;
+  height: 666px;
 
   display: flex;
   flex-direction: column;
@@ -183,11 +184,33 @@ const PinImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   input:focus,
   textarea:focus,
   select:focus {
     outline: none;
   }
+`;
+
+const StoryDetails = styled.div`
+  height: 500px;
+  width: 375px;
+`;
+const AdjustpictureModal = styled.div`
+  height: 200px;
+  width: 272px;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  display: none;
+`;
+const AdjustPicture = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const Addstoryimage = styled.div`
   height: 138px;
@@ -204,6 +227,8 @@ const Addstoryimage = styled.div`
   }
 `;
 const Stepscreatestory = styled.div`
+  position: absolute;
+  right: 29%;
   width: 40%;
 `;
 const Colorselect = styled.div`
@@ -215,6 +240,44 @@ const Colorselect = styled.div`
   align-self: center;
   justify-self: center;
 `;
+const RedBtn = styled.button`
+  padding: 15px;
+  border: none;
+  width: 88px;
+  color: white;
+  background-color: #ed0000;
+  border-radius: 30px;
+  &:hover {
+    cursor: pointer;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+const Section3 = styled.div`
+  width: 100%;
+  height: 50px;
+  position: relative;
+  display: flex;
+  bottom: fixed;
+`;
+const Details = styled.div`
+  max-width: "420px";
+  input {
+    width: 100%;
+    opacity: 1;
+    height: 48px;
+    border: 1px solid #dbdbdb;
+    padding: 8px;
+    border-radius: 16px;
+    margin-top: 6px;
+  }
+  label {
+    font-weight: 400;
+    font-size: 12px;
+  }
+`;
+
 const mapStateToProps = (state) => state;
 
 function StoryModal(props) {
@@ -229,9 +292,14 @@ function StoryModal(props) {
   const [addOtherStory, setaddOtherStory] = useState(false);
   const [backgroundcolor, setbackgroundcolor] = useState("#913c3c");
   const [showbgpicker, setbgpicker] = useState(false);
-  const [addstory, setaddStory] = useState(false);
+
   const [imagewithtext, setimagewithtext] = useState(false);
+  const [showPictureAdjust, setShowPictureAdjust] = useState(false);
+  const [showLayout, setShowLayout] = useState(false);
+  const [showDetails, setshowDetails] = useState(false);
   const [text, settext] = useState("");
+  const [images, setImages] = useState([]);
+  const [title, setTitle] = useState("");
   const modalRef = useRef();
   const handleChangeComplete = (color) => {
     setbackgroundcolor(color.hex);
@@ -253,16 +321,23 @@ function StoryModal(props) {
       : (border = {
           border: "2px solid #efefef",
         });
+    console.log(border);
   };
   function showImagePin(e) {
-    setNewPostImage(e.currentTarget.files[0]);
+    const [file] = e.target.files;
+
+    setImages((arr) => [...arr, file]);
     setShowLabel(false);
     setShowModalPin(true);
+    setShowLayout(true);
   }
   function showother(e) {
+    console.log("showother");
     setOtherStory(e.currentTarget.files[0]);
+    setImages((arr) => [...arr, e.currentTarget.files[0]]);
     setShowLabel(false);
     setShowModalPin(true);
+    console.log(images);
     setaddOtherStory(true);
   }
   const postImage = async (id) => {
@@ -308,15 +383,18 @@ function StoryModal(props) {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
-  let numberaddedstories = 0;
-  let arr = [];
+
   const addStory = () => {
-    setaddStory(true);
-    numberaddedstories++;
-    arr.push(numberaddedstories);
-    console.log(arr);
+    const last = images[images.length - 1];
+    setImages((arr) => [...arr, last]);
   };
-  const currentstep = showModalPin ? 1 : 0;
+  let currentstep = 0;
+  if (showLabel == true) {
+    currentstep = 0;
+  } else currentstep = showModalPin ? 1 : 2;
+  // if (currentstep == 2) setshowDetails(true);
+  console.log("other console", currentstep);
+
   return (
     <>
       {showModal ? (
@@ -355,20 +433,18 @@ function StoryModal(props) {
                       withPreview={true}
                       withLabel={false}
                       accept="image/*"
-                      onChange={(e) => {
-                        showImagePin(e);
-                      }}
+                      onChange={showImagePin}
                       imgExtension={[".jpg", ".gif", ".png", ".gif"]}
                     ></input>
                   </label>
-                  {showModalPin && (
+                  {showModalPin ? (
                     <Container fluid>
                       <Row>
                         <Col md={3} className="px-3">
                           {" "}
                           <Row className="d-flex justify-content-between">
                             <span className="px-3">
-                              page {numberaddedstories} of {numberaddedstories}{" "}
+                              page {images.length} of {images.length}{" "}
                             </span>
                             <div className="d-flex justify-content-around">
                               <AddToPhotosIcon
@@ -388,9 +464,7 @@ function StoryModal(props) {
                                   withPreview={true}
                                   withLabel={false}
                                   accept="image/*"
-                                  onChange={(e) => {
-                                    showother(e);
-                                  }}
+                                  onChange={showother}
                                   imgExtension={[
                                     ".jpg",
                                     ".gif",
@@ -403,7 +477,7 @@ function StoryModal(props) {
                             </div>
                           </Row>
                           <Row>
-                            <Col md={4} className=" mt-3 ">
+                            {/* <Col md={4} className=" mt-3 ">
                               {" "}
                               <Addstoryimage>
                                 <img
@@ -428,19 +502,24 @@ function StoryModal(props) {
                               </Col>
                             ) : (
                               <div></div>
-                            )}
-                            {addOtherStory ? (
-                              <Col md={4} className=" mt-3">
-                                {" "}
-                                <Addstoryimage>
-                                  <img
-                                    onLoad=""
-                                    src={URL.createObjectURL(otherStory)}
-                                    alt="story_image"
-                                    id="story_image"
-                                  />
-                                </Addstoryimage>
-                              </Col>
+                            )} */}
+
+                            {images.length > 0 ? (
+                              <>
+                                {images.map((image) => (
+                                  <Col md={4} className=" mt-3">
+                                    {" "}
+                                    <Addstoryimage>
+                                      <img
+                                        onLoad=""
+                                        src={URL.createObjectURL(image)}
+                                        alt="story_image"
+                                        id="story_image"
+                                      />
+                                    </Addstoryimage>
+                                  </Col>
+                                ))}
+                              </>
                             ) : (
                               <div></div>
                             )}
@@ -451,7 +530,7 @@ function StoryModal(props) {
                           className="d-flex justify-content-center"
                           style={{ backgroundColor: "#efefef" }}
                         >
-                          {imagewithtext ? (
+                          {images.length > 0 && imagewithtext ? (
                             <ModalPin
                               style={{
                                 display: showModalPin ? "block" : "none",
@@ -476,7 +555,9 @@ function StoryModal(props) {
                                   }}
                                   onClick={() => setimagewithtext(true)}
                                   onLoad=""
-                                  src={URL.createObjectURL(newPostImage)}
+                                  src={URL.createObjectURL(
+                                    images[images.length - 1]
+                                  )}
                                   alt="pin_image"
                                   id="pin_image"
                                 />
@@ -525,22 +606,15 @@ function StoryModal(props) {
                               }}
                             >
                               <PinImage>
-                                {newPostImage ? (
+                                {images.length > 0 && (
                                   <img
                                     onLoad=""
-                                    src={URL.createObjectURL(newPostImage)}
+                                    src={URL.createObjectURL(
+                                      images[images.length - 1]
+                                    )}
                                     alt="pin_image"
                                     id="_image"
                                   />
-                                ) : (
-                                  addOtherStory && (
-                                    <img
-                                      onLoad=""
-                                      src={URL.createObjectURL(otherStory)}
-                                      alt="pin_image"
-                                      id="_image"
-                                    />
-                                  )
                                 )}
                               </PinImage>
                             </ModalPin>
@@ -548,89 +622,120 @@ function StoryModal(props) {
                         </Col>
                         <Col md={3}>
                           <div className="d-flex">
-                            <DesignButtons> Layout</DesignButtons>
-                            <DesignButtons> picture</DesignButtons>
+                            <DesignButtons
+                              onClick={() => {
+                                setShowLayout(true);
+                                setShowPictureAdjust(false);
+                              }}
+                            >
+                              {" "}
+                              Layout
+                            </DesignButtons>
+                            <DesignButtons
+                              onClick={() => {
+                                setShowPictureAdjust(true);
+                                setShowLayout(false);
+                              }}
+                            >
+                              {" "}
+                              picture
+                            </DesignButtons>
                             <DesignButtons> text</DesignButtons>
                           </div>
-                          <p
-                            style={{
-                              color: "#211922",
-                            }}
-                          >
-                            Choose a background to make your page stand out. Add
-                            a background if you resize your image or video.
-                          </p>
-                          <div>
-                            <h6 style={{ fontWeight: "bold" }}>Layout</h6>
-                          </div>
-                          <div className="d-flex">
-                            <Addstoryimage className="mr-3" style={border}>
-                              <img
-                                onLoad=""
-                                src={URL.createObjectURL(newPostImage)}
-                                alt="pin_image"
-                                id="pin_image"
-                              />
-                            </Addstoryimage>
-                            <Addstoryimage
-                              className="d-block"
-                              style={{
-                                backgroundColor: "white",
-                                borderRadius: "16px",
-                              }}
-                              style={border}
-                              onClick={() => selectimagewithtext()}
-                            >
-                              <img
-                                onLoad=""
-                                src={URL.createObjectURL(newPostImage)}
-                                alt="pin_image"
-                                id="pin_image"
+                          {images.length > 0 && showLayout ? (
+                            <>
+                              <p
                                 style={{
-                                  height: "50%",
-                                  position: "relative",
-                                  zIndex: "100",
-                                  borderBottomLeftRadius: "unset",
-                                  borderBottomRightRadius: "unset",
-                                }}
-                              />
-                              <div
-                                style={{
-                                  backgroundColor: "white",
-                                  height: "50%",
-                                  width: "100%",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  alignItems: "center",
-                                  justifyContent: "center",
+                                  color: "#211922",
                                 }}
                               >
-                                <div
-                                  style={{
-                                    width: "48px",
-                                    height: "4px",
-                                    backgroundColor: "#efefef",
-                                    marginBottom: "5px",
-                                  }}
-                                ></div>
-                                <div
-                                  style={{
-                                    width: "40px",
-                                    height: "4px",
-                                    backgroundColor: "#efefef",
-                                  }}
-                                ></div>
+                                Choose a background to make your page stand out.
+                                Add a background if you resize your image or
+                                video.
+                              </p>
+                              <div>
+                                <h6 style={{ fontWeight: "bold" }}>Layout</h6>
                               </div>
-                            </Addstoryimage>
-                          </div>
-                          <div>
-                            <h6
-                              style={{ fontWeight: "bold", marginTop: "28px" }}
-                            >
-                              Background
-                            </h6>
-                          </div>
-                          {/* <Dropdown.Button
+                              <div className="d-flex">
+                                <Addstoryimage className="mr-3" style={border}>
+                                  {images.length > 0 && (
+                                    <img
+                                      onLoad=""
+                                      src={URL.createObjectURL(
+                                        images[images.length - 1]
+                                      )}
+                                      alt="pin_image"
+                                      id="_image"
+                                    />
+                                  )}
+                                </Addstoryimage>
+                                <Addstoryimage
+                                  className="d-block"
+                                  style={{
+                                    backgroundColor: "white",
+                                    borderRadius: "16px",
+                                  }}
+                                  style={border}
+                                  onClick={() => selectimagewithtext()}
+                                >
+                                  {images.length > 0 && (
+                                    <img
+                                      onLoad=""
+                                      src={URL.createObjectURL(
+                                        images[images.length - 1]
+                                      )}
+                                      alt="pin_image"
+                                      id="_image"
+                                      style={{
+                                        height: "50%",
+                                        position: "relative",
+                                        zIndex: "100",
+                                        borderBottomLeftRadius: "unset",
+                                        borderBottomRightRadius: "unset",
+                                      }}
+                                    />
+                                  )}
+
+                                  <div
+                                    style={{
+                                      backgroundColor: "white",
+                                      height: "50%",
+                                      width: "100%",
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "48px",
+                                        height: "4px",
+                                        backgroundColor: "#efefef",
+                                        marginBottom: "5px",
+                                      }}
+                                    ></div>
+                                    <div
+                                      style={{
+                                        width: "40px",
+                                        height: "4px",
+                                        backgroundColor: "#efefef",
+                                      }}
+                                    ></div>
+                                  </div>
+                                </Addstoryimage>
+                              </div>
+                              <div>
+                                <h6
+                                  style={{
+                                    fontWeight: "bold",
+                                    marginTop: "28px",
+                                  }}
+                                >
+                                  Background
+                                </h6>
+                              </div>
+                              {/* <Dropdown.Button
                             overlay={selector}
                             placement="bottomCenter"
                             icon={<DownOutlined />}
@@ -638,44 +743,167 @@ function StoryModal(props) {
                           >
                             {backgroundcolor}
                           </Dropdown.Button> */}
-                          <Colorselect
-                            className="my-3 ml-5 mr-0"
-                            style={bgstyle}
-                          >
-                            <div width="60%" height="100%"></div>
-                            <div
-                              style={{
-                                background: "#efefef",
-                                width: "40%",
-                                height: "100%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                borderRadius: "inherit",
-                              }}
-                            >
-                              <DownOutlined onClick={() => selector()} />
+                              <Colorselect
+                                className="my-3 ml-5 mr-0"
+                                style={bgstyle}
+                              >
+                                <div width="60%" height="100%"></div>
+                                <div
+                                  style={{
+                                    background: "#efefef",
+                                    width: "40%",
+                                    height: "100%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: "inherit",
+                                  }}
+                                >
+                                  <DownOutlined onClick={() => selector()} />
+                                </div>
+                              </Colorselect>
+                              {showbgpicker && (
+                                <BlockPicker
+                                  color={backgroundcolor}
+                                  onChangeComplete={handleChangeComplete}
+                                />
+                              )}
+                            </>
+                          ) : (
+                            <di></di>
+                          )}
+
+                          {showPictureAdjust && (
+                            <div>
+                              <p>
+                                Adjust your image to focus on the most
+                                interesting part.
+                              </p>
+                              {/* <AdjustPicture
+                                style={{
+                                  display: showModalPin ? "block" : "none",
+                                }}
+                              >
+                                <AdjustPicture>
+                                  <img
+                                    onLoad=""
+                                    src={URL.createObjectURL(newPostImage)}
+                                    alt="pin_image"
+                                    id="_image"
+                                  />
+                                </AdjustPicture>
+                              </AdjustPicture> */}
                             </div>
-                          </Colorselect>
-                          {showbgpicker && (
-                            <BlockPicker
-                              color={backgroundcolor}
-                              onChangeComplete={handleChangeComplete}
-                            />
                           )}
                         </Col>
                       </Row>
                     </Container>
+                  ) : (
+                    showDetails && (
+                      <Row>
+                        {images.length > 0 && (
+                          <Col md={6}>
+                            {" "}
+                            <StoryDetails
+                              className="d-block"
+                              style={{
+                                backgroundColor: "white",
+                                borderRadius: "16px",
+                                border: "2px solid #efefef",
+                              }}
+                            >
+                              <img
+                                style={{
+                                  height: "100%",
+
+                                  width: "100%",
+
+                                  borderRadius: "16px",
+                                }}
+                                onClick={() => setimagewithtext(true)}
+                                onLoad=""
+                                src={URL.createObjectURL(
+                                  images[images.length - 1]
+                                )}
+                                alt="pin_image"
+                                id="pin_image"
+                              />
+                            </StoryDetails>
+                          </Col>
+                        )}
+
+                        <Col md={6}>
+                          <p>
+                            Tag topics related to your Story Pin to reach people
+                            looking for ideas like yours.
+                          </p>
+                          {/* <div maxWidth="420px">
+                            <label>
+                              Story Pin Title Required
+                              <input
+                                style={{ border: "1px solid red" }}
+                                minHeight="48px"
+                                width="100%"
+                                type="text"
+                                placeholder="Add a title"
+                                value={title}
+                              ></input>
+                            </label>
+                          </div> */}
+                          <Details>
+                            <label>
+                              Story Pin Title Required
+                              {/* <InputGroup className="mb-3">
+                              <InputGroup.Prepend></InputGroup.Prepend>
+                              <FormControl
+                                style={{
+                                  border: "1px solid #E2E2E2",
+                                  borderRadius: "10px",
+                                  minHeight: "48px",
+                                }}
+                                aria-describedby="inputGroup-sizing-default"
+                              />
+                            </InputGroup> */}
+                              <input
+                                style={{ border: "1px solid red" }}
+                                minHeight="48px"
+                                width="100%"
+                                type="text"
+                                placeholder="Add a title"
+                                value={title}
+                              ></input>
+                            </label>
+                          </Details>
+                        </Col>
+                      </Row>
+                    )
                   )}
-                </Section2>
-                <Stepscreatestory>
-                  <Steps size="small" current={currentstep}>
-                    <Step title="Load" />
-                    <Step title="Design" />
-                    <Step title="Details" />
-                    <Step title="Audience" />
-                  </Steps>
-                </Stepscreatestory>
+                </Section2>{" "}
+                <Section3>
+                  <Stepscreatestory>
+                    <Steps size="small" current={currentstep}>
+                      <Step title="Load" />
+                      <Step title="Design" />
+                      <Step title="Details" />
+                    </Steps>
+                  </Stepscreatestory>
+
+                  <div
+                    style={{ position: "absolute", left: "90%", bottom: "30%" }}
+                  >
+                    {" "}
+                    <RedBtn
+                      onClick={() => {
+                        currentstep++;
+                        setShowModalPin(false);
+                        setshowDetails(true);
+                        console.log(currentstep);
+                      }}
+                    >
+                      Next
+                    </RedBtn>
+                  </div>
+                </Section3>
               </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"

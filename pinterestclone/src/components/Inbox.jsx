@@ -242,12 +242,14 @@ const Inbox = (props) => {
               }}
             />
           </form>
-          <IconButton style={{ backgroundColor: "#e60023", marginLeft: 6 }}>
-            <SendOutlinedIcon
-              style={{ fill: "white" }}
-              onClick={() => sendMessage()}
-            />
-          </IconButton>
+          {input && (
+            <IconButton style={{ backgroundColor: "#e60023", marginLeft: 6 }}>
+              <SendOutlinedIcon
+                style={{ fill: "white" }}
+                onClick={() => sendMessage()}
+              />
+            </IconButton>
+          )}
           <IconButton style={{ padding: 0 }}>
             <FavoriteIcon
               fontSize="large"

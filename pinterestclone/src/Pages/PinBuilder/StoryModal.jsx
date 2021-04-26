@@ -194,7 +194,7 @@ const PinImage = styled.div`
 
 const StoryDetails = styled.div`
   height: 500px;
-  width: 375px;
+  width: 340px;
 `;
 const AdjustpictureModal = styled.div`
   height: 200px;

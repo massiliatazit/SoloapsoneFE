@@ -7,6 +7,7 @@ import thunk from "redux-thunk";
 import status from "../Reducers/loading";
 import boardReducer from "../Reducers/boardReducer";
 import PinsReducer from "../Reducers/pin_reducers";
+import storiesReducer from "../Reducers/story_reducers"
 import chat from "../Reducers/chat";
 const composedEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   status: status,
   boards: boardReducer,
   pinsReducers:  PinsReducer,
-  chat:chat
+  chat:chat,
+  storiesReducer: storiesReducer,
 
 });
 export default function configureStore() {

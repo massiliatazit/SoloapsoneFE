@@ -114,7 +114,7 @@ const Inbox = (props) => {
         <TextsmsIcon />
       </div>
       <Drawer
-        title="Inbox"
+        title={users.username}
         style={{ textAlign: "center", overflow: "hidden" }}
         placement="right"
         closable={false}
@@ -218,14 +218,14 @@ const Inbox = (props) => {
               <div style={{ fontWeight: 400, fontSize: 11, color: "#767676" }}>
                 {msg.sender}
               </div>
-              <div>{msg.text}</div>{" "}
+              <MessageText>{msg.text}</MessageText>{" "}
             </div>
           ))}
         <MessageContainer>
-          <Icon
+          {/* <Icon
             src="https://www.flaticon.com/svg/vstatic/svg/889/889668.svg?token=exp=1617026404~hmac=4eecd80899885377e7f4b19eed96ccd3"
             alt="Inbox"
-          />
+          /> */}
 
           <form>
             <input
@@ -242,7 +242,7 @@ const Inbox = (props) => {
               }}
             />
           </form>
-          {input && (
+          {text.length > 0 && (
             <IconButton style={{ backgroundColor: "#e60023", marginLeft: 6 }}>
               <SendOutlinedIcon
                 style={{ fill: "white" }}
@@ -389,4 +389,13 @@ const Person = styled.div`
   width: 50px;
   height: 40px;
   border-radius: 25px;
+`;
+const MessageText = styled.div`
+  height: 48px;
+  width: 100px;
+  display: inline-block;
+  padding: 20px;
+  font-weight: 500;
+  border-radius: 2rem 2rem 0rem 2rem;
+  background-color: #e05762;
 `;

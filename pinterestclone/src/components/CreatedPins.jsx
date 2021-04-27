@@ -10,6 +10,14 @@ import styled from "styled-components";
 import { Row, Col } from "react-bootstrap";
 import Board from "../Pages/Board";
 const mapStateToProps = (state) => state;
+const mapDispatchToProps = (dispatch) => ({
+  setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
+  showErrors: (boolean) =>
+    dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
+  SetCreatedPins: (pin) =>
+    dispatch({ type: "RECEIVE_PIN_WITH_CREATE", pin: pin }),
+});
+
 function CreatedPins(props) {
   let history = useHistory();
   const [createdPins, setcreatedPins] = useState([]);
@@ -24,6 +32,7 @@ function CreatedPins(props) {
     console.log(response);
     if (response) {
       setcreatedPins(response);
+      props.SetCreatedPins(response);
       //   response.links && setNext(response.links.next);
     }
   };
@@ -74,7 +83,7 @@ function CreatedPins(props) {
   );
 }
 
-export default connect(mapStateToProps)(CreatedPins);
+export default connect(mapStateToProps, mapDispatchToProps)(CreatedPins);
 const styledButtons = styled.div`
   display: flex;
   height: 48px;
@@ -106,13 +115,7 @@ const SavePinsButton = styled(styledButtons)`
     background-color: #e1e1e1;
   }
 `;
-const CenteredContainer = styled.div`
-  max-width: 656px;
-  box-sizing: border-box;
-  backgound-color: blue;
-  height: 100%;
-  width: 100%;
-`;
+
 const Wrapper = styled.div`
   box-sizing: border-box;
   max-width: 79%;

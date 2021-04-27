@@ -8,14 +8,36 @@ import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import { postFunction, putMediaFunction } from "../../api";
 import { connect } from "react-redux";
 import "antd/dist/antd.css";
-import { Menu, Dropdown, Button, message, Space, Tooltip } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+
+import {
+  DownOutlined,
+  PlusOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
 import { BlockPicker } from "react-color";
-import { Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+  select,
+} from "react-bootstrap";
 import { Steps } from "antd";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import AddIcon from "@material-ui/icons/Add";
+import { Category } from "emoji-mart";
+const mapStateToProps = (state) => state;
+
+const mapDispatchToProps = (dispatch) => ({
+  setError: (error) => dispatch({ type: "SET_ERROR", payload: error }),
+  showErrors: (boolean) =>
+    dispatch({ type: "DISPLAY_ERRORS", payload: boolean }),
+  SetcreatedStory: (story) =>
+    dispatch({ type: "RECEIVE_STORY_WITH_CREATE", story: story }),
+});
+
 const Background = styled.div`
   width: 100%;
   height: 100%;
@@ -29,14 +51,6 @@ const Background = styled.div`
   z-index: 10;
   justify-content: center;
   align-items: center;
-`;
-const LeftSide = styled.div`
-  width: 70%;
-  height: 100%;
-  padding: 10px;
-  border-right: 1px solid rgb(239, 239, 239);
-  // display: flex;
-  // justify-content: center;
 `;
 
 const ModalWrapper = styled.div`
@@ -193,8 +207,10 @@ const PinImage = styled.div`
 `;
 
 const StoryDetails = styled.div`
-  height: 500px;
+  height: 550px;
   width: 340px;
+  padding: 10px;
+  border-radius: 16px;
 `;
 const AdjustpictureModal = styled.div`
   height: 200px;
@@ -262,8 +278,10 @@ const Section3 = styled.div`
   bottom: fixed;
 `;
 const Details = styled.div`
-  max-width: "420px";
-  input {
+  max-width: 420px;
+  padding: 10px;
+  input,
+  select {
     width: 100%;
     opacity: 1;
     height: 48px;
@@ -271,14 +289,35 @@ const Details = styled.div`
     padding: 8px;
     border-radius: 16px;
     margin-top: 6px;
+    outline: none;
   }
+
   label {
     font-weight: 400;
     font-size: 12px;
+    margin-top: 15px;
   }
 `;
+const GreyBtn = styled.button`
+  padding: 15px;
+  border: none;
+  min-width: 60px;
+  max-height: 53px;
 
-const mapStateToProps = (state) => state;
+  margin-right: 10px;
+  border-radius: 30px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
 
 function StoryModal(props) {
   let history = useHistory();
@@ -292,7 +331,7 @@ function StoryModal(props) {
   const [addOtherStory, setaddOtherStory] = useState(false);
   const [backgroundcolor, setbackgroundcolor] = useState("#913c3c");
   const [showbgpicker, setbgpicker] = useState(false);
-
+  const [showFinalstory, setshowFinalStory] = useState(false);
   const [imagewithtext, setimagewithtext] = useState(false);
   const [showPictureAdjust, setShowPictureAdjust] = useState(false);
   const [showLayout, setShowLayout] = useState(false);
@@ -300,6 +339,8 @@ function StoryModal(props) {
   const [text, settext] = useState("");
   const [images, setImages] = useState([]);
   const [title, setTitle] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [description, setDescription] = useState("");
   const modalRef = useRef();
   const handleChangeComplete = (color) => {
     setbackgroundcolor(color.hex);
@@ -308,7 +349,7 @@ function StoryModal(props) {
     e.preventDefault();
   };
   const handleChange = (e) => {
-    settext(e.target.value);
+    setDescription(e.target.value);
   };
   const bgstyle = { background: backgroundcolor };
   let border;
@@ -327,6 +368,7 @@ function StoryModal(props) {
     const [file] = e.target.files;
 
     setImages((arr) => [...arr, file]);
+    console.log(images);
     setShowLabel(false);
     setShowModalPin(true);
     setShowLayout(true);
@@ -342,16 +384,38 @@ function StoryModal(props) {
   }
   const postImage = async (id) => {
     const formData = new FormData();
-    formData.append("image", newPostImage);
+    formData.append("image", images[images.length - 1]);
     const postMedia = await putMediaFunction(
       "/stories/" + id + "/media",
       formData
     );
 
     if (postMedia._id) {
-      // props.SetCreatedPins(postMedia);
+      props.SetcreatedStory(postMedia);
       console.log(postMedia);
       // window.location.replace("/massylialala/created");
+    }
+  };
+
+  const poststory = async () => {
+    console.log({
+      title: title,
+      description: description,
+      categories: categories,
+    });
+    const response = await postFunction("/stories/", {
+      title: title,
+      description: description,
+      categories: categories,
+    });
+    setshowDetails(false);
+    setShowModalPin(false);
+    setshowFinalStory(true);
+
+    console.log(response);
+    if (response) {
+      postImage(response);
+      console.log(response);
     }
   };
   const animation = useSpring({
@@ -394,7 +458,7 @@ function StoryModal(props) {
   } else currentstep = showModalPin ? 1 : 2;
   // if (currentstep == 2) setshowDetails(true);
   console.log("other console", currentstep);
-
+  console.log(props.pinsReducers);
   return (
     <>
       {showModal ? (
@@ -477,33 +541,6 @@ function StoryModal(props) {
                             </div>
                           </Row>
                           <Row>
-                            {/* <Col md={4} className=" mt-3 ">
-                              {" "}
-                              <Addstoryimage>
-                                <img
-                                  onLoad=""
-                                  src={URL.createObjectURL(newPostImage)}
-                                  alt="pin_image"
-                                  id="pin_image"
-                                />
-                              </Addstoryimage>
-                            </Col>
-                            {addstory ? (
-                              <Col md={4} className=" mt-3">
-                                {" "}
-                                <Addstoryimage>
-                                  <img
-                                    onLoad=""
-                                    src={URL.createObjectURL(newPostImage)}
-                                    alt="pin_image"
-                                    id="pin_image"
-                                  />
-                                </Addstoryimage>
-                              </Col>
-                            ) : (
-                              <div></div>
-                            )} */}
-
                             {images.length > 0 ? (
                               <>
                                 {images.map((image) => (
@@ -541,7 +578,7 @@ function StoryModal(props) {
                                 style={{
                                   backgroundColor: "white",
                                   borderRadius: "16px",
-                                  border: "2px solid #efefef",
+                                  border: "2px solid #a89e9e",
                                 }}
                               >
                                 <img
@@ -589,7 +626,7 @@ function StoryModal(props) {
                                           textAlign: "center",
                                           border: "none",
                                         }}
-                                        value={text}
+                                        value={description}
                                         onChange={handleChange}
                                       />
 
@@ -657,7 +694,13 @@ function StoryModal(props) {
                                 <h6 style={{ fontWeight: "bold" }}>Layout</h6>
                               </div>
                               <div className="d-flex">
-                                <Addstoryimage className="mr-3" style={border}>
+                                <Addstoryimage
+                                  className="mr-3 "
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
+                                  id="story_imagetext"
+                                >
                                   {images.length > 0 && (
                                     <img
                                       onLoad=""
@@ -674,9 +717,9 @@ function StoryModal(props) {
                                   style={{
                                     backgroundColor: "white",
                                     borderRadius: "16px",
+                                    border: "2px solid #eee3e3",
                                   }}
-                                  style={border}
-                                  onClick={() => selectimagewithtext()}
+                                  onClick={() => setimagewithtext(true)}
                                 >
                                   {images.length > 0 && (
                                     <img
@@ -735,14 +778,7 @@ function StoryModal(props) {
                                   Background
                                 </h6>
                               </div>
-                              {/* <Dropdown.Button
-                            overlay={selector}
-                            placement="bottomCenter"
-                            icon={<DownOutlined />}
-                          
-                          >
-                            {backgroundcolor}
-                          </Dropdown.Button> */}
+
                               <Colorselect
                                 className="my-3 ml-5 mr-0"
                                 style={bgstyle}
@@ -779,20 +815,6 @@ function StoryModal(props) {
                                 Adjust your image to focus on the most
                                 interesting part.
                               </p>
-                              {/* <AdjustPicture
-                                style={{
-                                  display: showModalPin ? "block" : "none",
-                                }}
-                              >
-                                <AdjustPicture>
-                                  <img
-                                    onLoad=""
-                                    src={URL.createObjectURL(newPostImage)}
-                                    alt="pin_image"
-                                    id="_image"
-                                  />
-                                </AdjustPicture>
-                              </AdjustPicture> */}
                             </div>
                           )}
                         </Col>
@@ -801,21 +823,75 @@ function StoryModal(props) {
                   ) : (
                     showDetails && (
                       <Row>
-                        {images.length > 0 && (
-                          <Col md={6}>
+                        {images.length > 0 && imagewithtext ? (
+                          <Col md={6} className=" d-flex justify-content-end">
                             {" "}
-                            <StoryDetails
-                              className="d-block"
-                              style={{
-                                backgroundColor: "white",
-                                borderRadius: "16px",
-                                border: "2px solid #efefef",
-                              }}
-                            >
+                            <StoryDetails>
+                              <img
+                                style={{
+                                  height: "50%",
+                                  position: "relative",
+                                  width: "100%",
+                                  zIndex: "100",
+                                  borderTopLeftRadius: "16px",
+                                  borderTopRightRadius: "16px",
+                                }}
+                                onClick={() => setimagewithtext(true)}
+                                onLoad=""
+                                src={URL.createObjectURL(
+                                  images[images.length - 1]
+                                )}
+                                alt="pin_image"
+                                id="pin_image"
+                              />
+                              <div
+                                style={{
+                                  backgroundColor: backgroundcolor,
+                                  height: "50%",
+                                  width: "100%",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  borderBottomLeftRadius: "16px",
+                                  borderBottomRightRadius: "16px",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    color: "#efefef",
+
+                                    fontSize: "36px",
+                                  }}
+                                >
+                                  <form onSubmit={handleSubmit}>
+                                    <textarea
+                                      placeholder="Add your text"
+                                      style={{
+                                        background: "transparent",
+                                        outline: "none",
+                                        width: "100%",
+                                        outlineWidth: 0,
+                                        textAlign: "center",
+                                        border: "none",
+                                      }}
+                                      value={description}
+                                      onChange={handleChange}
+                                    />
+
+                                    <input type="submit" value="Submit" />
+                                  </form>
+                                </div>
+                              </div>
+                            </StoryDetails>
+                          </Col>
+                        ) : (
+                          <Col md={6} className=" d-flex justify-content-end">
+                            {" "}
+                            <StoryDetails>
                               <img
                                 style={{
                                   height: "100%",
-
+                                  margin: 0,
                                   width: "100%",
 
                                   borderRadius: "16px",
@@ -833,44 +909,47 @@ function StoryModal(props) {
                         )}
 
                         <Col md={6}>
-                          <p>
-                            Tag topics related to your Story Pin to reach people
-                            looking for ideas like yours.
-                          </p>
-                          {/* <div maxWidth="420px">
+                          <Details>
+                            <p>
+                              Tag topics related to your Story Pin to reach
+                              people looking for ideas like yours.
+                            </p>
+
                             <label>
                               Story Pin Title Required
                               <input
-                                style={{ border: "1px solid red" }}
                                 minHeight="48px"
                                 width="100%"
                                 type="text"
                                 placeholder="Add a title"
                                 value={title}
+                                onChange={(e) => setTitle(e.target.value)}
                               ></input>
                             </label>
-                          </div> */}
-                          <Details>
+                            {/* <label>
+                              Categories
+                              <select
+                                class="custom-select"
+                                id="inputGroupSelect01"
+                              >
+                                <option selected>Choose a category...</option>
+                                <option value="1">Fashion</option>
+                                <option value="2">Travel</option>
+                                <option value="3">Flowers</option>
+                                {Categories.map((category, index) => (
+                                  <Option key={index}>{category}</Option>
+                                ))}
+                              </select>
+                            </label> */}
                             <label>
-                              Story Pin Title Required
-                              {/* <InputGroup className="mb-3">
-                              <InputGroup.Prepend></InputGroup.Prepend>
-                              <FormControl
-                                style={{
-                                  border: "1px solid #E2E2E2",
-                                  borderRadius: "10px",
-                                  minHeight: "48px",
-                                }}
-                                aria-describedby="inputGroup-sizing-default"
-                              />
-                            </InputGroup> */}
+                              Add a category
                               <input
-                                style={{ border: "1px solid red" }}
                                 minHeight="48px"
                                 width="100%"
                                 type="text"
-                                placeholder="Add a title"
-                                value={title}
+                                placeholder="Add a category"
+                                value={categories}
+                                onChange={(e) => setCategories(e.target.value)}
                               ></input>
                             </label>
                           </Details>
@@ -880,30 +959,76 @@ function StoryModal(props) {
                   )}
                 </Section2>{" "}
                 <Section3>
-                  <Stepscreatestory>
-                    <Steps size="small" current={currentstep}>
-                      <Step title="Load" />
-                      <Step title="Design" />
-                      <Step title="Details" />
-                    </Steps>
-                  </Stepscreatestory>
-
+                  {currentstep > 1 && (
+                    <IconButton>
+                      <ArrowLeftOutlined
+                        onClick={() => {
+                          currentstep--;
+                          setShowModalPin(true);
+                          setshowDetails(false);
+                          console.log(currentstep);
+                        }}
+                      />
+                    </IconButton>
+                  )}
+                  {currentstep <= 2 && !showFinalstory && (
+                    <Stepscreatestory>
+                      <Steps size="small" current={currentstep}>
+                        <Step title="Load" />
+                        <Step title="Design" />
+                        <Step title="Details" />
+                      </Steps>
+                    </Stepscreatestory>
+                  )}
                   <div
                     style={{ position: "absolute", left: "90%", bottom: "30%" }}
                   >
                     {" "}
-                    <RedBtn
-                      onClick={() => {
-                        currentstep++;
-                        setShowModalPin(false);
-                        setshowDetails(true);
-                        console.log(currentstep);
-                      }}
-                    >
-                      Next
-                    </RedBtn>
+                    {showDetails ? (
+                      <GreyBtn onClick={poststory}>Publish</GreyBtn>
+                    ) : (
+                      currentstep == 1 && (
+                        <RedBtn
+                          onClick={() => {
+                            currentstep++;
+                            setShowModalPin(false);
+                            setshowDetails(true);
+                            console.log(currentstep);
+                          }}
+                        >
+                          Next
+                        </RedBtn>
+                      )
+                    )}
                   </div>
                 </Section3>
+                {/* {showFinalstory &&
+                  props.storiesReducer.story.images.length > 0 && (
+                    <Container>
+                      <Row>
+                        {props.storiesReducer.story.images.map((imagestory) => {
+                          <Col md={6} className=" d-flex justify-content-end">
+                            {" "}
+                            <StoryDetails>
+                              <img
+                                style={{
+                                  height: "100%",
+                                  margin: 0,
+                                  width: "100%",
+
+                                  borderRadius: "16px",
+                                }}
+                                onLoad=""
+                                src={URL.createObjectURL(imagestory)}
+                                alt="pin_image"
+                                id="pin_image"
+                              />
+                            </StoryDetails>
+                          </Col>;
+                        })}
+                      </Row>
+                    </Container>
+                  )} */}
               </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"
@@ -917,4 +1042,4 @@ function StoryModal(props) {
   );
 }
 
-export default StoryModal;
+export default connect(mapStateToProps, mapDispatchToProps)(StoryModal);

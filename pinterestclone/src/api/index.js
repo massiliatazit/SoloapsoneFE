@@ -74,6 +74,8 @@ export const putMediaFunction = async (endp, data) => {
     if (response.ok) {
      
        return await response.json();
+      // const dataa = await response.json()
+      //  console.log(dataa)
     } else {
       if (response.status === 401 && refreshToken) {
         const refetch = tokenRefresh(postFunction, endp, data);

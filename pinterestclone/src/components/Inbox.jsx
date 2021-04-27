@@ -394,6 +394,7 @@ const MessageText = styled.div`
   height: 48px;
   width: 100px;
   display: inline-block;
+  overflow: hidden;
   padding: 20px;
   font-weight: 500;
   border-radius: 2rem 2rem 0rem 2rem;

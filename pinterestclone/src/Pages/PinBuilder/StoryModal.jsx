@@ -384,7 +384,7 @@ function StoryModal(props) {
   }
   const postImage = async (id) => {
     const formData = new FormData();
-    formData.append("image", images[images.length - 1]);
+    formData.append("image", [...images]);
     const postMedia = await putMediaFunction(
       "/stories/" + id + "/media",
       formData

@@ -174,7 +174,6 @@ function CreatedStoryModal(props) {
                     </div>
                   </Col>
                   <Col md={4}>
-                    {" "}
                     <Details>
                       <Row>
                         {" "}

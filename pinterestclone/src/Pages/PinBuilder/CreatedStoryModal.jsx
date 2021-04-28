@@ -138,7 +138,7 @@ function CreatedStoryModal(props) {
                         style={{ width: "370px" }}
                       >
                         <div className="progress-bars">
-                          {createdStory.images.map((story, index) => (
+                          {/* {createdStory.images.map((story, index) => (
                             <div className="progress-bar-container">
                               <div
                                 style={{
@@ -147,7 +147,16 @@ function CreatedStoryModal(props) {
                                 className={getProgressBarClassName(index)}
                               ></div>
                             </div>
-                          ))}
+                          ))} */}
+
+                          <div className="progress-bar-container">
+                            <div
+                              style={{
+                                animationDuration: `${createdStory.duration}s`,
+                              }}
+                              className={getProgressBarClassName(0)}
+                            ></div>
+                          </div>
                         </div>
                         <img
                           src={createdStory.images[0]}
@@ -185,21 +194,22 @@ function CreatedStoryModal(props) {
                           <RedBtn>Save</RedBtn>
                         </div>
                       </Row>
-                      <Row>
-                        <div className="d-flex justify-content-between ">
-                          {createdStory.description.length > 0 && (
-                            <h6
-                              className="mt-4"
-                              style={{
-                                fontWeight: 600,
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {createdStory.description}
-                            </h6>
-                          )}
-                        </div>
+                      <Row className="d-flex flex-column align-items-center mt-4 ml-4 justify-content-center">
+                        {" "}
+                        <h2>{createdStory.title}</h2>
+                        {createdStory.description.length > 0 && (
+                          <p
+                            className=""
+                            style={{
+                              fontWeight: 600,
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {createdStory.description}
+                          </p>
+                        )}
                       </Row>
+                      <Row></Row>
 
                       <div className="d-flex mt-5">
                         <div
@@ -225,6 +235,7 @@ function CreatedStoryModal(props) {
                         </div>
                         <p className="mt-3 ml-4">{user.username}</p>
                       </div>
+
                       {/* <div>
                       {createdStory.categories.length > 0 && (
                         <Dropdown overlay={menu}>
@@ -238,6 +249,14 @@ function CreatedStoryModal(props) {
                         </Dropdown>
                       )}
                     </div> */}
+                      <div className="d-flex " style={{ marginTop: "100px" }}>
+                        <div style={{ marginRight: "20px" }}>
+                          Tried this Pin?
+                          <br />
+                          Add a photo to show how it went
+                        </div>
+                        <GreyBtn>Add Photo</GreyBtn>
+                      </div>
                     </Details>
                   </Col>
                 </div>

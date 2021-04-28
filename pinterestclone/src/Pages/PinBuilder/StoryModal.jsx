@@ -454,6 +454,9 @@ function StoryModal(props) {
     const last = images[images.length - 1];
     setImages((arr) => [...arr, last]);
   };
+  const deleteStory = () => {
+    setImages((arr) => arr.pop());
+  };
   let currentstep = 0;
   if (showLabel == true) {
     currentstep = 0;
@@ -519,7 +522,10 @@ function StoryModal(props) {
                                 }}
                                 onClick={() => addStory()}
                               />{" "}
-                              <DeleteRoundedIcon className="mx-3" />
+                              <DeleteRoundedIcon
+                                className="mx-3"
+                                onClick={() => deleteStory()}
+                              />
                               <label htmlFor="upload_img" id="upload_img_label">
                                 <input
                                   type="file"

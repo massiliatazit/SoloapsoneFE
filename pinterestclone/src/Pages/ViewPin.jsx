@@ -197,8 +197,8 @@ function ViewPin(props) {
                       <IconButton>
                         <PublishTwoToneIcon></PublishTwoToneIcon>
                       </IconButton>
-                      <IconButton>
-                        {/* <LikeDiv
+
+                      {/* <LikeDiv
                             onMouseEnter={(e) => {
                               SetShowReactions(true);
                             }}
@@ -206,13 +206,13 @@ function ViewPin(props) {
                             //   SetShowReactions(false);
                             // }}
                           ></LikeDiv> */}
-                        <FacebookCounter
-                          counters={counters}
-                          onClick={() => handleAdd()}
-                          bg="#fafafa"
-                          important={["Henry Boldizsar", "Rob Sandberg"]}
-                        />
-                      </IconButton>
+                      <FacebookCounter
+                        counters={counters}
+                        onClick={() => handleAdd()}
+                        bg="#fafafa"
+                        important={["Henry Boldizsar", "Rob Sandberg"]}
+                      />
+
                       {showSelector ? (
                         <FacebookSelector onSelect={() => handleSelect()} />
                       ) : null}

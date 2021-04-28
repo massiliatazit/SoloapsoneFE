@@ -182,10 +182,10 @@ const Destination = styled.div`
   width: 110px;
   height: 30px;
   border-radius: 18px;
- 
+
   display: flex;
   align-items: center;
- justify-content: center
+  justify-content: center;
   font-size: 14px;
   font-weight: 700;
 

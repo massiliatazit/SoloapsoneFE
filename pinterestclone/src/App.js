@@ -9,7 +9,7 @@ import Signup from "./Pages/Signup/Signup"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import unsplash from "./api/unsplash";
 import Loaders from "./components/Loaders/Loaders";
-
+import CreatedStoryModal from "./Pages/PinBuilder/CreatedStoryModal"
 import ViewPin from "./Pages/ViewPin";
 import PinBuilder from "./Pages/PinBuilder/PinBuilder";
 import StoryBuilder from "./Pages/PinBuilder/StoryBuilder";
@@ -97,7 +97,8 @@ function App(props) {
         <Route path="/Login" exact render={() => <LoginPage pins={pins}/>}></Route>
         <Route path="/:username/saved" exact render={(props) => <SavedPins pins={pins} {...props}/>}></Route>
         <Route path="/:username/created" exact render={(props) => <CreatedPins pins={pins} {...props}/>}></Route>
-        <Route path="/:id"  render={(props) => <ViewPin {...props} />} />
+        <Route path="/:id" exact render={(props) => <ViewPin {...props} />} />
+        <Route path="/pin/:storyId"  exact render = {(props) => <CreatedStoryModal {...props}/>}/>
       </Switch>
        {/* ): */}
        {/* <Loaders show={loading} error={props.errors.status} /> */}

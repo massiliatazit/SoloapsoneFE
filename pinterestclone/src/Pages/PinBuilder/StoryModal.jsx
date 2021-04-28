@@ -6,6 +6,7 @@ import { MdClose } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import { postFunction, putMediaFunction } from "../../api";
+
 import { connect } from "react-redux";
 import "antd/dist/antd.css";
 
@@ -384,7 +385,7 @@ function StoryModal(props) {
   }
   const postImage = async (id) => {
     const formData = new FormData();
-    formData.append("image", [...images]);
+    formData.append("image", images[images.length - 1]);
     const postMedia = await putMediaFunction(
       "/stories/" + id + "/media",
       formData
@@ -416,6 +417,7 @@ function StoryModal(props) {
     if (response) {
       postImage(response);
       console.log(response);
+      history.push(`/pin/${response}`);
     }
   };
   const animation = useSpring({
@@ -709,6 +711,7 @@ function StoryModal(props) {
                                       )}
                                       alt="pin_image"
                                       id="_image"
+                                      onClick={() => setimagewithtext(false)}
                                     />
                                   )}
                                 </Addstoryimage>
